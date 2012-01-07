@@ -92,7 +92,7 @@
   <aircraft
    name="tudelftquadshot"
    ac_id="1"
-   airframe="airframes/TU_Delft/qs4_lisalPPMtest.xml"
+   airframe="airframes/TU_Delft/qs4_lisal.xml"
    radio="radios/R6107SP_7ch_xyz.xml"
    telemetry="telemetry/telemetry_quadshot_tud.xml"
    flight_plan="flight_plans/dummy.xml"
