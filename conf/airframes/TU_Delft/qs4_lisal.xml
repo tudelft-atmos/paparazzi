@@ -219,9 +219,9 @@
     <define name="PROPAGATE_FREQUENCY" value="512"/>
     <define name="MAG_UPDATE_YAW_ONLY" value="1"/>
     <!-- magnetic field for Santa cruz from http://www.ngdc.noaa.gov/geomagmodels/IGRFWMM.jsp -->
-    <define name="H_X" value=" 0.47577"/>
-    <define name="H_Y" value=" 0.11811"/>
-    <define name="H_Z" value=" 0.87161"/>
+    <define name="H_X" value=" 0.3913233"/>
+    <define name="H_Y" value=" 0.0005934"/>
+    <define name="H_Z" value=" 0.9202531"/>
   </section>
 
  <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
