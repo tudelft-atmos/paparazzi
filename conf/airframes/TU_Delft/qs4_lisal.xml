@@ -287,8 +287,8 @@
       <configure name="GPS_BAUD"                value="B38400"/>
     </subsystem>
 
-    <define name="FILTER_IC_ACCEL" value="1"/>
-    <subsystem name="ahrs"          type="int_cmpl_quat_gps"/>
+    <define name="FILTER_IC_ACCEL" value="0"/>
+    <subsystem name="ahrs"          type="int_cmpl_quat"/>
     <subsystem name="stabilization" type="quaternion"/>
     <subsystem name="toytronics"    type="default"/>
     <subsystem name="camera_mount"  type="default"/>
@@ -321,6 +321,6 @@
   </firmware>
 
   <makefile>
-sim.srcs += firmwares/rotorcraft/toytronics/toytronics_interface.c firmwares/rotorcraft/toytronics/toytronics_setpoint.c 
+sim.srcs += firmwares/rotorcraft/toytronics/toytronics_setpoint.h
   </makefile>
 </airframe>
