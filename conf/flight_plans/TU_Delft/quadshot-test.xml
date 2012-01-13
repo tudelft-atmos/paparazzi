@@ -1,10 +1,11 @@
 <!DOCTYPE flight_plan SYSTEM "../flight_plan.dtd">
-<flight_plan alt="4" ground_alt="0" lat0="32.099794" lon0="-110.773230" max_dist_from_home="1000" name="Quadshot_Test" security_height="3">
+<flight_plan alt="4" ground_alt="0" lat0="51.979587" lon0="4.388157" max_dist_from_home="600" name="Quadshot_Test" security_height="3">
   <waypoints>
     <waypoint name="HOME" x="0.0" y="0.0"/>
     <waypoint name="CLIMB" x="0.0" y="0.0"/>
-    <waypoint name="CLOSEBY" x="0.0" y="1.0"/>
-    <waypoint name="FARAWAY" x="6.0" y="8.0"/>
+    <waypoint name="STDBY" x="-5.0" y="5.0"/>
+    <waypoint name="CLOSEBY" x="0.0" y="1.0" height="10.0"/>
+    <waypoint name="FARAWAY" x="-17" y="17" height="10.0"/>
   </waypoints>
   <blocks>
     <block name="Wait GPS">
@@ -24,10 +25,10 @@
       <call fun="NavSetWaypointHere(WP_CLIMB)"/>
       <call fun="NavResurrect()"/>
       <while cond="LessThan(NavBlockTime(), 3)"/>
-      <stay height="4.0" vmode="alt" wp="CLIMB"/>
+      <stay height="10.0" vmode="alt" wp="CLIMB"/>
     </block>
     <block name="Standby" strip_button="Standby" strip_icon="home.png">
-      <stay height="4.0" vmode="alt" wp="HOME"/>
+      <stay height="10.0" vmode="alt" wp="STDBY"/>
     </block>
     <block name="stay_closeby">
       <stay wp="CLOSEBY"/>
@@ -37,13 +38,21 @@
     </block>
     <block name="go_from_home_closeby">
       <go from="HOME" hmode="route" wp="CLOSEBY"/>
-      <call fun="setHoverForward()"/>
+      <!--<call fun="setHoverForward()"/>-->
       <deroute block="stay_closeby"/>
     </block>
     <block name="go_from_home_faraway">
       <go from="HOME" hmode="route" wp="FARAWAY"/>
-      <call fun="setForward()"/>
+      <attitude roll="0" pitch="30" alt="ground_alt+20"/>
+      <!--<call fun="setForward()"/>-->
       <deroute block="stay_faraway"/>
+    </block>
+    <block name="line_stdby_faraway">
+      <!--<attitude roll="0" pitch="30" alt="ground_alt+20"/>-->
+      <go from="STDBY" hmode="route" wp="FARAWAY" pitch="RadOfDeg(80.)"/>
+      <stay wp="FARAWAY" until="stage_time>10"/>
+      <go from="FARAWAY" hmode="route" wp="STDBY"/>
+      <deroute block="Standby"/>
     </block>
   </blocks>
 </flight_plan>

@@ -151,6 +151,11 @@
       <dl_setting var="setpoint_aerobatic_decay_time.y" min="0.0" step="0.01" max="1.0"   module="toytronics/toytronics_setpoint" shortname="y decau tau" />
       <dl_setting var="setpoint_aerobatic_decay_time.z" min="0.0" step="0.01" max="1.0"   module="toytronics/toytronics_setpoint" shortname="z decau tau" />
     </dl_settings>
+    
+    <dl_settings NAME="JT MAX BANK">
+    	<dl_setting var="max_bank" min="0.0" step="1" max="90"   module="guidance/guidance_h" shortname="max_bank" handler="applyMaxBankVars"/>
+    	<dl_setting var="nav_max_bank" min="0.0" step="1" max="90"   module="guidance/guidance_h" shortname="nav_max_bank" handler="applyMaxBankVars"/>
+    </dl_settings>
 
 
   </dl_settings>

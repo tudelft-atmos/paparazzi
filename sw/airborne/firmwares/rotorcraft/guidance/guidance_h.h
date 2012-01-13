@@ -66,12 +66,25 @@ extern int32_t guidance_h_igain;
 extern int32_t guidance_h_ngain;
 extern int32_t guidance_h_again;
 
+extern uint8_t max_bank_deg;
+extern uint8_t nav_max_bank_deg;
+
+extern int32_t max_bank;
+extern int32_t nav_max_bank;
+
+
+
+
+#define MAX_BANK max_bank
+#define NAV_MAX_BANK nav_max_bank
+
 
 extern void guidance_h_init(void);
 extern void guidance_h_mode_changed(uint8_t new_mode);
 extern void guidance_h_read_rc(bool_t  in_flight);
 extern void guidance_h_run(bool_t  in_flight);
 
+extern void applyMaxBankVars(void);
 
 #define guidance_h_SetKi(_val) {			\
     guidance_h_igain = _val;			\

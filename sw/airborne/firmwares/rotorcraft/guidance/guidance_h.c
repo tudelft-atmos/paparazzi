@@ -152,7 +152,7 @@ void guidance_h_mode_changed(uint8_t new_mode) {
     stabilization_attitude_enter();
     break;
   case GUIDANCE_H_MODE_TUDELFT_QUADSHOT_NAV:
-    toytronics_mode_enter(new_mode);
+    toytronics_mode_enter(GUIDANCE_H_MODE_TOYTRONICS_HOVER_FORWARD);
     guidance_h_nav_enter();
     break;
 #endif
@@ -287,9 +287,11 @@ void guidance_h_run(bool_t  in_flight) {
 #define MAX_SPEED_ERR SPEED_BFP_OF_REAL(16.)
 #define MAX_POS_ERR_SUM ((int32_t)(MAX_POS_ERR)<< 12)
 
+#ifndef NAV_MAX_BANK
 // 15 degres
 //#define MAX_BANK (65536)
 #define MAX_BANK (98000)
+#endif
 
 __attribute__ ((always_inline)) static inline void  guidance_h_hover_run(void) {
 
@@ -346,7 +348,9 @@ __attribute__ ((always_inline)) static inline void  guidance_h_hover_run(void) {
 }
 
 // 20 degres -> 367002 (0.35 << 20)
+#ifndef NAV_MAX_BANK
 #define NAV_MAX_BANK BFP_OF_REAL(0.35,REF_ANGLE_FRAC)
+#endif
 #define HOLD_DISTANCE POS_BFP_OF_REAL(10.)
 
 __attribute__ ((always_inline)) static inline void  guidance_h_nav_run(bool_t in_flight) {
@@ -468,3 +472,9 @@ __attribute__ ((always_inline)) static inline void guidance_h_nav_enter(void) {
   INT_VECT2_ZERO(guidance_h_pos_err_sum);
 
 }
+
+void applyMaxBankVars(void) {
+	max_bank = BFP_OF_REAL(max_bank_deg,REF_ANGLE_FRAC);
+	nav_max_bank = BFP_OF_REAL(nav_max_bank_deg,REF_ANGLE_FRAC);
+}
+
