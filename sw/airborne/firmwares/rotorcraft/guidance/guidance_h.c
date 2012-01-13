@@ -62,6 +62,9 @@ int32_t guidance_h_igain;
 int32_t guidance_h_ngain;
 int32_t guidance_h_again;
 
+int32_t max_bank = 98000;
+int32_t nav_max_bank = BFP_OF_REAL(0.35,REF_ANGLE_FRAC);
+
 #ifndef GUIDANCE_H_NGAIN
 #define GUIDANCE_H_NGAIN 0
 #endif
@@ -287,7 +290,7 @@ void guidance_h_run(bool_t  in_flight) {
 #define MAX_SPEED_ERR SPEED_BFP_OF_REAL(16.)
 #define MAX_POS_ERR_SUM ((int32_t)(MAX_POS_ERR)<< 12)
 
-#ifndef NAV_MAX_BANK
+#ifndef MAX_BANK
 // 15 degres
 //#define MAX_BANK (65536)
 #define MAX_BANK (98000)
@@ -473,8 +476,10 @@ __attribute__ ((always_inline)) static inline void guidance_h_nav_enter(void) {
 
 }
 
-void applyMaxBankVars(void) {
-	max_bank = BFP_OF_REAL(max_bank_deg,REF_ANGLE_FRAC);
-	nav_max_bank = BFP_OF_REAL(nav_max_bank_deg,REF_ANGLE_FRAC);
+void guidance_h_applyMaxBank(uint8_t val) {
+	max_bank = BFP_OF_REAL(val,REF_ANGLE_FRAC);
+}
+void guidance_h_applyNavMaxBank(uint8_t val) {
+	nav_max_bank = BFP_OF_REAL(val,REF_ANGLE_FRAC);
 }
 

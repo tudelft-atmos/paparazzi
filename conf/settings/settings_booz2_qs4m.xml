@@ -153,8 +153,8 @@
     </dl_settings>
     
     <dl_settings NAME="JT MAX BANK">
-    	<dl_setting var="max_bank" min="0.0" step="1" max="90"   module="guidance/guidance_h" shortname="max_bank" handler="applyMaxBankVars"/>
-    	<dl_setting var="nav_max_bank" min="0.0" step="1" max="90"   module="guidance/guidance_h" shortname="nav_max_bank" handler="applyMaxBankVars"/>
+    	<dl_setting var="max_bank" min="0.0" step="1" max="90"   module="guidance/guidance_h" shortname="max_bank" handler="applyMaxBank"/>
+    	<dl_setting var="nav_max_bank" min="0.0" step="1" max="90"   module="guidance/guidance_h" shortname="nav_max_bank" handler="applyNavMaxBank"/>
     </dl_settings>
 
 
