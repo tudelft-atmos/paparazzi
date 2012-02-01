@@ -70,8 +70,8 @@ void optflow_ADNS3080_spi_conf( void ) {
 }
 
 void optflow_ADNS3080_test( void ) {
-	uint16_t prodId,revId,isMotion,motionOverflow,motionResolution,dx,dy,squal,srom_id;
-	prodId 			 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID);
+	uint16_t prodId,revId,motionReg,isMotion,motionOverflow,motionResolution,dx,dy,squal,srom_id;
+	/*prodId 			 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID);
 	revId 			 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_REV_ID);
 
 	motionReg 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION);
@@ -84,7 +84,46 @@ void optflow_ADNS3080_test( void ) {
 
 	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
 
-	srom_id	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SROM_ID);
+	srom_id	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SROM_ID);*/
+
+	prodId 			 = 222;
+	revId 			 = 222;
+
+	isMotion 		 = 222;
+	motionOverflow 	 = 222;
+	motionResolution = 222;
+	dx		 		 = 222;
+	dy		 		 = 222;
+
+	squal	 		 = 222;
+	srom_id	 		 = 222;
+
+
+
+	OfSelect();
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	SPI_I2S_SendData(SPI1, 0x00);
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	dx = SPI_I2S_ReceiveData(SPI1);
+
+
+	SPI_I2S_SendData(SPI1, 0x00);
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	dy = SPI_I2S_ReceiveData(SPI1);
+
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	SPI_I2S_SendData(SPI1, 0x00);
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	squal = SPI_I2S_ReceiveData(SPI1);/*
+	SPI_I2S_SendData(SPI1, (1<<7|0x00));
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	SPI_I2S_SendData(SPI2, 0x00);
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET);
+	dx = SPI_I2S_ReceiveData(SPI1);*/
+
+
+	OfUnselect();
 
 	DOWNLINK_SEND_OFLOW_DBG(DefaultChannel, &prodId,&revId,&isMotion,&motionOverflow,&motionResolution,&dx,&dy,&squal,&srom_id);
 }
