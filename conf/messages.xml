@@ -1811,10 +1811,14 @@
     <field name="acc_z"          type="int32"/>
  </message>
 
+ <message name="OFLOW_DBG" id="223">
+  <field name="a" type="uint8"/>
+  <field name="b" type="uint8"/>
+  <field name="c" type="uint8"/>
+ </message> 
 
  
 
-<!--223 is free -->
  <!--224 is free -->
  <!--225 is free -->
  <!--226 is free -->

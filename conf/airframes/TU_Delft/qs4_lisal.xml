@@ -263,6 +263,7 @@
       <configure name="ADC_CHANNEL_GENERIC1" value="1"/>
       <configure name="ADC_CHANNEL_GENERIC2" value="0"/>
    </load>
+   <load name="opticflow_ADNS3080.xml"/>
  </modules>
 
   <firmware name="rotorcraft">
