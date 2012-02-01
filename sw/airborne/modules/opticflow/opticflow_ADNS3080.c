@@ -71,7 +71,7 @@ void optflow_ADNS3080_spi_conf( void ) {
 
 void optflow_ADNS3080_test( void ) {
 	uint8_t data1,data2,data3;
-	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID,data1);
+	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID,1,data1);
 	data2=0;data3=0;
 	DOWNLINK_SEND_OFLOW_DBG(DefaultChannel, &data1,&data2,&data3);
 }
