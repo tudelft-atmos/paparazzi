@@ -70,22 +70,33 @@ void optflow_ADNS3080_spi_conf( void ) {
 }
 
 void optflow_ADNS3080_test( void ) {
-	uint8_t data1,data2,data3;
-	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID,1,data1);
-	data2=0;data3=0;
-	DOWNLINK_SEND_OFLOW_DBG(DefaultChannel, &data1,&data2,&data3);
+	uint16_t prodId,revId,isMotion,motionOverflow,motionResolution,dx,dy,squal,srom_id;
+	prodId 			 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID);
+	revId 			 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_REV_ID);
+
+	motionReg 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION);
+	isMotion 		 = (motionReg & (1<<7)) > 0;
+	motionOverflow 	 = (motionReg & (1<<4)) > 0;
+	motionResolution = 400 + ((motionReg & (1))*1600);
+
+	dx		 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
+	dy		 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DY);
+
+	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
+
+	srom_id	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SROM_ID);
+
+	DOWNLINK_SEND_OFLOW_DBG(DefaultChannel, &prodId,&revId,&isMotion,&motionOverflow,&motionResolution,&dx,&dy,&squal,&srom_id);
 }
 
-void optflow_ADNS3080_readRegister( uint16_t addr, uint8_t numBytes, uint8_t* data) {
+uint16_t optflow_ADNS3080_readRegister( uint16_t addr) {
 	OfSelect();
 	while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_TXE) == RESET);
 	SPI_I2S_SendData(SPI1, addr);
 	while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_TXE) == RESET);
-
-	for (int i = 0; i < numBytes; i++) {
-		data[i] = SPI_I2S_ReceiveData(SPI1);
-	}
-    //data1 = 0;
+    return  SPI_I2S_ReceiveData(SPI1);
+    OfUnselect();
+	//data1 = 0;
 	//SPI_I2S_SendData(SPI1, 0x00);
 	//while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) == RESET);
 	//data2 = SPI_I2S_ReceiveData(SPI1);
