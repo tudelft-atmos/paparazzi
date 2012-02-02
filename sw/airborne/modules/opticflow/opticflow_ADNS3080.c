@@ -8,6 +8,7 @@
  * compensate for altitude
  * compensate for pitch/roll
  * ignore bad-quality measurements
+ * include butterworth filter
  */
 
 #include "modules/opticflow/opticflow_ADNS3080.h"
@@ -114,92 +115,25 @@ void optflow_ADNS3080_test( void ) {
 	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
 
 	srom_id	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SROM_ID);
-/*
-	prodId 			 = 222;
-	revId 			 = 222;
 
-	isMotion 		 = 222;
-	motionOverflow 	 = 222;
-	motionResolution = 222;
-	dx		 		 = 222;
-	dy		 		 = 222;
-
-	squal	 		 = 222;
-	srom_id	 		 = 222;*/
-
-	/*OfSelect();
-	SPI_I2S_SendData(SPI1, 0x00);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	//sys_time_usleep(50);
-	SPI_I2S_SendData(SPI1, 0x00);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXE) == RESET);
-	squal = SPI_I2S_ReceiveData(SPI1);
-	OfUnselect();*/
-	//prodId 			 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID);
-
-/*	OfSelect();
-	//wait until the TX buffer is sent. should not be necessary after SS toggle, just for safety
-	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	SPI_I2S_SendData(SPI1, 0x00);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	//garbage removal
-	SPI_I2S_ReceiveData(SPI1);
-	//sys_time_usleep(50);
-	SPI_I2S_SendData(SPI1, 0x00);
-	//sys_time_usleep(50);
-	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	//while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-	//sys_time_usleep(50);
-	//garbage removal 2
-	SPI_I2S_ReceiveData(SPI1);
-
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	SPI_I2S_SendData(SPI1, 0x00);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-	sys_time_usleep(50);
-	squal = SPI_I2S_ReceiveData(SPI1);
-	OfUnselect();*/
 
 	DOWNLINK_SEND_OFLOW_DBG(DefaultChannel, &prodId,&revId,&isMotion,&motionOverflow,&motionResolution,&dx,&dy,&squal,&srom_id);
 	//optflow_ADNS3080_captureFrame();
 }
 
 uint8_t optflow_ADNS3080_readRegister( uint8_t addr) {
-	/*OfSelect();
-	//wait until the TX buffer is sent. should not be necessary after SS toggle, just for safety
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	SPI_I2S_SendData(SPI1, addr);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	sys_time_usleep(50);
-	SPI_I2S_SendData(SPI1, 0x00);
-	sys_time_usleep(50);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	//while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-	uint8_t val = SPI_I2S_ReceiveData(SPI1);
-	OfUnselect();
-	return val;*/
-
 	OfSelect();
+
 	//wait until the TX buffer is sent. should not be necessary after SS toggle, just for safety
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 
-	/*while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 	SPI_I2S_SendData(SPI1, addr);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	//garbage removal
-	SPI_I2S_ReceiveData(SPI1);
-	sys_time_usleep(45);*/
-
-	SPI_I2S_SendData(SPI1, addr);
-	//sys_time_usleep(50);
-	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	//while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET);
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+
 	//sys_time_usleep(50);
-	//garbage removal 2
+
+	//@TODO: wait.... maybe we can use this value.
+	//sys_time_usleep(75);
 	SPI_I2S_ReceiveData(SPI1);
 	sys_time_usleep(45);
 
@@ -278,12 +212,12 @@ void optflow_ADNS3080_captureFrame(void) {
 	OfSelect();
 	SPI_I2S_SendData(SPI1, OPTFLOW_ADNS3080_ADDR_PIX_BURST);
 
-	//maybe do this?
+	//@FIXME: maybe send 0x00 first?
 	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 	//SPI_I2S_SendData(SPI1, 0x00);
 
 	//for now, we will send onlyone frame (900 pixels) a time.
-	//@todo: change this to read 1 2/3 frame (1537 pixels), to get a higher framerate
+	//@FIXME: change this to read 1 2/3 frame (1537 pixels), to get a higher framerate
 	for(int i=0;i<900;i++) {
 		while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 		while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET);
@@ -298,7 +232,7 @@ void optflow_ADNS3080_captureFrame(void) {
 	OfUnselect();
 
 
-	sys_time_usleep(10); //can we skip this? does the downlink send action take enough time? @todo
+	sys_time_usleep(10); //can we skip this? does the downlink send action take enough time? @todo check with scope
 
 	DOWNLINK_SEND_OFLOW_FRAMECAP(DefaultChannel,900,frame);
 }
