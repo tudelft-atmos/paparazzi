@@ -1812,15 +1812,15 @@
  </message>
 
  <message name="OFLOW_DBG" id="223">
-  <field name="prodId" type="uint16"/>
-  <field name="revId" type="uint16"/>
-  <field name="isMotion" type="uint16"/>
-  <field name="motionOverflow" type="uint16"/>
-  <field name="motionResolution" type="uint16"/>
-  <field name="dx" type="uint16"/>
-  <field name="dy" type="uint16"/>
-  <field name="squal" type="uint16"/>
-  <field name="srom_id" type="uint16"/>
+  <field name="prodId" type="uint8"/>
+  <field name="revId" type="uint8"/>
+  <field name="isMotion" type="uint8"/>
+  <field name="motionOverflow" type="uint8"/>
+  <field name="motionResolution" type="uint8"/>
+  <field name="dx" type="uint8"/>
+  <field name="dy" type="uint8"/>
+  <field name="squal" type="uint8"/>
+  <field name="srom_id" type="uint8"/>
  </message> 
 
  

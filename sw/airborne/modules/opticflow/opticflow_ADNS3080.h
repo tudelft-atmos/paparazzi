@@ -49,7 +49,11 @@
 
 void optflow_ADNS3080_init(void);
 void optflow_ADNS3080_spi_conf(void);
-uint16_t optflow_ADNS3080_readRegister( uint16_t addr);
+uint8_t optflow_ADNS3080_readRegister( uint8_t addr);
+void optflow_ADNS3080_writeRegister(uint8_t addr, uint8_t val);
+void optflow_ADNS3080_writeSROM(void);
+void optflow_ADNS3080_captureFrame(void);
+
 void optflow_ADNS3080_test(void);
 
 #endif // USE_OPTFLOW_ADNS3080
