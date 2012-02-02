@@ -1819,7 +1819,10 @@
 
  
 
- <!--224 is free -->
+ <message name="OFLOW_FRAMECAP" id="224">
+  <field name="frameData" type="uint8[]"/>
+ </message> 
+ 
  <!--225 is free -->
  <!--226 is free -->
 
