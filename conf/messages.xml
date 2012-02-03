@@ -1817,9 +1817,9 @@
   <field name="isMotion" type="uint8"/>
   <field name="motionOverflow" type="uint8"/>
   <field name="motionResolution" type="uint8"/>
-  <field name="dx" type="uint8"/>
-  <field name="dy" type="uint8"/>
-  <field name="squal" type="uint8"/>
+  <field name="dx" type="int8"/>
+  <field name="dy" type="int8"/>
+  <field name="squal" type="uint8" alt_unit="real" alt_unit_coef=" #features"/>
   <field name="srom_id" type="uint8"/>
  </message> 
 
@@ -1829,7 +1829,12 @@
   <field name="frameData" type="uint8[]"/>
  </message> 
  
- <!--225 is free -->
+ <message name="OFLOW_DATA" id="225">
+  <field name="dx" type="int8"/>
+  <field name="dy" type="int8"/>
+  <field name="squal" type="uint8" alt_unit="real" alt_unit_coef=" #features"/>
+ </message>  
+ 
  <!--226 is free -->
 
   <message name="TIME" id="227">

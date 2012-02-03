@@ -45,12 +45,20 @@ void optflow_ADNS3080_init( void ) {
 	// 0 0 0 1 0 0 0 0  but OR with reset val: 0x09:
 	// 0 0 0 1 1 0 0 1 => 0x19
 	//       ^-- 1600 CPI
-	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_CONF,0x19);
+	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_CONF, 0x09|(1<<OPTFLOW_ADNS3080_CONF_RESOLUTION));
+	sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
 
 	//ext_config register:
 	// 0 0 0 0 0 0 0 1  => 0x01
 	//               ^--- fixed frame rate
-	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_EXCONF,0x01);
+	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_EXCONF,1<<OPTFLOW_ADNS3080_EXCONF_FIXED_FR);
+	sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
+
+	//6469 FPS
+	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MIN_B_LOW,OPTFLOW_ADNS3080_FP_LO_6469);
+	sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
+	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MIN_B_UP,OPTFLOW_ADNS3080_FP_UP_6469);
+	sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
 }
 
 void optflow_ADNS3080_spi_conf( void ) {
@@ -66,41 +74,65 @@ void optflow_ADNS3080_spi_conf( void ) {
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     OfUnselect();
 
-    /* Enable SPI1 Periph clock -------------------------------------------------*/
+    //Enable SPI1 Periph clock and GPIOA + AFIO
+    //@fixme: is AFIO actually required?
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO , ENABLE);
 
-	/* Configure GPIOs: SCK (PA5), MISO (PA6) and MOSI(PA7)-----------------------*/
+	//Configure GPIOs: SCK (PA5), MISO (PA6) and MOSI(PA7)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO , ENABLE);
 	SPI_Cmd(SPI1, ENABLE);
 
-	/* configure SPI */
+
+	//configure SPI
 	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
 	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
-
 	//8 bit MSB first (byte is: 76543210)
 	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
 	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
 	SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
 	SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
 	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-
 	//prescaler 32 is 2MHz SCK
 	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;
 	SPI_InitStructure.SPI_CRCPolynomial = 7;
 	SPI_Init(SPI1, &SPI_InitStructure);
 }
 
+
+void optflow_ADNS3080_periodic( void ) {
+	if (isWritingSROM) {
+		return;
+	}
+
+	uint8_t squal;
+	int8_t dx,dy;
+
+	//those are (two's complement) SIGNED integers
+	dx		 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
+	dy		 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DY);
+
+	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
+
+	if (squal > OPTFLOW_ADNS3080_MIN_SQUAL)
+
+	DOWNLINK_SEND_OFLOW_DATA(DefaultChannel, &dx,&dy,&squal);
+}
+
+
+
 void optflow_ADNS3080_test( void ) {
 	if (isWritingSROM) {
 		return;
 	}
 
-	uint8_t prodId,revId,motionReg,isMotion,motionOverflow,motionResolution,dx,dy,squal,srom_id;
+	uint8_t prodId,revId,motionReg,isMotion,motionOverflow,motionResolution,squal,srom_id;
+	int8_t dx,dy;
+
 	prodId 			 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID);
 	revId 			 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_REV_ID);
 
@@ -109,8 +141,9 @@ void optflow_ADNS3080_test( void ) {
 	motionOverflow 	 = (motionReg & (1<<4)) > 0;
 	motionResolution = 400 + ((motionReg & (1))*1600);
 
-	dx		 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
-	dy		 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DY);
+	//those are (two's complement) SIGNED integers
+	dx		 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
+	dy		 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DY);
 
 	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
 
@@ -235,4 +268,6 @@ void optflow_ADNS3080_captureFrame(void) {
 	sys_time_usleep(10); //can we skip this? does the downlink send action take enough time? @todo check with scope
 
 	DOWNLINK_SEND_OFLOW_FRAMECAP(DefaultChannel,900,frame);
+
+	return;
 }
