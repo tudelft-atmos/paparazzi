@@ -223,7 +223,7 @@
 
   <modules main_freq="60">
     <load name="gps_ubx_ucenter.xml"/>
-    <load name="opticflow_ADNS3080.xml"/>
+    <!--<load name="opticflow_ADNS3080.xml"/>-->
   </modules>
 <!--
   <modules main_freq="512">
@@ -257,6 +257,14 @@
     <!--<subsystem name="ahrs"          type="ic"/>
     <subsystem name="ins"           type="hff"/>-->
     <define name="MAG_UPDATE_YAW_ONLY" value="1"/>
+  </firmware>
+
+  <firmware name="lisa_l_test_progs">
+    <target name="test_adns3080_capture"                     board="lisa_l_1.0"/>
+    <target name="test_adns3080_hispeed"                     board="lisa_l_1.0"/>
+<target name="test_uart"                board="lisa_l_1.0"/>
+<target name="test_uart_lisal"                board="lisa_l_1.0"/>
+<target name="test_maxbotics12"                board="lisa_l_1.0"/>
   </firmware>
 
 </airframe>

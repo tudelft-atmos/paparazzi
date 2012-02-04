@@ -111,6 +111,9 @@ void optflow_ADNS3080_periodic( void ) {
 
 	uint8_t squal;
 	int8_t dx,dy;
+//	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID);
+	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_REV_ID);
+	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION);
 
 	//those are (two's complement) SIGNED integers
 	dx		 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
@@ -118,7 +121,8 @@ void optflow_ADNS3080_periodic( void ) {
 
 	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
 
-	if (squal > OPTFLOW_ADNS3080_MIN_SQUAL)
+
+	//if (squal > OPTFLOW_ADNS3080_MIN_SQUAL)
 
 	DOWNLINK_SEND_OFLOW_DATA(DefaultChannel, &dx,&dy,&squal);
 }
@@ -139,7 +143,7 @@ void optflow_ADNS3080_test( void ) {
 	motionReg 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION);
 	isMotion 		 = (motionReg & (1<<7)) > 0;
 	motionOverflow 	 = (motionReg & (1<<4)) > 0;
-	motionResolution = 400 + ((motionReg & (1))*1600);
+	motionResolution = motionReg & (0x01);
 
 	//those are (two's complement) SIGNED integers
 	dx		 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
@@ -150,7 +154,7 @@ void optflow_ADNS3080_test( void ) {
 	srom_id	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SROM_ID);
 
 
-	DOWNLINK_SEND_OFLOW_DBG(DefaultChannel, &prodId,&revId,&isMotion,&motionOverflow,&motionResolution,&dx,&dy,&squal,&srom_id);
+	//DOWNLINK_SEND_OFLOW_DBG(DefaultChannel, &prodId,&revId,&isMotion,&motionOverflow,&motionResolution,&dx,&dy,&squal,&srom_id);
 	//optflow_ADNS3080_captureFrame();
 }
 
@@ -171,7 +175,7 @@ uint8_t optflow_ADNS3080_readRegister( uint8_t addr) {
 	sys_time_usleep(45);
 
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	SPI_I2S_SendData(SPI1, addr);
+	SPI_I2S_SendData(SPI1, 0x00);
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
 	sys_time_usleep(75);
 	uint8_t val = SPI_I2S_ReceiveData(SPI1);
@@ -227,7 +231,10 @@ void optflow_ADNS3080_writeSROM(void) {
 }
 
 void optflow_ADNS3080_captureFrame(void) {
-	uint8_t frame[900];
+	//optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_REV_ID);
+	//optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION);
+	uint8_t frame[90];
+	frame[3] = 111;
     //after capturing frames, the module has to be resetted/powercycled before it can resume normal operation!
 
 	//initialize frame capture mode
@@ -246,19 +253,18 @@ void optflow_ADNS3080_captureFrame(void) {
 	SPI_I2S_SendData(SPI1, OPTFLOW_ADNS3080_ADDR_PIX_BURST);
 
 	//@FIXME: maybe send 0x00 first?
-	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	//SPI_I2S_SendData(SPI1, 0x00);
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	SPI_I2S_SendData(SPI1, 0x00);
 
 	//for now, we will send onlyone frame (900 pixels) a time.
 	//@FIXME: change this to read 1 2/3 frame (1537 pixels), to get a higher framerate
-	for(int i=0;i<900;i++) {
+	for(int i=0;i<90;i++) {
 		while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 		while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET);
 		frame[i] = SPI_I2S_ReceiveData(SPI1);
 		//we have to sleep 10us before writing the next byte, but for safety we sleep 12us
 		sys_time_usleep(12);
 	}
-
 	//now pull CS high for 10us, to stop this read session
 	//this does *not* mean that the sensor returns to normal operation!
 	//to resume to normal operation after burst captue, the sensor has to be power-cycled!
@@ -267,7 +273,7 @@ void optflow_ADNS3080_captureFrame(void) {
 
 	sys_time_usleep(10); //can we skip this? does the downlink send action take enough time? @todo check with scope
 
-	DOWNLINK_SEND_OFLOW_FRAMECAP(DefaultChannel,900,frame);
+	DOWNLINK_SEND_OFLOW_FRAMECAP(DefaultChannel,90,frame);
 
 	return;
 }

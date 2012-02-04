@@ -21,5 +21,25 @@
      <param name="MODEM_BAUD"         values="B9600,B57600,B115200" default="B57600"/>
      <param name="RADIO_CONTROL_LINK" values="UART1,UART2,UART3|UART5" default="UART3"/>
   </target>
+  
+  <target name="test adns3080_capture" description="sends image data from the ADNS3080 over telemtry">
+     <param name="MODEM_PORT"         values="UART1,UART2,UART3"    default="UART2"/>
+     <param name="MODEM_BAUD"         values="B9600,B57600,B115200" default="B57600"/>
+	 <param name="DOWNLINK_TRANSPORT" values="XBeeTransport"		default="XBeeTransport"/>
+	 <param name="DATALINK"			  values="XBEE"					default="XBEE"/>
+  </target>
+  
+  <target name="test adns3080_hispeed" description="sends high speed dy,dx data from the ADNS3080 over telemtry">
+     <param name="MODEM_PORT"         values="UART1,UART2,UART3"    default="UART2"/>
+     <param name="MODEM_BAUD"         values="B9600,B57600,B115200" default="B57600"/>
+	 <param name="DOWNLINK_TRANSPORT" values="XBeeTransport"		default="XBeeTransport"/>
+	 <param name="DATALINK"			  values="XBEE"					default="XBEE"/>
+  </target>
 
+  <target name="test maxbotics12" description="TODO">
+     <param name="MODEM_PORT"         values="UART1,UART2,UART3"    default="UART2"/>
+     <param name="MODEM_BAUD"         values="B9600,B57600,B115200" default="B57600"/>
+	 <param name="DOWNLINK_TRANSPORT" values="XBeeTransport"		default="XBeeTransport"/>
+	 <param name="DATALINK"			  values="XBEE"					default="XBEE"/>
+  </target>
 </firmware>
