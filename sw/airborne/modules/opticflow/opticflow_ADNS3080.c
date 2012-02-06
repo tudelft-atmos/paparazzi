@@ -97,7 +97,7 @@ void optflow_ADNS3080_spi_conf( void ) {
 	SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
 	SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
 	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-	//prescaler 32 is 2MHz SCK
+	//prescaler 32 is 2MHz SCK... wait... or 64 @FIXME check with scope
 	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;
 	SPI_InitStructure.SPI_CRCPolynomial = 7;
 	SPI_Init(SPI1, &SPI_InitStructure);
