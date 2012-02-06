@@ -927,7 +927,7 @@ test_maxbotics12.srcs += $(SRC_ARCH)/led_hw.c
 test_maxbotics12.srcs   += $(SRC_ARCH)/mcu_periph/uart_arch.c
 test_maxbotics12.srcs += $(SRC_AIRBORNE)/mcu_periph/uart.c
 test_maxbotics12.CFLAGS += -DUSE_SYS_TIME
-test_maxbotics12.CFLAGS += -DPERIODIC_TASK_PERIOD='SYS_TICS_OF_SEC(1./2048.)'
+test_maxbotics12.CFLAGS += -DPERIODIC_TASK_PERIOD='SYS_TICS_OF_SEC(1./512.)'
 test_maxbotics12.CFLAGS += -DSYS_TIME_LED=$(SYS_TIME_LED)
 test_maxbotics12.srcs   += sys_time.c $(SRC_ARCH)/sys_time_hw.c
 test_maxbotics12.CFLAGS += -DUSE_$(MODEM_PORT)
@@ -935,3 +935,4 @@ test_maxbotics12.CFLAGS += -D$(MODEM_PORT)_BAUD=$(MODEM_BAUD)
 test_maxbotics12.CFLAGS += -DXBEE_UART=$(MODEM_PORT)
 test_maxbotics12.CFLAGS += -DDATALINK=XBEE
 test_maxbotics12.CFLAGS += -DDOWNLINK -DDOWNLINK_TRANSPORT=XBeeTransport -DDOWNLINK_DEVICE=$(MODEM_PORT)
+

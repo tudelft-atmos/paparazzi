@@ -180,6 +180,14 @@ extern void tim6_irq_handler(void);
 #define TIM6_IRQ_HANDLER null_handler
 #endif
 
+#ifdef USE_TIM8_IRQ
+extern void tim8_irq_handler(void);
+#define TIM8_IRQ_HANDLER tim6_irq_handler
+#else
+#define TIM8_IRQ_HANDLER null_handler
+#endif
+
+
 #ifdef USE_USB_HP_CAN1_TX_IRQ
 extern void usb_hp_can1_tx_irq_handler(void);
 #define USB_HP_CAN1_TX_IRQ_HANDLER usb_hp_can1_tx_irq_handler
@@ -270,7 +278,7 @@ void (* const vector_table[])(void) = {
     null_handler,             /* tim8_brk_irq_handler */
     null_handler,             /* tim8_up_irq_handler */
     null_handler,             /* tim8_trg_com_irq_handler */
-    null_handler,             /* tim8_cc_irq_handler */
+    TIM8_IRQ_HANDLER,         /* tim8_cc_irq_handler */
     null_handler,             /* adc3_irq_handler */
     null_handler,             /* fsmc_irq_handler */
     null_handler,             /* sdio_irq_handler */

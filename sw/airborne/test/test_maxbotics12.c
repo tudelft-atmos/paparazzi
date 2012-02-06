@@ -26,6 +26,8 @@ static inline void main_init( void ) {
   sys_time_init();
   sys_time_usleep(9000);
   xbee_init();
+  sys_time_usleep(9000);
+
   DOWNLINK_SEND_ALIVE(DefaultChannel, 16, MD5SUM);
   maxbotix12_init();
 
@@ -35,12 +37,13 @@ static inline void main_init( void ) {
 static inline void main_periodic( void ) {
 	//uint8_t frame[900];
 	//frame[0] = 100;
-	RunOnceEvery(1000, {DOWNLINK_SEND_ALIVE(DefaultChannel, 16, MD5SUM);});
+	RunOnceEvery(256, {DOWNLINK_SEND_ALIVE(DefaultChannel, 16, MD5SUM);});
+	//RunOnceEvery(1000, {LED_TOGGLE(2);});
 	//DOWNLINK_SEND_OFLOW_FRAMECAP(DefaultChannel,900,frame);
 	//RunOnceEvery(800, {optflow_ADNS3080_periodic();});
 	//DOWNLINK_SEND_ALIVE(DefaultChannel, 16, MD5SUM);
 	//optflow_ADNS3080_periodic();
-	//LED_PERIODIC();
+
 }
 
 
