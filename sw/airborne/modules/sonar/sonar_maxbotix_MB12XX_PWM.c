@@ -14,6 +14,15 @@
 uint16_t sonar_meas_raw;
 uint16_t sonar_meas_filtered;
 
+
+int32_t sonar_meas_prev = 0;
+int32_t sonar_meas_prev_prev = 0;
+int32_t sonar_filter_val = 0;
+int32_t sonar_filter_val_prev = 0;
+int32_t sonar_filter_val_prev_prev = 0;
+
+int32_t sonar_meas_real, sonar_alt_cm_bfp;
+
 bool_t sonar_data_available;
 
 void SONAR_MAXBOTIX12_IRQ_HANDLER(void);
@@ -61,7 +70,7 @@ maxbotix12_init(void)
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
   TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
   TIM_TimeBaseStructure.TIM_Period = 0xffff;
-  TIM_TimeBaseStructure.TIM_Prescaler = 68;
+  TIM_TimeBaseStructure.TIM_Prescaler = SONAR_MAXBOTIX12_TIM_PRESCALER;
   TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   TIM_InternalClockConfig(SONAR_MAXBOTIX12_TIM);
@@ -91,7 +100,7 @@ maxbotix12_init(void)
   NVIC_Init(&NVIC_InitStructure);
 
   /* we can use TI2FP2 because it is bound to TIM channel 2 , which we are using */
-  TIM_SelectInputTrigger(SONAR_MAXBOTIX12_TIM, TIM_TS_TI2FP2);
+  TIM_SelectInputTrigger(SONAR_MAXBOTIX12_TIM, SONAR_MAXBOTIX12_TIM_TS);
 
   TIM_SelectSlaveMode(SONAR_MAXBOTIX12_TIM, TIM_SlaveMode_Reset);
   TIM_SelectMasterSlaveMode(SONAR_MAXBOTIX12_TIM, TIM_MasterSlaveMode_Enable);
@@ -110,14 +119,35 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
   if (TIM_GetITStatus(SONAR_MAXBOTIX12_TIM, TIM_IT_CC1) == SET)
     {
       TIM_ClearITPendingBit(SONAR_MAXBOTIX12_TIM, TIM_IT_CC1);
-      int32_t pulse_cnts = TIM_GetCapture1(SONAR_MAXBOTIX12_TIM);
+      int32_t sonar_meas = TIM_GetCapture1(SONAR_MAXBOTIX12_TIM);
       /* pulse_cnts to actual pulse width in us:
        *   pulse width = pulse_cnts * (prescaler+1)/(actual clock)
        *   with 58us per centimeter, the alt in cm is:
        */
       //int32_t alt_mm = pulse_cnts * 10 * (69/72) / 58;
       //sonar_alt
-      DOWNLINK_SEND_INS_REF(DefaultChannel, &pulse_cnts, 0, 0, 0, 0, 0, 0, 0);
+      sonar_filter_val = SONAR_MAXBOTIX12_BUTTER_NUM_1*sonar_meas
+      + SONAR_MAXBOTIX12_BUTTER_NUM_2*sonar_meas_prev
+      + SONAR_MAXBOTIX12_BUTTER_NUM_3*sonar_meas_prev_prev
+      - SONAR_MAXBOTIX12_BUTTER_DEN_2*sonar_filter_val_prev
+      - SONAR_MAXBOTIX12_BUTTER_DEN_3*sonar_filter_val_prev_prev;
+
+      sonar_meas_prev_prev = sonar_meas_prev;
+      sonar_meas_prev = sonar_meas;
+      sonar_filter_val_prev_prev = sonar_filter_val_prev;
+      sonar_filter_val_prev = sonar_filter_val;
+
+      /** using float
+      float factor_cm = 0.0165229885;
+      float alt_cm_flt = sonar_meas * factor_cm * (1<<8);
+      sonar_meas_real = alt_cm_flt;*/
+
+
+      //((69 / 72) / 58) * (2^16) = 1082.85057
+      uint16_t conv_factor_cm = 1083;
+      sonar_alt_cm_bfp = conv_factor_cm*sonar_filter_val;
+      //DOWNLINK_SEND_VFF(DefaultChannel, &alt_mm_flt,0,0,0,0,0,0);
+      DOWNLINK_SEND_INS_REF(DefaultChannel, &sonar_meas, &sonar_filter_val, &sonar_meas_real, 0, 0, 0, 0, 0);
     }
 }
 

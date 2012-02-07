@@ -20,24 +20,19 @@
 #define SONAR_MAXBOTIX12_H
 
 /* Possible ports to connect the sensor to:
- * (We need a TIM channel)
+ * (We need channel 1 or 2 of a TIM, because those have triggers)
  *
+ * no remap:
  * UART1_TRIG:  TIM2CH2 on PA1
- * UART2_TX:	TIM2CH3 on PA2
- * UART2_RX:	TIM2CH4 on PA3
  * SPI1_MISO:	TIM3CH1 on PA6
  * SPI1_MOSI:	TIM3CH2 on PA7
- * SERVO1:	TIM8CH1 on PC6
- * SERVO2:	TIM8CH2 on PC7
- * SERVO3:	TIM8CH3 on PC8
- * SERVO4:	TIM8CH4 on PC9
- * SERVO5:	TIM4CH3 on PB8
- * SERVO6:	TIM4CH4 on PB9
- * SPARE_PB0:	TIM3CH3 on PB0
- * SPARE_PB1:	TIM3CH4 on PB1
+ * SERVO1:	TIM8CH1 on PC6 (remappable to TIM3 if necessary)
+ * SERVO2:	TIM8CH2 on PC7 (remappable to TIM3 if necessary)
+ * I2C1_SCL     TIM4CH1 on PB6
+ * I2C1_SDA     TIM4CH2 on PB7
  */
 
-#define SONAR_MAXBOTIX12_PORT_SPI1_MOSI
+#define SONAR_MAXBOTIX12_PORT_I2C1_SDA
 
 #ifdef SONAR_MAXBOTIX12_PORT_UART1_TRIG
 #define SONAR_MAXBOTIX12_GPIO 		GPIOA
@@ -48,6 +43,8 @@
 #define SONAR_MAXBOTIX12_TIM_CHANNEL	TIM_Channel_2
 #define SONAR_MAXBOTIX12_IRQ_HANDLER	tim2_irq_handler
 #define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM2_IRQn
+#define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI2FP2
+#define SONAR_MAXBOTIX12_TIM_PRESCALER  68
 #ifndef USE_TIM2_IRQ
 #error Please add -DUSE_TIM2_IRQ to your CFLAGS
 #endif
@@ -62,6 +59,7 @@
 #define SONAR_MAXBOTIX12_TIM_CHANNEL	TIM_Channel_3
 #define SONAR_MAXBOTIX12_IRQ_HANDLER	tim3_irq_handler
 #define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM3_IRQn
+#define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI2FP2 //fixme
 #ifndef USE_TIM3_IRQ
 #error Please add -DUSE_TIM3_IRQ to your CFLAGS
 #endif
@@ -90,8 +88,56 @@
 #define SONAR_MAXBOTIX12_TIM_CHANNEL    TIM_Channel_2
 #define SONAR_MAXBOTIX12_IRQ_HANDLER    tim3_irq_handler
 #define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM3_IRQn
+#define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI2FP2
 #ifndef USE_TIM3_IRQ
 #error Please add -DUSE_TIM3_IRQ to your CFLAGS
+#endif
+#endif
+
+#ifdef SONAR_MAXBOTIX12_PORT_SPI1_MISO
+#define SONAR_MAXBOTIX12_GPIO           GPIOA
+#define SONAR_MAXBOTIX12_GPIO_PIN       GPIO_Pin_6
+#define SONAR_MAXBOTIX12_TIM_PERIPH     RCC_APB1Periph_TIM3
+#define SONAR_MAXBOTIX12_GPIO_PERIPH    RCC_APB2Periph_GPIOA
+#define SONAR_MAXBOTIX12_TIM            TIM3
+#define SONAR_MAXBOTIX12_TIM_CHANNEL    TIM_Channel_1
+#define SONAR_MAXBOTIX12_IRQ_HANDLER    tim3_irq_handler
+#define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM3_IRQn
+#define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI1FP1
+#ifndef USE_TIM3_IRQ
+#error Please add -DUSE_TIM3_IRQ to your CFLAGS
+#endif
+#endif
+
+#ifdef SONAR_MAXBOTIX12_PORT_I2C1_SCL
+#define SONAR_MAXBOTIX12_GPIO           GPIOB
+#define SONAR_MAXBOTIX12_GPIO_PIN       GPIO_Pin_6
+#define SONAR_MAXBOTIX12_TIM_PERIPH     RCC_APB1Periph_TIM4
+#define SONAR_MAXBOTIX12_GPIO_PERIPH    RCC_APB2Periph_GPIOB
+#define SONAR_MAXBOTIX12_TIM            TIM4
+#define SONAR_MAXBOTIX12_TIM_CHANNEL    TIM_Channel_1
+#define SONAR_MAXBOTIX12_IRQ_HANDLER    tim4_irq_handler
+#define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM4_IRQn
+#define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI1FP1
+#define SONAR_MAXBOTIX12_TIM_PRESCALER  137
+#ifndef USE_TIM4_IRQ
+#error Please add -DUSE_TIM4_IRQ to your CFLAGS
+#endif
+#endif
+
+#ifdef SONAR_MAXBOTIX12_PORT_I2C1_SDA
+#define SONAR_MAXBOTIX12_GPIO           GPIOB
+#define SONAR_MAXBOTIX12_GPIO_PIN       GPIO_Pin_7
+#define SONAR_MAXBOTIX12_TIM_PERIPH     RCC_APB1Periph_TIM4
+#define SONAR_MAXBOTIX12_GPIO_PERIPH    RCC_APB2Periph_GPIOB
+#define SONAR_MAXBOTIX12_TIM            TIM4
+#define SONAR_MAXBOTIX12_TIM_CHANNEL    TIM_Channel_2
+#define SONAR_MAXBOTIX12_IRQ_HANDLER    tim4_irq_handler
+#define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM4_IRQn
+#define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI2FP2
+#define SONAR_MAXBOTIX12_TIM_PRESCALER  68
+#ifndef USE_TIM4_IRQ
+#error Please add -DUSE_TIM4_IRQ to your CFLAGS
 #endif
 #endif
 
@@ -120,10 +166,6 @@
 #error "Please add the Maxbotix12 port to the sonar_maxbotix_MB12XX_PWM.h file."
 #endif
 
-#ifdef SONAR_MAXBOTIX12_PORT_SPI1_MISO
-#error "Please add the Maxbotix12 port to the sonar_maxbotix_MB12XX_PWM.h file."
-#endif
-
 #ifdef SONAR_MAXBOTIX12_PORT_SERVO1
 #error "Please add the Maxbotix12 port to the sonar_maxbotix_MB12XX_PWM.h file."
 #endif
@@ -149,12 +191,12 @@
  *   [num,den] = butter(2,(cutoff_freq/(sample_freq/2)))
  */
 // values for cutoff_freq = 4Hz and sample_freq = 10Hz
-#define ACCEL_BUTTER_NUM_1 +0.638945525159022
-#define ACCEL_BUTTER_NUM_2 +1.277891050318045
-#define ACCEL_BUTTER_NUM_3 +0.638945525159022
+#define SONAR_MAXBOTIX12_BUTTER_NUM_1 +0.638945525159022
+#define SONAR_MAXBOTIX12_BUTTER_NUM_2 +1.277891050318045
+#define SONAR_MAXBOTIX12_BUTTER_NUM_3 +0.638945525159022
 //warning, ACCEL_BUTTER_DEN_1 is always one for this filter, so it is omitted here.
-#define ACCEL_BUTTER_DEN_2 +1.142980502539901
-#define ACCEL_BUTTER_DEN_3 +0.412801598096189
+#define SONAR_MAXBOTIX12_BUTTER_DEN_2 +1.142980502539901
+#define SONAR_MAXBOTIX12_BUTTER_DEN_3 +0.412801598096189
 
 #include "std.h"
 
@@ -165,6 +207,7 @@
 extern uint16_t sonar_meas;
 
 extern bool_t sonar_data_available;
+
 
 extern void
 maxbotix12_init(void);

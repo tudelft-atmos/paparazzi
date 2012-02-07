@@ -912,7 +912,7 @@ test_adns3080_capture.CFLAGS += -DDOWNLINK -DDOWNLINK_TRANSPORT=XBeeTransport -D
 #   DATALINK  :
 #
 test_maxbotics12.ARCHDIR = $(ARCH)
-test_maxbotics12.CFLAGS += -I$(SRC_LISA) -I$(SRC_ARCH) -DPERIPHERALS_AUTO_INIT -DUSE_TIM3_IRQ
+test_maxbotics12.CFLAGS += -I$(SRC_LISA) -I$(SRC_ARCH) -DPERIPHERALS_AUTO_INIT -DUSE_TIM4_IRQ
 test_maxbotics12.CFLAGS += -DBOARD_CONFIG=$(BOARD_CFG)
 test_maxbotics12.srcs = $(SRC_AIRBORNE)/mcu.c \
                  $(SRC_ARCH)/mcu_arch.c \

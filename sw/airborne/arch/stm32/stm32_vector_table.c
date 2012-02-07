@@ -173,6 +173,14 @@ extern void tim3_irq_handler(void);
 #define TIM3_IRQ_HANDLER null_handler
 #endif
 
+#ifdef USE_TIM4_IRQ
+extern void tim4_irq_handler(void);
+#define TIM4_IRQ_HANDLER tim4_irq_handler
+#else
+#define TIM4_IRQ_HANDLER null_handler
+#endif
+
+
 #ifdef USE_TIM6_IRQ
 extern void tim6_irq_handler(void);
 #define TIM6_IRQ_HANDLER tim6_irq_handler
@@ -262,7 +270,7 @@ void (* const vector_table[])(void) = {
     TIM2_IRQ_HANDLER,         /* tim2_irq_handler */
     /*null_handler,             /* tim3_irq_handler */
     TIM3_IRQ_HANDLER,         /* tim3_irq_handler */
-    null_handler,             /* tim4_irq_handler */
+    TIM4_IRQ_HANDLER,             /* tim4_irq_handler */
     I2C1_EV_IRQ_HANDLER,      /* i2c1_ev_irq_handler */
     I2C1_ER_IRQ_HANDLER,      /* i2c1_er_irq_handler */
     I2C2_EV_IRQ_HANDLER,      /* i2c2_ev_irq_handler */
