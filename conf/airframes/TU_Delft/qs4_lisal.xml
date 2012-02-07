@@ -112,7 +112,7 @@
     <define name="COMMANDS_YAW_ALWAYS_ENABLED" value="TRUE"/>
  </section>
   <section name="SUPERVISION" prefix="SUPERVISION_">
-    <define name="MIN_MOTOR" value="920"/>
+    <define name="MIN_MOTOR" value="950"/>
     <define name="MAX_MOTOR" value="2300"/>
     <define name="TRIM_A" value="0"/>
     <define name="TRIM_E" value="0"/>
@@ -264,7 +264,7 @@
       <configure name="ADC_CHANNEL_GENERIC1" value="1"/>
       <configure name="ADC_CHANNEL_GENERIC2" value="0"/>
    </load>
-   <load name="opticflow_ADNS3080.xml"/>
+   <!--<load name="opticflow_ADNS3080.xml"/>-->
  </modules>
 
   <firmware name="rotorcraft">
