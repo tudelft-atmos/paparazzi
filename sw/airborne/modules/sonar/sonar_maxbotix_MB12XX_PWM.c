@@ -147,7 +147,7 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
       uint16_t conv_factor_cm = 1083;
       sonar_alt_cm_bfp = conv_factor_cm*sonar_filter_val;
       //DOWNLINK_SEND_VFF(DefaultChannel, &alt_mm_flt,0,0,0,0,0,0);
-      DOWNLINK_SEND_INS_REF(DefaultChannel, &sonar_meas, &sonar_filter_val, &sonar_meas_real, 0, 0, 0, 0, 0);
+      //DOWNLINK_SEND_INS_REF(DefaultChannel, &sonar_meas, &sonar_filter_val, &sonar_meas_real, 0, 0, 0, 0, 0);
     }
 }
 
