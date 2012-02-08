@@ -48,7 +48,7 @@ static inline void ahrs_int_get_euler_from_accel_mag(struct Int32Eulers* e, stru
   //  sphi_ctheta * imu.mag.y +
   //  cphi_ctheta * imu.mag.z;
   //  float m_psi = -atan2(me, mn);
-  const float mag_dec = atan2(-AHRS_H_Y, AHRS_H_X);
+  const float mag_dec = atan2(-AHRS_H_Y, AHRS_H_Z);
   const float fpsi = atan2f(-me, mn) - mag_dec;
 
   e->psi = ANGLE_BFP_OF_REAL(fpsi);
