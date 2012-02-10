@@ -125,8 +125,8 @@
     <define name="THRUST_COEF" value="{  256,  256,  256,  256 }"/>
   </section>
 
-  <include href="conf/airframes/TU_Delft/calib/imu_lisam_033_quadshot.xml"/>
-  <!--<include href="conf/airframes/esden/calib/imu_lisam_033.xml"/>-->
+  <!--<include href="conf/airframes/TU_Delft/calib/imu_lisam_033_quadshot.xml"/>-->
+  <include href="conf/airframes/esden/calib/imu_lisam_033.xml"/>
 
   <section name="IMU" prefix="IMU_">
     <define name="BODY_TO_IMU_PHI"   value="RadOfDeg(   0. )"/>

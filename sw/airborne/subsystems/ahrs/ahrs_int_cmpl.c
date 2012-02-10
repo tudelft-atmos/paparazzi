@@ -241,17 +241,16 @@ static inline void ahrs_update_mag_full(void) {
 
 static inline void ahrs_update_mag_2d(void) {
 
-  const struct Int32Vect3 expected_ltp = {0,
-					  MAG_BFP_OF_REAL(AHRS_H_Y),
-					  MAG_BFP_OF_REAL(AHRS_H_Z)};
+  const struct Int32Vect2 expected_ltp = {MAG_BFP_OF_REAL(AHRS_H_X),
+					  MAG_BFP_OF_REAL(AHRS_H_Y)};
 
   struct Int32Vect3 measured_ltp;
   INT32_RMAT_TRANSP_VMULT(measured_ltp, ahrs.ltp_to_imu_rmat, imu.mag);
 
   struct Int32Vect3 residual_ltp =
-    { (measured_ltp.z * expected_ltp.y - measured_ltp.y * expected_ltp.z)/(1<<5),
+    { 0,
       0,
-      0};
+      (measured_ltp.x * expected_ltp.y - measured_ltp.y * expected_ltp.x)/(1<<5)};
 
   struct Int32Vect3 residual_imu;
   INT32_RMAT_VMULT(residual_imu, ahrs.ltp_to_imu_rmat, residual_ltp);
