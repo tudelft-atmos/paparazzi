@@ -285,6 +285,11 @@ void ins_update_sonar() {
     ins_qfe = baro.absolute + (d_sonar * (INS_BARO_SENS_DEN))/INS_BARO_SENS_NUM;
   }
 #endif
+#endif
 }
 
+void ins_update_sonar_only() {
+    //North East Down, so the sonar altitude is NEGATIVE!
+    ins_ltp_pos.z = -sonar_filtered;
+}
 
