@@ -12,7 +12,7 @@
 #include "sys_time.h"
 
 uint16_t sonar_meas_raw;
-uint16_t sonar_meas_filtered;
+uint32_t sonar_filtered;
 
 
 int32_t sonar_meas_prev = 0;
@@ -33,6 +33,9 @@ maxbotix12_init(void)
   sonar_meas_raw = 0;
   sonar_data_available = FALSE;
 
+  //GPIO_PinRemapConfig(GPIO_FullRemap_TIM3, ENABLE);
+
+
   /* TIM3 channel 4 pin (PB1) configuration */
   GPIO_InitTypeDef GPIO_InitStructure;
   GPIO_InitStructure.GPIO_Pin = SONAR_MAXBOTIX12_GPIO_PIN;
@@ -40,8 +43,12 @@ maxbotix12_init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(SONAR_MAXBOTIX12_GPIO, &GPIO_InitStructure);
 
+  //GPIO_PinRemapConfig(GPIO_PartialRemap_TIM3, DISABLE);
+  //GPIO_PinRemapConfig(GPIO_FullRemap_TIM3, ENABLE);
+
   /* TIM5 clock enable */
-  RCC_APB1PeriphClockCmd(SONAR_MAXBOTIX12_TIM_PERIPH, ENABLE);
+  //RCC_APB1PeriphClockCmd(SONAR_MAXBOTIX12_TIM_PERIPH, ENABLE);
+  RCC_APB2PeriphClockCmd(SONAR_MAXBOTIX12_TIM_PERIPH, ENABLE);
 
   /* GPIOB clock enable */
   RCC_APB2PeriphClockCmd(SONAR_MAXBOTIX12_GPIO_PERIPH, ENABLE);
@@ -144,10 +151,18 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
 
 
       //((69 / 72) / 58) * (2^16) = 1082.85057
-      uint16_t conv_factor_cm = 1083;
-      sonar_alt_cm_bfp = conv_factor_cm*sonar_filter_val;
+      //uint16_t conv_factor_cm = 1083;
+      //sonar_alt_cm_bfp = conv_factor_cm*sonar_filter_val;
+      //sonar_filtered = conv_factor_cm*sonar_filter_val;
+
+      //((69 / 72) / 58) / 100 * (2^8) = 0.0422988506
+      float conv_factor_m = 0.0422988506;
+      float alt_m_bfp_fl = conv_factor_m*sonar_filter_val;
+      sonar_filtered = alt_m_bfp_fl;
+      ins_update_sonar();
+      //sonar_filtered = conv_factor_cm*sonar_filter_val;
       //DOWNLINK_SEND_VFF(DefaultChannel, &alt_mm_flt,0,0,0,0,0,0);
-      //DOWNLINK_SEND_INS_REF(DefaultChannel, &sonar_meas, &sonar_filter_val, &sonar_meas_real, 0, 0, 0, 0, 0);
+      //DOWNLINK_SEND_INS_Z(DefaultChannel, &sonar_filtered,&sonar_meas, &sonar_filter_val, 0);
     }
 }
 

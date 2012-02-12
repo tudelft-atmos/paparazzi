@@ -32,7 +32,7 @@
  * I2C1_SDA     TIM4CH2 on PB7
  */
 
-#define SONAR_MAXBOTIX12_PORT_I2C1_SDA
+#define SONAR_MAXBOTIX12_PORT_USART1_TX
 
 #ifdef SONAR_MAXBOTIX12_PORT_UART1_TRIG
 #define SONAR_MAXBOTIX12_GPIO 		GPIOA
@@ -89,6 +89,7 @@
 #define SONAR_MAXBOTIX12_IRQ_HANDLER    tim3_irq_handler
 #define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM3_IRQn
 #define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI2FP2
+#define SONAR_MAXBOTIX12_TIM_PRESCALER  68
 #ifndef USE_TIM3_IRQ
 #error Please add -DUSE_TIM3_IRQ to your CFLAGS
 #endif
@@ -141,19 +142,36 @@
 #endif
 #endif
 
+
 #ifdef SONAR_MAXBOTIX12_PORT_SERVO2
-#error TIM8 is not supported yet, due to the different clock
-//@FIXME
-#define SONAR_MAXBOTIX12_GPIO           GPIOC
-#define SONAR_MAXBOTIX12_GPIO_PIN       GPIO_Pin_7
-#define SONAR_MAXBOTIX12_TIM_PERIPH     RCC_APB2Periph_TIM8
-#define SONAR_MAXBOTIX12_GPIO_PERIPH    RCC_APB2Periph_GPIOC
-#define SONAR_MAXBOTIX12_TIM            TIM8
-#define SONAR_MAXBOTIX12_TIM_CHANNEL    TIM_Channel_2
-#define SONAR_MAXBOTIX12_IRQ_HANDLER    tim8_irq_handler
-#define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM8_IRQn
-#ifndef USE_TIM8_IRQ
-#error Please add -DUSE_TIM8_IRQ to your CFLAGS
+#define SONAR_MAXBOTIX12_GPIO 		    GPIOC
+#define SONAR_MAXBOTIX12_GPIO_PIN 	    GPIO_Pin_7
+#define SONAR_MAXBOTIX12_TIM_PERIPH	    RCC_APB1Periph_TIM3
+#define SONAR_MAXBOTIX12_GPIO_PERIPH 	RCC_APB2Periph_GPIOC
+#define SONAR_MAXBOTIX12_TIM		    TIM3
+#define SONAR_MAXBOTIX12_TIM_CHANNEL	TIM_Channel_2
+#define SONAR_MAXBOTIX12_IRQ_HANDLER	tim3_irq_handler
+#define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM3_IRQn
+#define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI2FP2
+#define SONAR_MAXBOTIX12_TIM_PRESCALER  137
+#ifndef USE_TIM3_IRQ
+#error Please add -DUSE_TIM3_IRQ to your CFLAGS
+#endif
+#endif
+
+#ifdef SONAR_MAXBOTIX12_PORT_USART1_TX
+#define SONAR_MAXBOTIX12_GPIO 		    GPIOA
+#define SONAR_MAXBOTIX12_GPIO_PIN 	    GPIO_Pin_9
+#define SONAR_MAXBOTIX12_TIM_PERIPH	    RCC_APB2Periph_TIM1
+#define SONAR_MAXBOTIX12_GPIO_PERIPH 	RCC_APB2Periph_GPIOA
+#define SONAR_MAXBOTIX12_TIM		    TIM1
+#define SONAR_MAXBOTIX12_TIM_CHANNEL	TIM_Channel_2
+#define SONAR_MAXBOTIX12_IRQ_HANDLER	tim1_irq_handler
+#define SONAR_MAXBOTIX12_IRQ_CHANNEL    TIM1_CC_IRQn
+#define SONAR_MAXBOTIX12_TIM_TS         TIM_TS_TI2FP2
+#define SONAR_MAXBOTIX12_TIM_PRESCALER  68
+#ifndef USE_TIM1_IRQ
+#error Please add -DUSE_TIM1_IRQ to your CFLAGS
 #endif
 #endif
 
@@ -205,12 +223,12 @@
 #include "downlink.h"
 
 extern uint16_t sonar_meas;
+extern uint32_t sonar_filtered;
 
 extern bool_t sonar_data_available;
 
 
-extern void
-maxbotix12_init(void);
+extern void maxbotix12_init(void);
 //extern void maxbotix12_read(void);
 //void tim3_irq_handler(void);
 

@@ -190,7 +190,10 @@ void ins_update_baro() {
     if (ins_vf_realign) {
       ins_vf_realign = FALSE;
       ins_qfe = baro.absolute;
-#ifdef USE_SONAR
+#if defined USE_SONAR && defined SONAR_INTERNAL_PROCESSING
+      ins_sonar_offset = sonar_meas;
+#endif
+#if defined USE_SONAR && defined SONAR_INTERNAL_PROCESSING
       ins_sonar_offset = sonar_meas;
 #endif
       vff_realign(0.);
@@ -268,6 +271,7 @@ void ins_update_gps(void) {
 
 void ins_update_sonar() {
 #if defined USE_SONAR && defined USE_VFF
+#if SONAR_INTERNAL_PROCESSING
   static int32_t sonar_filtered = 0;
   sonar_filtered = (sonar_meas + 2*sonar_filtered) / 3;
   /* update baro_qfe assuming a flat ground */
@@ -275,5 +279,12 @@ void ins_update_sonar() {
     int32_t d_sonar = (((int32_t)sonar_filtered - ins_sonar_offset) * INS_SONAR_SENS_NUM) / INS_SONAR_SENS_DEN;
     ins_qfe = baro.absolute + (d_sonar * (INS_BARO_SENS_DEN))/INS_BARO_SENS_NUM;
   }
+#else
+  if (ins_update_on_agl && baro.status == BS_RUNNING) {
+    int32_t d_sonar = ((int32_t)sonar_filtered - ins_sonar_offset);
+    ins_qfe = baro.absolute + (d_sonar * (INS_BARO_SENS_DEN))/INS_BARO_SENS_NUM;
+  }
 #endif
 }
+
+
