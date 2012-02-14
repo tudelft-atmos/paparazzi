@@ -190,11 +190,8 @@ void ins_update_baro() {
     if (ins_vf_realign) {
       ins_vf_realign = FALSE;
       ins_qfe = baro.absolute;
-#if defined USE_SONAR && defined SONAR_INTERNAL_PROCESSING
-      ins_sonar_offset = sonar_meas;
-#endif
-#if defined USE_SONAR && defined SONAR_INTERNAL_PROCESSING
-      ins_sonar_offset = sonar_meas;
+#ifdef USE_SONAR
+      ins_sonar_offset = sonar_filtered;
 #endif
       vff_realign(0.);
       ins_ltp_accel.z = ACCEL_BFP_OF_REAL(vff_zdotdot);
@@ -270,26 +267,24 @@ void ins_update_gps(void) {
 }
 
 void ins_update_sonar() {
-#if defined USE_SONAR && defined USE_VFF
-#if SONAR_INTERNAL_PROCESSING
+/*#if defined USE_SONAR && defined USE_VFF
   static int32_t sonar_filtered = 0;
   sonar_filtered = (sonar_meas + 2*sonar_filtered) / 3;
   /* update baro_qfe assuming a flat ground */
-  if (ins_update_on_agl && baro.status == BS_RUNNING) {
+  /*if (ins_update_on_agl && baro.status == BS_RUNNING) {
     int32_t d_sonar = (((int32_t)sonar_filtered - ins_sonar_offset) * INS_SONAR_SENS_NUM) / INS_SONAR_SENS_DEN;
     ins_qfe = baro.absolute + (d_sonar * (INS_BARO_SENS_DEN))/INS_BARO_SENS_NUM;
   }
-#else
+#endif*/
+  ins_update_sonar_new();
+}
+
+void ins_update_sonar_new() {
+#if defined USE_SONAR && defined USE_VFF
+  /* update baro_qfe assuming a flat ground */
   if (ins_update_on_agl && baro.status == BS_RUNNING) {
-    int32_t d_sonar = ((int32_t)sonar_filtered - ins_sonar_offset);
+    int32_t d_sonar = (sonar_filtered - ins_sonar_offset);
     ins_qfe = baro.absolute + (d_sonar * (INS_BARO_SENS_DEN))/INS_BARO_SENS_NUM;
   }
 #endif
-#endif
 }
-
-void ins_update_sonar_only() {
-    //North East Down, so the sonar altitude is NEGATIVE!
-    ins_ltp_pos.z = -sonar_filtered;
-}
-

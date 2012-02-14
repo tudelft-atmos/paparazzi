@@ -209,12 +209,18 @@
  *   [num,den] = butter(2,(cutoff_freq/(sample_freq/2)))
  */
 // values for cutoff_freq = 4Hz and sample_freq = 10Hz
-#define SONAR_MAXBOTIX12_BUTTER_NUM_1 +0.638945525159022
+/*#define SONAR_MAXBOTIX12_BUTTER_NUM_1 +0.638945525159022
 #define SONAR_MAXBOTIX12_BUTTER_NUM_2 +1.277891050318045
 #define SONAR_MAXBOTIX12_BUTTER_NUM_3 +0.638945525159022
 //warning, ACCEL_BUTTER_DEN_1 is always one for this filter, so it is omitted here.
 #define SONAR_MAXBOTIX12_BUTTER_DEN_2 +1.142980502539901
-#define SONAR_MAXBOTIX12_BUTTER_DEN_3 +0.412801598096189
+#define SONAR_MAXBOTIX12_BUTTER_DEN_3 +0.412801598096189*/
+
+//values for cutoff=4Hz, sample_freq=10Hz (1st order)
+#define SONAR_MAXBOTIX12_BUTTER_NUM_1 +0.754762724747214
+#define SONAR_MAXBOTIX12_BUTTER_NUM_2 +0.754762724747214
+//warning, ACCEL_BUTTER_DEN_1 is always one for this filter, so it is omitted here.
+#define SONAR_MAXBOTIX12_BUTTER_DEN_2 +0.509525449494429
 
 #include "std.h"
 
@@ -229,6 +235,9 @@ extern bool_t sonar_data_available;
 
 
 extern void maxbotix12_init(void);
+
+extern bool_t SonarAlmostGroundDetect(void);
+
 //extern void maxbotix12_read(void);
 //void tim3_irq_handler(void);
 

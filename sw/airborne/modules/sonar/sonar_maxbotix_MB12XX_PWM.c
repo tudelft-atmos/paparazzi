@@ -137,7 +137,7 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
       //sonar_alt
 
       if ((sonar_meas > (sonar_filter_val + 3000) || sonar_meas < (sonar_filter_val - 3000))
-          && (sonar_spike_cnt < 15)) {
+          && (sonar_spike_cnt < 5)) {
         sonar_spike_cnt++;
         sonar_meas = sonar_filter_val;
       }
@@ -149,9 +149,9 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
 
       sonar_filter_val = SONAR_MAXBOTIX12_BUTTER_NUM_1*sonar_meas
       + SONAR_MAXBOTIX12_BUTTER_NUM_2*sonar_meas_prev
-      + SONAR_MAXBOTIX12_BUTTER_NUM_3*sonar_meas_prev_prev
-      - SONAR_MAXBOTIX12_BUTTER_DEN_2*sonar_filter_val_prev
-      - SONAR_MAXBOTIX12_BUTTER_DEN_3*sonar_filter_val_prev_prev;
+    //  + SONAR_MAXBOTIX12_BUTTER_NUM_3*sonar_meas_prev_prev
+      - SONAR_MAXBOTIX12_BUTTER_DEN_2*sonar_filter_val_prev;
+    //  - SONAR_MAXBOTIX12_BUTTER_DEN_3*sonar_filter_val_prev_prev;
 
       sonar_meas_prev_prev = sonar_meas_prev;
       sonar_meas_prev = sonar_meas;
@@ -173,10 +173,16 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
       float conv_factor_m = 0.0422988506;
       float alt_m_bfp_fl = conv_factor_m*sonar_filter_val;
       sonar_filtered = alt_m_bfp_fl;
-      ins_update_sonar_only();
+      ins_update_sonar_new();
       //sonar_filtered = conv_factor_cm*sonar_filter_val;
       //DOWNLINK_SEND_VFF(DefaultChannel, &alt_mm_flt,0,0,0,0,0,0);
-      //DOWNLINK_SEND_INS_Z(DefaultChannel, &sonar_filtered,&sonar_meas, &sonar_filter_val, 0);
+      DOWNLINK_SEND_INS_Z(DefaultChannel, &sonar_filtered,&sonar_spike_cnt,0, 0);
     }
 }
 
+bool_t SonarAlmostGroundDetect(void) {
+  if (sonar_filtered != 0 && sonar_filtered < 51) {
+    return 1;
+  }
+  return 0;
+}
