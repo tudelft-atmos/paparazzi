@@ -21,6 +21,8 @@ int32_t sonar_filter_val = 0;
 int32_t sonar_filter_val_prev = 0;
 int32_t sonar_filter_val_prev_prev = 0;
 
+uint8_t sonar_spike_cnt = 0;
+
 int32_t sonar_meas_real, sonar_alt_cm_bfp;
 
 bool_t sonar_data_available;
@@ -133,6 +135,18 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
        */
       //int32_t alt_mm = pulse_cnts * 10 * (69/72) / 58;
       //sonar_alt
+
+      if ((sonar_meas > (sonar_filter_val + 3000) || sonar_meas < (sonar_filter_val - 3000))
+          && (sonar_spike_cnt < 15)) {
+        sonar_spike_cnt++;
+        sonar_meas = sonar_filter_val;
+      }
+      else {
+          sonar_spike_cnt = 0;
+      }
+
+      //@TODO: check for angle > 10 deg ==> don't use value
+
       sonar_filter_val = SONAR_MAXBOTIX12_BUTTER_NUM_1*sonar_meas
       + SONAR_MAXBOTIX12_BUTTER_NUM_2*sonar_meas_prev
       + SONAR_MAXBOTIX12_BUTTER_NUM_3*sonar_meas_prev_prev
@@ -159,7 +173,7 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
       float conv_factor_m = 0.0422988506;
       float alt_m_bfp_fl = conv_factor_m*sonar_filter_val;
       sonar_filtered = alt_m_bfp_fl;
-      ins_update_sonar();
+      ins_update_sonar_only();
       //sonar_filtered = conv_factor_cm*sonar_filter_val;
       //DOWNLINK_SEND_VFF(DefaultChannel, &alt_mm_flt,0,0,0,0,0,0);
       //DOWNLINK_SEND_INS_Z(DefaultChannel, &sonar_filtered,&sonar_meas, &sonar_filter_val, 0);
