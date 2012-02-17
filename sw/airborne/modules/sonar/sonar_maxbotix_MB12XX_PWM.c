@@ -136,6 +136,7 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
       //int32_t alt_mm = pulse_cnts * 10 * (69/72) / 58;
       //sonar_alt
 
+      //if ((sonar_meas > (sonar_filter_val + 1500) || sonar_meas < (sonar_filter_val - 1500))
       if ((sonar_meas > (sonar_filter_val + 3000) || sonar_meas < (sonar_filter_val - 3000))
           && (sonar_spike_cnt < 5)) {
         sonar_spike_cnt++;
@@ -173,7 +174,8 @@ void SONAR_MAXBOTIX12_IRQ_HANDLER(void)
       float conv_factor_m = 0.0422988506;
       float alt_m_bfp_fl = conv_factor_m*sonar_filter_val;
       sonar_filtered = alt_m_bfp_fl;
-      ins_update_sonar_new();
+      //ins_sonar_initialised = TRUE;
+      ins_update_sonar();
       //sonar_filtered = conv_factor_cm*sonar_filter_val;
       //DOWNLINK_SEND_VFF(DefaultChannel, &alt_mm_flt,0,0,0,0,0,0);
       DOWNLINK_SEND_INS_Z(DefaultChannel, &sonar_filtered,&sonar_spike_cnt,0, 0);
