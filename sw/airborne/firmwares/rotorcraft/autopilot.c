@@ -173,6 +173,7 @@ void autopilot_set_mode(uint8_t new_autopilot_mode) {
       guidance_h_mode_changed(GUIDANCE_H_MODE_TOYTRONICS_HOVER);
       break;
     case AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_Z_HOLD:
+    case AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_RC_CLIMB:
     case AP_MODE_TOYTRONICS_HOVER_FORWARD:
       guidance_h_mode_changed(GUIDANCE_H_MODE_TOYTRONICS_HOVER_FORWARD);
       break;
@@ -208,6 +209,7 @@ void autopilot_set_mode(uint8_t new_autopilot_mode) {
       break;
     case AP_MODE_RATE_RC_CLIMB:
     case AP_MODE_ATTITUDE_RC_CLIMB:
+    case AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_RC_CLIMB:
       guidance_v_mode_changed(GUIDANCE_V_MODE_RC_CLIMB);
       break;
     case AP_MODE_ATTITUDE_CLIMB:
