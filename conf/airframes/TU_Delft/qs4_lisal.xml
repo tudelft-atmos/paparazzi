@@ -31,17 +31,17 @@
     <define name="MODE_AUTO1"  value="AP_MODE_TOYTRONICS_FORWARD"/>
     
     <!-- voor test buiten -->
-    <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_Z_HOLD"/>
+    <!--<define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_Z_HOLD"/>-->
     <!--<define name="MODE_AUTO2"  value="AP_MODE_TOYTRONICS_AEROBATIC"/>-->
-    
+    <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_RC_CLIMB"/>
 
     <!-- <define name="MODE_AUTO1" value="AP_MODE_TOYTRONICS_AEROBATIC"/> -->
     <!--<define name="MODE_AUTO2"  value="AP_MODE_TOYTRONICS_AEROBATIC"/>-->
     <define name="AUTOPILOT_KILL_WITHOUT_AHRS"  value="TRUE"/>
     <define name="AUTOPILOT_INSTANT_START_WITH_SAFETIES"  value="TRUE"/> 
     <!--This is to enable a wing waggle at specified low battery voltage. The interval is in cycle counts, not seconds-->
-    <define name="AUTOPILOT_LOBATT_WING_WAGGLE"  value="TRUE"/>
-    <define name="AUTOPILOT_LOBATT_WING_WAGGLE_INTERVAL"  value="5120"/>
+    <!--<define name="AUTOPILOT_LOBATT_WING_WAGGLE"  value="TRUE"/>
+    <define name="AUTOPILOT_LOBATT_WING_WAGGLE_INTERVAL"  value="5120"/>-->
     <define name="TOYTRONICS" value="TRUE"/>
   </section>
 
@@ -131,8 +131,8 @@
   <section name="IMU" prefix="IMU_">
 
     <define name="BODY_TO_IMU_PHI"   value="RadOfDeg(   0. )"/>
-    <define name="BODY_TO_IMU_THETA" value="RadOfDeg( 185. )"/>  <!-- +5 deg more away from you -->
-    <define name="BODY_TO_IMU_PSI"   value="RadOfDeg(   -2. )"/> <!-- +5 deg more to the right in hover --> 
+    <define name="BODY_TO_IMU_THETA" value="RadOfDeg( 189. )"/>  <!-- +5 deg more away from you -->
+    <define name="BODY_TO_IMU_PSI"   value="RadOfDeg(   0. )"/> <!-- +5 deg more to the right in hover --> 
 
   </section>
 
@@ -203,7 +203,7 @@
   </section>
 
   <section name="INS" prefix="INS_">
-    <define name="BARO_SENS" value="14" integer="16"/>
+    <define name="BARO_SENS" value="16" integer="16"/>
   </section>
 
  <section name="GUIDANCE_V" prefix="GUIDANCE_V_">
@@ -216,9 +216,9 @@
    <define name="REF_MAX_ZDD"  value=" 0.5*9.81"/>
    <define name="REF_MIN_ZD"   value="-1.5"/>
    <define name="REF_MAX_ZD"   value=" 1.5"/>
-   <define name="HOVER_KP"    value="-550"/>
-   <define name="HOVER_KD"    value="-480"/>
-   <define name="HOVER_KI"    value="-30"/>
+   <define name="HOVER_KP"    value="-850"/>
+   <define name="HOVER_KD"    value="-280"/>
+   <define name="HOVER_KI"    value="-20"/>
    <!-- 1.5m/s for full stick : BOOZ_SPEED_I_OF_F(1.5) / (MAX_PPRZ/2) -->
    <define name="RC_CLIMB_COEF" value ="163"/>
    <!-- BOOZ_SPEED_I_OF_F(1.5) * 20% -->
@@ -253,8 +253,8 @@
    <define name="SENSORS_PARAMS" value="&quot;nps_sensors_params_booz2_a1.h&quot;"/>
  </section>
 
- <include href="conf/airframes/esden/toytronics/gains/QS4_inner_8x4_5.xml"/>
- <include href="conf/airframes/esden/toytronics/setpoint/QS4_setpoint.xml"/>
+ <include href="conf/airframes/TU_Delft/gains/QS4_robbe_8x4_5.xml"/>
+ <include href="conf/airframes/TU_Delft/QS4_setpoint.xml"/>
  <include href="conf/airframes/esden/camera_mount.xml"/>
 
  <modules main_freq="512">
@@ -265,6 +265,7 @@
       <configure name="ADC_CHANNEL_GENERIC2" value="0"/>
    </load>
    <!--<load name="opticflow_ADNS3080.xml"/>-->
+    <load name="sonar_maxbotix_MB12XX.xml"/>
  </modules>
 
   <firmware name="rotorcraft">
