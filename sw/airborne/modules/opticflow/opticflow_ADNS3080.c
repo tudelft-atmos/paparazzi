@@ -33,6 +33,14 @@
 #define OfUnselect() GPIOC->BSRR = GPIO_Pin_4
 #define OfSelect()   GPIOC->BRR = GPIO_Pin_4
 
+int32_t ofs_meas_prev = 0;
+int32_t ofs_meas_prev_prev = 0;
+int32_t ofs_filter_val = 0;
+int32_t ofs_filter_val_prev = 0;
+int32_t ofs_filter_val_prev_prev = 0;
+
+
+
 uint8_t isWritingSROM = 0;
 
 void optflow_ADNS3080_init( void ) {
@@ -108,21 +116,73 @@ void optflow_ADNS3080_periodic( void ) {
 	if (isWritingSROM) {
 		return;
 	}
+	//OfSelect();
 
 	uint8_t squal;
 	int8_t dx,dy;
 //	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID);
-	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_REV_ID);
+	//optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_REV_ID);
 	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION);
 
 	//those are (two's complement) SIGNED integers
-	dx		 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
-	dy		 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DY);
+	dx      		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
+	dy	 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DY);
 
 	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
 
 
-	//if (squal > OPTFLOW_ADNS3080_MIN_SQUAL)
+	//@TODO: maybe add filter?
+	//@TODO: maybe check squal?
+	//if (squal > OPTFLOW_ADNS3080_MIN_SQUAL)*/
+
+	//now we pull the CS low, and we should keep it low until the transfer is completed!
+	       /* OfSelect();
+
+	       //wait until the TX buffer is sent. should not be necessary after SS toggle, just for safety
+	        while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+
+	        SPI_I2S_SendData(SPI1, OPTFLOW_ADNS3080_ADDR_MOTION_BURST);
+	        while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	        ////while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+
+	        //maybe?
+	        //sys_time_usleep(50);
+
+	        //sys_time_usleep(75);
+	        SPI_I2S_ReceiveData(SPI1);
+	        //sys_time_usleep(45);
+	        //sys_time_usleep(25);
+	        sys_time_usleep(2);
+
+
+	        sys_time_usleep(2);
+	         while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	         SPI_I2S_SendData(SPI1, 0x00);
+	         //sys_time_usleep(25);
+	         //sys_time_usleep(5);
+	         while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	         //sys_time_usleep(75);
+	         //sys_time_usleep(5);
+	         dx = SPI_I2S_ReceiveData(SPI1);
+	         sys_time_usleep(2);
+	                          while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	                          SPI_I2S_SendData(SPI1, 0x00);
+	         //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	                         //sys_time_usleep(75);
+	                         //sys_time_usleep(5);
+	                         dy = SPI_I2S_ReceiveData(SPI1);
+
+	                         while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	                                                           SPI_I2S_SendData(SPI1, 0x00);
+	                                          //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	                                                          //sys_time_usleep(75);
+	                                                          //sys_time_usleep(5);
+	                                                          squal = SPI_I2S_ReceiveData(SPI1);
+        //sys_time_usleep(12);*/
+
+        //OfUnselect();
+
+
 
 	DOWNLINK_SEND_OFLOW_DATA(DefaultChannel, &dx,&dy,&squal);
 }
@@ -166,18 +226,23 @@ uint8_t optflow_ADNS3080_readRegister( uint8_t addr) {
 
 	SPI_I2S_SendData(SPI1, addr);
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	////while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 
+	//maybe?
 	//sys_time_usleep(50);
 
-	//@TODO: wait.... maybe we can use this value.
 	//sys_time_usleep(75);
 	SPI_I2S_ReceiveData(SPI1);
-	sys_time_usleep(45);
-
+	//sys_time_usleep(45);
+	//sys_time_usleep(25);
+	sys_time_usleep(2);
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 	SPI_I2S_SendData(SPI1, 0x00);
+	sys_time_usleep(25);
+	//sys_time_usleep(5);
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-	sys_time_usleep(75);
+	//sys_time_usleep(75);
+	//sys_time_usleep(5);
 	uint8_t val = SPI_I2S_ReceiveData(SPI1);
 	OfUnselect();
 	return val;
@@ -277,3 +342,5 @@ void optflow_ADNS3080_captureFrame(void) {
 
 	return;
 }
+
+

@@ -56,17 +56,34 @@
 #define OPTFLOW_ADNS3080_EXCONF_FIXED_FR	0
 
 
-#define OPTFLOW_ADNS3080_FP_UP_6469			0x0E
-#define OPTFLOW_ADNS3080_FP_LO_6469			0x7E
-#define OPTFLOW_ADNS3080_FP_UP_5000			0x12
-#define OPTFLOW_ADNS3080_FP_LO_5000			0xC0
-#define OPTFLOW_ADNS3080_FP_UP_3000			0x1F
-#define OPTFLOW_ADNS3080_FP_LO_3000			0x40
-#define OPTFLOW_ADNS3080_FP_UP_2000			0x2E
-#define OPTFLOW_ADNS3080_FP_LO_2000			0xE0
+#define OPTFLOW_ADNS3080_FP_UP_6469		0x0E
+#define OPTFLOW_ADNS3080_FP_LO_6469		0x7E
+#define OPTFLOW_ADNS3080_FP_UP_5000		0x12
+#define OPTFLOW_ADNS3080_FP_LO_5000		0xC0
+#define OPTFLOW_ADNS3080_FP_UP_3000		0x1F
+#define OPTFLOW_ADNS3080_FP_LO_3000		0x40
+#define OPTFLOW_ADNS3080_FP_UP_2000		0x2E
+#define OPTFLOW_ADNS3080_FP_LO_2000		0xE0
 
 #define OPTFLOW_ADNS3080_US_BETWEEN_WRITES	40
-#define OPTFLOW_ADNS3080_MIN_SQUAL			20
+#define OPTFLOW_ADNS3080_MIN_SQUAL		20
+
+#define OPTFLOW_ADNS3080_FOV                    0.202458  // 11.6 degrees, according to ardupilot
+#define OPTFLOW_ADNS3080_XRES                   30
+#define OPTFLOW_ADNS3080_YRES                   30
+
+
+/** parameters for the 2nd order low-pass filter
+ * calculated in MATLAB using
+ *   [num,den] = butter(2,(cutoff_freq/(sample_freq/2)))
+ */
+// values for cutoff_freq = 5Hz and sample_freq = 20Hz
+#define SONAR_MAXBOTIX12_BUTTER_NUM_1 +0.638945525159022
+#define SONAR_MAXBOTIX12_BUTTER_NUM_2 +1.277891050318045
+#define SONAR_MAXBOTIX12_BUTTER_NUM_3 +0.638945525159022
+//warning, ACCEL_BUTTER_DEN_1 is always one for this filter, so it is omitted here.
+#define SONAR_MAXBOTIX12_BUTTER_DEN_2 +1.142980502539901
+#define SONAR_MAXBOTIX12_BUTTER_DEN_3 +0.412801598096189
 
 
 void optflow_ADNS3080_init(void);
