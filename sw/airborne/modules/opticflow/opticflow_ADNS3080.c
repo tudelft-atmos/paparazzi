@@ -33,13 +33,20 @@
 #define OfUnselect() GPIOC->BSRR = GPIO_Pin_4
 #define OfSelect()   GPIOC->BRR = GPIO_Pin_4
 
-int32_t ofs_meas_prev = 0;
-int32_t ofs_meas_prev_prev = 0;
-int32_t ofs_filter_val = 0;
-int32_t ofs_filter_val_prev = 0;
-int32_t ofs_filter_val_prev_prev = 0;
+float ofs_meas_dx_prev = 0;
+float ofs_meas_dx_prev_prev = 0;
+float ofs_filter_val_dx = 0;
+float ofs_filter_val_dx_prev = 0;
+float ofs_filter_val_dx_prev_prev = 0;
 
+float ofs_meas_dy_prev = 0;
+float ofs_meas_dy_prev_prev = 0;
+float ofs_filter_val_dy = 0;
+float ofs_filter_val_dy_prev = 0;
+float ofs_filter_val_dy_prev_prev = 0;
 
+int32_t ofs_itgr_x = 0;
+int32_t ofs_itgr_y = 0;
 
 uint8_t isWritingSROM = 0;
 
@@ -59,14 +66,27 @@ void optflow_ADNS3080_init( void ) {
 	//ext_config register:
 	// 0 0 0 0 0 0 0 1  => 0x01
 	//               ^--- fixed frame rate
-	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_EXCONF,1<<OPTFLOW_ADNS3080_EXCONF_FIXED_FR);
+	//optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_EXCONF,1<<OPTFLOW_ADNS3080_EXCONF_FIXED_FR);
+	//sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
+
+	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_EXCONF,0<<OPTFLOW_ADNS3080_EXCONF_FIXED_FR);
 	sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
 
 	//6469 FPS
-	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MIN_B_LOW,OPTFLOW_ADNS3080_FP_LO_6469);
+	//optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MIN_B_LOW,OPTFLOW_ADNS3080_FP_LO_6469);
+	//sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
+	//optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MIN_B_UP,OPTFLOW_ADNS3080_FP_UP_6469);
+	//sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
+
+	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MIN_B_LOW,OPTFLOW_ADNS3080_FP_LO_2000);
 	sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
-	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MIN_B_UP,OPTFLOW_ADNS3080_FP_UP_6469);
+	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MIN_B_UP,OPTFLOW_ADNS3080_FP_UP_2000);
 	sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
+
+	optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MAX_B_LOW,OPTFLOW_ADNS3080_FP_LO_5000);
+        sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
+        optflow_ADNS3080_writeRegister(OPTFLOW_ADNS3080_ADDR_FP_MAX_B_UP,OPTFLOW_ADNS3080_FP_UP_5000);
+        sys_time_usleep(OPTFLOW_ADNS3080_US_BETWEEN_WRITES);
 }
 
 void optflow_ADNS3080_spi_conf( void ) {
@@ -120,23 +140,85 @@ void optflow_ADNS3080_periodic( void ) {
 
 	uint8_t squal;
 	int8_t dx,dy;
-//	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_PROD_ID);
-	//optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_REV_ID);
-	optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION);
 
-	//those are (two's complement) SIGNED integers
-	dx      		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
-	dy	 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DY);
 
-	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
+	      //ignore the motion register, we don' t need it
+	      SPI_I2S_ReceiveData(SPI1);
 
+
+	      //those are (two's complement) SIGNED integers dx and dy
+	      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	      SPI_I2S_SendData(SPI1, 0x00);
+	      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	      dx = SPI_I2S_ReceiveData(SPI1);
+
+	      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	      SPI_I2S_SendData(SPI1, 0x00);
+	      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	      dy = SPI_I2S_ReceiveData(SPI1);
+
+	      //and the surface quality
+	      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	      SPI_I2S_SendData(SPI1, 0x00);
+	      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	      squal = SPI_I2S_ReceiveData(SPI1);
+
+	      OfUnselect();
+
+
+	      ofs_filter_val_dx = OFS_BUTTER_NUM_1*dx
+                + OFS_BUTTER_NUM_2*ofs_meas_dx_prev
+                + OFS_BUTTER_NUM_3*ofs_meas_dx_prev_prev
+                - OFS_BUTTER_DEN_2*ofs_filter_val_dx_prev;
+                - OFS_BUTTER_DEN_3*ofs_filter_val_dx_prev_prev;
+
+              ofs_meas_dx_prev_prev = ofs_meas_dx_prev;
+              ofs_meas_dx_prev = dx;
+              ofs_filter_val_dx_prev_prev = ofs_filter_val_dx_prev;
+              ofs_filter_val_dx_prev = ofs_filter_val_dx;
+
+              ofs_filter_val_dy = OFS_BUTTER_NUM_1*dy
+                + OFS_BUTTER_NUM_2*ofs_meas_dy_prev
+                + OFS_BUTTER_NUM_3*ofs_meas_dy_prev_prev
+                - OFS_BUTTER_DEN_2*ofs_filter_val_dy_prev;
+                - OFS_BUTTER_DEN_3*ofs_filter_val_dy_prev_prev;
+
+              ofs_meas_dy_prev_prev = ofs_meas_dy_prev;
+              ofs_meas_dy_prev = dy;
+              ofs_filter_val_dy_prev_prev = ofs_filter_val_dy_prev;
+              ofs_filter_val_dy_prev = ofs_filter_val_dy;
+
+              ofs_itgr_x += dx;
+              ofs_itgr_x += dy;
+
+	      DOWNLINK_SEND_OFLOW_DATA(DefaultChannel, &dx,&dy,&squal);
+	      DOWNLINK_SEND_FILTER2(DefaultChannel, &ofs_itgr_x,&ofs_itgr_y,0,0,0,0);
+
+
+	//dx      		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
+	//dy	 		 = (int8_t)optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DY);
+
+//	squal	 		 = optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_SQUAL);
+
+	/*ofs_filter_val_dx = OFS_BUTTER_NUM_1*dx
+          + OFS_BUTTER_NUM_2*ofs_meas_dx_prev
+          + OFS_BUTTER_NUM_3*ofs_meas_dx_prev_prev
+          - OFS_BUTTER_DEN_2*ofs_filter_val_dx_prev;
+          - OFS_BUTTER_DEN_3*ofs_filter_val_dx_prev_prev;
+
+
+        ofs_filter_val_dy = OFS_BUTTER_NUM_1*dy
+          + OFS_BUTTER_NUM_2*ofs_meas_dy_prev
+          + OFS_BUTTER_NUM_3*ofs_meas_dy_prev_prev
+          - OFS_BUTTER_DEN_2*ofs_filter_val_dy_prev;
+          - OFS_BUTTER_DEN_3*ofs_filter_val_dy_prev_prev;*/
 
 	//@TODO: maybe add filter?
 	//@TODO: maybe check squal?
 	//if (squal > OPTFLOW_ADNS3080_MIN_SQUAL)*/
 
 	//now we pull the CS low, and we should keep it low until the transfer is completed!
-	       /* OfSelect();
+	/*OfSelect();
 
 	       //wait until the TX buffer is sent. should not be necessary after SS toggle, just for safety
 	        while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
@@ -152,10 +234,10 @@ void optflow_ADNS3080_periodic( void ) {
 	        SPI_I2S_ReceiveData(SPI1);
 	        //sys_time_usleep(45);
 	        //sys_time_usleep(25);
-	        sys_time_usleep(2);
+	        //sys_time_usleep(2);
 
 
-	        sys_time_usleep(2);
+	        //sys_time_usleep(2);
 	         while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 	         SPI_I2S_SendData(SPI1, 0x00);
 	         //sys_time_usleep(25);
@@ -165,26 +247,60 @@ void optflow_ADNS3080_periodic( void ) {
 	         //sys_time_usleep(5);
 	         dx = SPI_I2S_ReceiveData(SPI1);
 	         sys_time_usleep(2);
-	                          while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	                          SPI_I2S_SendData(SPI1, 0x00);
+	                    //      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	                     //     SPI_I2S_SendData(SPI1, 0x00);
 	         //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
 	                         //sys_time_usleep(75);
 	                         //sys_time_usleep(5);
 	                         dy = SPI_I2S_ReceiveData(SPI1);
 
-	                         while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	                                                           SPI_I2S_SendData(SPI1, 0x00);
-	                                          //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	                       // while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	                       //                                    SPI_I2S_SendData(SPI1, 0x00);
+	                          while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
 	                                                          //sys_time_usleep(75);
 	                                                          //sys_time_usleep(5);
-	                                                          squal = SPI_I2S_ReceiveData(SPI1);
+	                                                          squal = SPI_I2S_ReceiveData(SPI1);*/
         //sys_time_usleep(12);*/
+	//dx=optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION_BURST);
+	//optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION_BURST);
+	//dy=optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION_BURST);
+	//squal=optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_MOTION_BURST);
+	//sys_time_usleep(75);
+	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+	//SPI_I2S_SendData(SPI1, 0xff);
+	//while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+	//dy = SPI_I2S_ReceiveData(SPI1);
+	//sys_time_usleep(75);
+	//squal = SPI_I2S_ReceiveData(SPI1);
+	//dy=optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
+	//dx=optflow_ADNS3080_readRegister(OPTFLOW_ADNS3080_ADDR_DX);
 
-        //OfUnselect();
+
+      OfSelect();
+
+      //wait until the TX buffer is sent. should not be necessary after SS toggle, just for safety
+      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+
+      SPI_I2S_SendData(SPI1, OPTFLOW_ADNS3080_ADDR_MOTION_BURST);
+      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+      //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 
 
+      sys_time_usleep(2);
 
-	DOWNLINK_SEND_OFLOW_DATA(DefaultChannel, &dx,&dy,&squal);
+      //destroy garabage
+      SPI_I2S_ReceiveData(SPI1);
+
+      //sys_time_usleep(45);
+      //sys_time_usleep(25);
+      //sys_time_usleep(2);
+      while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+      SPI_I2S_SendData(SPI1, 0x00);
+      //sys_time_usleep(25);
+      //sys_time_usleep(5);
+      //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+    //sys_time_usleep(75);
+      //sys_time_usleep(5);
 }
 
 
@@ -219,33 +335,34 @@ void optflow_ADNS3080_test( void ) {
 }
 
 uint8_t optflow_ADNS3080_readRegister( uint8_t addr) {
-	OfSelect();
+  OfSelect();
 
-	//wait until the TX buffer is sent. should not be necessary after SS toggle, just for safety
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+  //wait until the TX buffer is sent. should not be necessary after SS toggle, just for safety
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 
-	SPI_I2S_SendData(SPI1, addr);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-	////while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+  SPI_I2S_SendData(SPI1, addr);
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+  ////while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
 
-	//maybe?
-	//sys_time_usleep(50);
+  //maybe?
+  //sys_time_usleep(50);
 
-	//sys_time_usleep(75);
-	SPI_I2S_ReceiveData(SPI1);
-	//sys_time_usleep(45);
-	//sys_time_usleep(25);
-	sys_time_usleep(2);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
-	SPI_I2S_SendData(SPI1, 0x00);
-	sys_time_usleep(25);
-	//sys_time_usleep(5);
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-	//sys_time_usleep(75);
-	//sys_time_usleep(5);
-	uint8_t val = SPI_I2S_ReceiveData(SPI1);
-	OfUnselect();
-	return val;
+  sys_time_usleep(2);
+  //destroy garabage
+  SPI_I2S_ReceiveData(SPI1);
+  //sys_time_usleep(45);
+  //sys_time_usleep(25);
+  //sys_time_usleep(2);
+  while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET);
+  SPI_I2S_SendData(SPI1, 0x00);
+  //sys_time_usleep(25);
+  //sys_time_usleep(5);
+  //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+  sys_time_usleep(75);
+  //sys_time_usleep(5);
+  uint8_t val = SPI_I2S_ReceiveData(SPI1);
+  //OfUnselect();
+  return val;
 }
 
 
