@@ -2,20 +2,20 @@
 <airframe>
   <section name="TOYTRONICS_STAB_GAINS" prefix="TOYTRONICS_STAB_GAINS_">
     <!-- hover gains -->
-    <define name="HOVER_X_P"      value="-216"/>
+    <define name="HOVER_X_P"      value="-500"/>
     <define name="HOVER_X_I"      value="0"/>
-    <define name="HOVER_X_D"      value="-624"/>
-    <define name="HOVER_X_DD"     value="200"/>
+    <define name="HOVER_X_D"      value="-200"/>
+    <define name="HOVER_X_DD"     value="0"/>
 
-    <define name="HOVER_Y_P"      value="-717"/>
-    <define name="HOVER_Y_I"      value="-29"/>
-    <define name="HOVER_Y_D"      value="-552"/>
-    <define name="HOVER_Y_DD"     value="300"/>
+    <define name="HOVER_Y_P"      value="-1200"/>
+    <define name="HOVER_Y_I"      value="-20"/>
+    <define name="HOVER_Y_D"      value="-570"/>
+    <define name="HOVER_Y_DD"     value="200"/>
 
-    <define name="HOVER_Z_P"      value="-1859"/>
-    <define name="HOVER_Z_I"      value="-103"/>
-    <define name="HOVER_Z_D"      value="-2724"/>
-    <define name="HOVER_Z_DD"     value="300"/>
+    <define name="HOVER_Z_P"      value="-3900"/>
+    <define name="HOVER_Z_I"      value="-20"/>
+    <define name="HOVER_Z_D"      value="-2200"/>
+    <define name="HOVER_Z_DD"     value="200"/>
 
     <!-- forward gains -->
     <define name="FORWARD_X_P"      value="-456"/>
