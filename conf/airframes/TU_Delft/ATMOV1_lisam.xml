@@ -7,10 +7,10 @@
   <servos min="0" neutral="0" max="0xff">
     <!-- Plus configuration, similar to the convention shown in http://paparazzi.enac.fr/wiki/Rotorcraft_Configuration -->
     <!-- Direction of rotation is opposite to that of the convention for engines HB and WL -->
-    <servo name="HB"            no="0" min="1100" neutral="1100" max="2300"/>	<!-- Hover prop bottom -->
-    <servo name="HT"            no="1" min="1100" neutral="1100" max="2300"/>	<!-- Hover prop top -->
-    <servo name="WL"            no="2" min="1100" neutral="1100" max="2300"/>	<!-- Wingtip prop left -->
-    <servo name="WR"            no="3" min="1100" neutral="1100" max="2300"/>	<!-- Wingtip prop right --> 
+    <servo name="HB"            no="0" min="1050" neutral="1050" max="2300"/>	<!-- Hover prop bottom -->
+    <servo name="HT"            no="1" min="1050" neutral="1050" max="2300"/>	<!-- Hover prop top -->
+    <servo name="WL"            no="2" min="1050" neutral="1050" max="2300"/>	<!-- Wingtip prop left -->
+    <servo name="WR"            no="3" min="1050" neutral="1050" max="2300"/>	<!-- Wingtip prop right --> 
 
     <servo name="AILEVON_LEFT"  no="4" min="1000" neutral="1500" max="2000"/>
     <servo name="AILEVON_RIGHT" no="6" min="1000" neutral="1500" max="2000"/>
@@ -82,7 +82,7 @@
     <let var="forward_right" 	   value="0.8 * (3 * $aileron_feedback_right + 2 * $elevator_feedback_right)"/>-->
 
     <!--************ Map laws to correct modes - probably don't edit this (actually: do fix this) ****************-->
-    <set servo="AILEVON_LEFT"   value="+@ROLL * (9600 + @RC_THRUST)/9600" />
+    <set servo="AILEVON_LEFT"   value="-@ROLL * (9600 + @RC_THRUST)/9600" />
     <set servo="AILEVON_RIGHT"  value="-@ROLL * (9600 + @RC_THRUST)/9600" />
     <!-- ****** Not yet defined ***** -->
     <!-- <set servo="RUDDER"   value=""/> -->
@@ -100,7 +100,7 @@
  </section>
 
   <section name="SUPERVISION" prefix="SUPERVISION_">
-    <define name="MIN_MOTOR" value="1180"/>
+    <define name="MIN_MOTOR" value="1050"/>
     <define name="MAX_MOTOR" value="2300"/>
     <define name="TRIM_A" value="0"/>
     <define name="TRIM_E" value="0"/>
@@ -109,10 +109,10 @@
     <define name="SCALE" value="256"/>
     <!-- Plus configuration, similar to the convention shown in http://paparazzi.enac.fr/wiki/Rotorcraft_Configuration -->
     <!-- Direction of rotation is opposite to that of the convention for engines HB and WL -->
-    <define name="PITCH_COEF"  value="{    0,    0,  256, -256 }"/>
-    <define name="ROLL_COEF"   value="{  256, -256,    0,    0 }"/>
-    <define name="YAW_COEF"    value="{  256, -256,  256, -256 }"/>
-    <define name="THRUST_COEF" value="{  256,  256,  256,  256 }"/>
+    <define name="PITCH_COEF"  value="{   256, -256,  0,    0  }"/>
+    <define name="YAW_COEF"   value="{     0,    0, 256, -256 }"/>
+    <define name="ROLL_COEF"    value="{  -20, 20,  -20, 20 }"/>
+    <define name="THRUST_COEF" value="{  240,  240,  256,  256 }"/>
   </section>
 
   <include href="conf/airframes/TU_Delft/calib/imu_lisam_033_atmov1.xml"/>
