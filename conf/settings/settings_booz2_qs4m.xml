@@ -45,7 +45,7 @@
     </dl_settings>
 
     <dl_settings NAME="Vert Loop">
-      <dl_setting var="guidance_v_kp" min="-600" step="1" max="0"   module="guidance/guidance_v" shortname="kp"/>
+      <dl_setting var="guidance_v_kp" min="-2000" step="1" max="0"   module="guidance/guidance_v" shortname="kp"/>
       <dl_setting var="guidance_v_kd" min="-600" step="1" max="0"   module="guidance/guidance_v" shortname="kd"/>
       <dl_setting var="guidance_v_ki" min="-300" step="1" max="0"   module="guidance/guidance_v" shortname="ki" handler="SetKi" />
       <dl_setting var="guidance_v_z_sp" min="-5" step="0.5" max="3" module="guidance/guidance_v" shortname="sp" unit="2e-8m" alt_unit="m" alt_unit_coef="0.00390625"/>
@@ -105,16 +105,16 @@
    </dl_settings>
 
     <dl_settings NAME="JT Hover Gains">
-      <dl_setting var="toytronics_hover_gains.p.x" min="-4000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="x p hover" />
-      <dl_setting var="toytronics_hover_gains.d.x" min="-2000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="x d hover"/>
+      <dl_setting var="toytronics_hover_gains.p.x" min="-6000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="x p hover" />
+      <dl_setting var="toytronics_hover_gains.d.x" min="-4000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="x d hover"/>
       <dl_setting var="toytronics_hover_gains.i.x" min="-300"  step="1" max="0"    module="toytronics/toytronics_setpoint" shortname="x i hover" />
       <dl_setting var="toytronics_hover_gains.dd.x" min="0"    step="1" max="1000" module="toytronics/toytronics_setpoint" shortname="x dd hover"/>
-      <dl_setting var="toytronics_hover_gains.p.y" min="-2000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="y p hover"/>
+      <dl_setting var="toytronics_hover_gains.p.y" min="-3000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="y p hover"/>
       <dl_setting var="toytronics_hover_gains.d.y" min="-2000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="y d hover"/>
       <dl_setting var="toytronics_hover_gains.i.y" min="-300"  step="1" max="0"    module="toytronics/toytronics_setpoint" shortname="y i hover"/>
       <dl_setting var="toytronics_hover_gains.dd.y" min="0"    step="1" max="500"  module="toytronics/toytronics_setpoint" shortname="y dd hover"/>
-      <dl_setting var="toytronics_hover_gains.p.z" min="-4000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="z p hover"/>
-      <dl_setting var="toytronics_hover_gains.d.z" min="-8000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="z d hover"/>
+      <dl_setting var="toytronics_hover_gains.p.z" min="-6000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="z p hover"/>
+      <dl_setting var="toytronics_hover_gains.d.z" min="-9000" step="1" max="-1"   module="toytronics/toytronics_setpoint" shortname="z d hover"/>
       <dl_setting var="toytronics_hover_gains.i.z" min="-800"  step="1" max="0"    module="toytronics/toytronics_setpoint" shortname="z i hover"/>
       <dl_setting var="toytronics_hover_gains.dd.z" min="0"    step="1" max="2000"  module="toytronics/toytronics_setpoint" shortname="z dd hover"/>
     </dl_settings>

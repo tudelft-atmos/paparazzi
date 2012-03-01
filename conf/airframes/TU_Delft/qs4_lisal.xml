@@ -31,9 +31,9 @@
     <define name="MODE_AUTO1"  value="AP_MODE_TOYTRONICS_FORWARD"/>
     
     <!-- voor test buiten -->
-    <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_Z_HOLD"/>
+    <!--<define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_Z_HOLD"/>-->
     <!--<define name="MODE_AUTO2"  value="AP_MODE_TOYTRONICS_AEROBATIC"/>-->
-    
+    <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_RC_CLIMB"/>
 
     <!-- <define name="MODE_AUTO1" value="AP_MODE_TOYTRONICS_AEROBATIC"/> -->
     <!--<define name="MODE_AUTO2"  value="AP_MODE_TOYTRONICS_AEROBATIC"/>-->
@@ -69,8 +69,8 @@
     <let var="aileron_feedback_right" value="+@ROLL * (9600 + @RC_THRUST)/9600"/>
 
     <!-- elevator feedback -->
-    <let var="elevator_feedback_left"  value="-@PITCH * (9600 + @RC_THRUST)/9600"/>
-    <let var="elevator_feedback_right" value="+@PITCH * (9600 + @RC_THRUST)/9600"/>
+    <let var="elevator_feedback_left"  value="+@PITCH * (9600 + @RC_THRUST)/9600"/>
+    <let var="elevator_feedback_right" value="-@PITCH * (9600 + @RC_THRUST)/9600"/>
 
     <!--************* which mode uses which mixing strategy - edit this for configuration ****************-->
     <!-- mode hover -->
@@ -216,9 +216,9 @@
    <define name="REF_MAX_ZDD"  value=" 0.5*9.81"/>
    <define name="REF_MIN_ZD"   value="-1.5"/>
    <define name="REF_MAX_ZD"   value=" 1.5"/>
-   <define name="HOVER_KP"    value="-550"/>
-   <define name="HOVER_KD"    value="-480"/>
-   <define name="HOVER_KI"    value="-30"/>
+   <define name="HOVER_KP"    value="-850"/>
+   <define name="HOVER_KD"    value="-280"/>
+   <define name="HOVER_KI"    value="-20"/>
    <!-- 1.5m/s for full stick : BOOZ_SPEED_I_OF_F(1.5) / (MAX_PPRZ/2) -->
    <define name="RC_CLIMB_COEF" value ="163"/>
    <!-- BOOZ_SPEED_I_OF_F(1.5) * 20% -->
@@ -265,6 +265,7 @@
       <configure name="ADC_CHANNEL_GENERIC2" value="0"/>
    </load>
    <!--<load name="opticflow_ADNS3080.xml"/>-->
+    <load name="sonar_maxbotix_MB12XX.xml"/>
  </modules>
 
   <firmware name="rotorcraft">

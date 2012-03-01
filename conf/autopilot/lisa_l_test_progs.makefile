@@ -831,3 +831,108 @@ test_settings.CFLAGS += -DDATALINK=PPRZ -DPPRZ_UART=$(MODEM_PORT)
 test_settings.srcs   += subsystems/settings.c
 test_settings.srcs   += $(SRC_ARCH)/subsystems/settings_arch.c
 test_settings.CFLAGS += -DUSE_PERSISTENT_SETTINGS
+
+
+#
+# test_adns3080_hispeed : Sends ALIVE telemetry messages
+#
+# configuration
+#   MODEM_PORT :
+#   MODEM_BAUD :
+#   DOWNLINK_TRANSPORT :
+#   DATALINK  :
+#
+test_adns3080_hispeed.ARCHDIR = $(ARCH)
+test_adns3080_hispeed.CFLAGS += -I$(SRC_LISA) -I$(SRC_ARCH) -DPERIPHERALS_AUTO_INIT -DUSE_OPTFLOW_ADNS3080
+test_adns3080_hispeed.CFLAGS += -DBOARD_CONFIG=$(BOARD_CFG)
+test_adns3080_hispeed.srcs = $(SRC_AIRBORNE)/mcu.c \
+                 $(SRC_ARCH)/mcu_arch.c \
+                 test/test_adns3080_hispeed.c            \
+                 $(SRC_ARCH)/stm32_exceptions.c   \
+                 $(SRC_ARCH)/stm32_vector_table.c \
+                 $(SRC_AIRBORNE)/modules/opticflow/opticflow_ADNS3080.c \
+                 $(SRC_AIRBORNE)/xbee.c \
+                 $(SRC_AIRBORNE)/downlink.c 
+test_adns3080_hispeed.CFLAGS += -DUSE_LED
+test_adns3080_hispeed.srcs += $(SRC_ARCH)/led_hw.c
+test_adns3080_hispeed.srcs   += $(SRC_ARCH)/mcu_periph/uart_arch.c
+test_adns3080_hispeed.srcs += $(SRC_AIRBORNE)/mcu_periph/uart.c
+test_adns3080_hispeed.CFLAGS += -DUSE_SYS_TIME
+test_adns3080_hispeed.CFLAGS += -DPERIODIC_TASK_PERIOD='SYS_TICS_OF_SEC(1./2048.)'
+test_adns3080_hispeed.CFLAGS += -DSYS_TIME_LED=$(SYS_TIME_LED)
+test_adns3080_hispeed.srcs   += sys_time.c $(SRC_ARCH)/sys_time_hw.c
+test_adns3080_hispeed.CFLAGS += -DUSE_$(MODEM_PORT)
+test_adns3080_hispeed.CFLAGS += -D$(MODEM_PORT)_BAUD=$(MODEM_BAUD)
+test_adns3080_hispeed.CFLAGS += -DXBEE_UART=$(MODEM_PORT)
+test_adns3080_hispeed.CFLAGS += -DDATALINK=XBEE
+test_adns3080_hispeed.CFLAGS += -DDOWNLINK -DDOWNLINK_TRANSPORT=XBeeTransport -DDOWNLINK_DEVICE=$(MODEM_PORT)
+
+#
+# test_adns3080_capture : Sends ALIVE telemetry messages
+#
+# configuration
+#   MODEM_PORT :
+#   MODEM_BAUD :
+#   DOWNLINK_TRANSPORT :
+#   DATALINK  :
+#
+test_adns3080_capture.ARCHDIR = $(ARCH)
+test_adns3080_capture.CFLAGS += -I$(SRC_LISA) -I$(SRC_ARCH) -DPERIPHERALS_AUTO_INIT -DUSE_OPTFLOW_ADNS3080
+test_adns3080_capture.CFLAGS += -DBOARD_CONFIG=$(BOARD_CFG)
+test_adns3080_capture.srcs = $(SRC_AIRBORNE)/mcu.c \
+                 $(SRC_ARCH)/mcu_arch.c \
+                 test/test_adns3080_capture.c            \
+                 $(SRC_ARCH)/stm32_exceptions.c   \
+                 $(SRC_ARCH)/stm32_vector_table.c \
+                 $(SRC_AIRBORNE)/modules/opticflow/opticflow_ADNS3080.c \
+                 $(SRC_AIRBORNE)/xbee.c \
+                 $(SRC_AIRBORNE)/downlink.c 
+test_adns3080_capture.CFLAGS += -DUSE_LED
+test_adns3080_capture.srcs += $(SRC_ARCH)/led_hw.c
+test_adns3080_capture.srcs   += $(SRC_ARCH)/mcu_periph/uart_arch.c
+test_adns3080_capture.srcs += $(SRC_AIRBORNE)/mcu_periph/uart.c
+test_adns3080_capture.CFLAGS += -DUSE_SYS_TIME
+test_adns3080_capture.CFLAGS += -DPERIODIC_TASK_PERIOD='SYS_TICS_OF_SEC(1./2048.)'
+test_adns3080_capture.CFLAGS += -DSYS_TIME_LED=$(SYS_TIME_LED)
+test_adns3080_capture.srcs   += sys_time.c $(SRC_ARCH)/sys_time_hw.c
+test_adns3080_capture.CFLAGS += -DUSE_$(MODEM_PORT)
+test_adns3080_capture.CFLAGS += -D$(MODEM_PORT)_BAUD=$(MODEM_BAUD)
+test_adns3080_capture.CFLAGS += -DXBEE_UART=$(MODEM_PORT)
+test_adns3080_capture.CFLAGS += -DDATALINK=XBEE
+test_adns3080_capture.CFLAGS += -DDOWNLINK -DDOWNLINK_TRANSPORT=XBeeTransport -DDOWNLINK_DEVICE=$(MODEM_PORT)
+
+
+#
+# test_maxbotics12 : @TODO description
+#
+# configuration
+#   MODEM_PORT :
+#   MODEM_BAUD :
+#   DOWNLINK_TRANSPORT :
+#   DATALINK  :
+#
+test_maxbotics12.ARCHDIR = $(ARCH)
+test_maxbotics12.CFLAGS += -I$(SRC_LISA) -I$(SRC_ARCH) -DPERIPHERALS_AUTO_INIT -DUSE_TIM1_IRQ
+test_maxbotics12.CFLAGS += -DBOARD_CONFIG=$(BOARD_CFG)
+test_maxbotics12.srcs = $(SRC_AIRBORNE)/mcu.c \
+                 $(SRC_ARCH)/mcu_arch.c \
+                 test/test_maxbotics12.c            \
+                 $(SRC_ARCH)/stm32_exceptions.c   \
+                 $(SRC_ARCH)/stm32_vector_table.c \
+                 $(SRC_AIRBORNE)/modules/sonar/sonar_maxbotix_MB12XX_PWM.c \
+                 $(SRC_AIRBORNE)/xbee.c \
+                 $(SRC_AIRBORNE)/downlink.c 
+test_maxbotics12.CFLAGS += -DUSE_LED
+test_maxbotics12.srcs += $(SRC_ARCH)/led_hw.c
+test_maxbotics12.srcs   += $(SRC_ARCH)/mcu_periph/uart_arch.c
+test_maxbotics12.srcs += $(SRC_AIRBORNE)/mcu_periph/uart.c
+test_maxbotics12.CFLAGS += -DUSE_SYS_TIME
+test_maxbotics12.CFLAGS += -DPERIODIC_TASK_PERIOD='SYS_TICS_OF_SEC(1./512.)'
+test_maxbotics12.CFLAGS += -DSYS_TIME_LED=$(SYS_TIME_LED)
+test_maxbotics12.srcs   += sys_time.c $(SRC_ARCH)/sys_time_hw.c
+test_maxbotics12.CFLAGS += -DUSE_$(MODEM_PORT)
+test_maxbotics12.CFLAGS += -D$(MODEM_PORT)_BAUD=$(MODEM_BAUD)
+test_maxbotics12.CFLAGS += -DXBEE_UART=$(MODEM_PORT)
+test_maxbotics12.CFLAGS += -DDATALINK=XBEE
+test_maxbotics12.CFLAGS += -DDOWNLINK -DDOWNLINK_TRANSPORT=XBeeTransport -DDOWNLINK_DEVICE=$(MODEM_PORT)
+

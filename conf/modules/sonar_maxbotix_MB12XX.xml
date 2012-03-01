@@ -1,0 +1,16 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="sonar">
+  <header>
+    <file name="sonar_maxbotix_MB12XX_PWM.h"/>
+  </header>
+  <init fun="maxbotix12_init()"/>
+  <makefile>
+    <file name="sonar_maxbotix_MB12XX_PWM.c"/>
+    <define name="USE_TIM1_IRQ"/>
+    <define name="USE_SONAR"/>
+    <define name="USE_VFF"/>
+    <define name="SONAR_NO_INS_FILTER"/>
+  </makefile>
+
+</module>

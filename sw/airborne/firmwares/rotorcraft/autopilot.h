@@ -52,6 +52,8 @@
 #define AP_MODE_TOYTRONICS_AEROBATIC     		17
 #define AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_Z_HOLD 	18
 #define AP_MODE_TUDELFT_QUADSHOT_NAV 			19
+#define AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_RC_CLIMB 20
+
 
 extern uint8_t autopilot_mode;
 extern uint8_t autopilot_mode_auto2;

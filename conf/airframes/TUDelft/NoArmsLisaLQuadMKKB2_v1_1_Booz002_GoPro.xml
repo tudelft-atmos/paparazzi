@@ -158,17 +158,17 @@
     <define name="REF_MAX_RDOT" value="RadOfDeg(1800.)"/>
 
     <!-- feedback -->
-    <define name="PHI_PGAIN"  value="-3200"/>
-    <define name="PHI_DGAIN"  value="-600"/>
-    <define name="PHI_IGAIN"  value="-20"/>
+    <define name="PHI_PGAIN"  value="-1800"/>
+    <define name="PHI_DGAIN"  value="-520"/>
+    <define name="PHI_IGAIN"  value="-200"/>
 
-    <define name="THETA_PGAIN"  value="-3200"/>
-    <define name="THETA_DGAIN"  value="-600"/>
-    <define name="THETA_IGAIN"  value="-20"/>
+    <define name="THETA_PGAIN"  value="-1800"/>
+    <define name="THETA_DGAIN"  value="-520"/>
+    <define name="THETA_IGAIN"  value="-200"/>
 
-    <define name="PSI_PGAIN"  value="-1080"/>
-    <define name="PSI_DGAIN"  value="-635"/>
-    <define name="PSI_IGAIN"  value="-30"/>
+    <define name="PSI_PGAIN"  value="-900"/>
+    <define name="PSI_DGAIN"  value="-500"/>
+    <define name="PSI_IGAIN"  value="-55"/>
 
     <!-- feedforward -->
     <define name="PHI_DDGAIN"   value="300"/>
@@ -177,7 +177,7 @@
   </section>
 
   <section name="INS" prefix="INS_">
-    <define name="BARO_SENS" value="10." integer="16"/>
+    <define name="BARO_SENS" value="16." integer="16"/>
     <define name="UNTILT_ACCEL" value="1"/>
   </section>
 
@@ -193,9 +193,9 @@
     <define name="HOVER_KD"    value="-200"/>
     <define name="HOVER_KI"    value="0"/>
 -->
-    <define name="HOVER_KP"     value="-550"/>
-    <define name="HOVER_KD"     value="-300"/>
-    <define name="HOVER_KI"     value="-10"/>
+    <define name="HOVER_KP"     value="-1970"/>
+    <define name="HOVER_KD"     value="-150"/>
+    <define name="HOVER_KI"     value="-12"/>
 
     <!-- 1.5m/s for full stick : BOOZ_SPEED_I_OF_F(1.5) / (MAX_PPRZ/2) -->
     <define name="RC_CLIMB_COEF" value ="163"/>
@@ -205,8 +205,8 @@
   </section>
 
   <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-    <define name="PGAIN" value="-50"/>
-    <define name="DGAIN" value="-100"/>
+    <define name="PGAIN" value="-300"/>
+    <define name="DGAIN" value="-400"/>
     <define name="IGAIN" value="-15"/>
     <define name="NGAIN" value="-0"/>
   </section>
@@ -222,7 +222,9 @@
   </section>
 
   <modules main_freq="60">
-    <load name="gps_ubx_ucenter.xml"/>
+<!--    <load name="gps_ubx_ucenter.xml"/>-->
+    <load name="opticflow_ADNS3080.xml"/>
+    <load name="sonar_maxbotix_MB12XX.xml"/>
   </modules>
 <!--
   <modules main_freq="512">
@@ -256,6 +258,14 @@
     <!--<subsystem name="ahrs"          type="ic"/>
     <subsystem name="ins"           type="hff"/>-->
     <define name="MAG_UPDATE_YAW_ONLY" value="1"/>
+  </firmware>
+
+  <firmware name="lisa_l_test_progs">
+    <target name="test_adns3080_capture"                     board="lisa_l_1.0"/>
+    <target name="test_adns3080_hispeed"                     board="lisa_l_1.0"/>
+<target name="test_uart"                board="lisa_l_1.0"/>
+<target name="test_uart_lisal"                board="lisa_l_1.0"/>
+<target name="test_maxbotics12"                board="lisa_l_1.0"/>
   </firmware>
 
 </airframe>

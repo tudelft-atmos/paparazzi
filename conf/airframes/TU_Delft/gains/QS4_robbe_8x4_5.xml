@@ -18,7 +18,7 @@
     <define name="HOVER_Z_DD"     value="300"/>
 
     <!-- forward gains -->
-    <define name="FORWARD_X_P"      value="-456"/>
+  <!--  <define name="FORWARD_X_P"      value="-456"/>
     <define name="FORWARD_X_I"      value="-10"/>
     <define name="FORWARD_X_D"      value="-153"/>
     <define name="FORWARD_X_DD"     value="0"/>
@@ -31,7 +31,24 @@
     <define name="FORWARD_Z_P"      value="-315"/>
     <define name="FORWARD_Z_I"      value="-0"/>
     <define name="FORWARD_Z_D"      value="-254"/>
+    <define name="FORWARD_Z_DD"     value="0"/>-->
+
+
+    <define name="FORWARD_X_P"      value="-920"/>
+    <define name="FORWARD_X_I"      value="-25"/>
+    <define name="FORWARD_X_D"      value="-320"/>
+    <define name="FORWARD_X_DD"     value="0"/>
+
+    <define name="FORWARD_Y_P"      value="-400"/>
+    <define name="FORWARD_Y_I"      value="-0"/>
+    <define name="FORWARD_Y_D"      value="-280"/>
+    <define name="FORWARD_Y_DD"     value="0"/>
+
+    <define name="FORWARD_Z_P"      value="-350"/>
+    <define name="FORWARD_Z_I"      value="-0"/>
+    <define name="FORWARD_Z_D"      value="-600"/>
     <define name="FORWARD_Z_DD"     value="0"/>
+
 
     <!-- aerobatic gains -->
     <define name="AEROBATIC_X_P"      value="-456"/>
