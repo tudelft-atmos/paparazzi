@@ -113,7 +113,7 @@ void guidance_h_mode_changed(uint8_t new_mode) {
   case GUIDANCE_H_MODE_TOYTRONICS_HOVER_FORWARD:
   case GUIDANCE_H_MODE_TOYTRONICS_FORWARD:
   case GUIDANCE_H_MODE_TOYTRONICS_AEROBATIC:
-  case GUIDANCE_H_MODE_TUDELFT_ATMOV_HOVER_Z_HOLD:
+  case GUIDANCE_H_MODE_TUDELFT_ATMOV_HOVER:
     toytronics_mode_exit(guidance_h_mode);
     break;
 #endif
