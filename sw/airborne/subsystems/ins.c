@@ -178,8 +178,41 @@ void ins_propagate() {
   INT32_VECT3_ENU_OF_NED(ins_enu_accel, ins_ltp_accel);
 }
 
+#ifdef INS_SONAR_HACK
 void ins_update_baro() { }
+#else
+void ins_update_baro() {
+#ifdef USE_VFF
+  if (baro.status == BS_RUNNING) {
+    if (!ins_baro_initialised) {
+      ins_qfe = baro.absolute;
+      ins_baro_initialised = TRUE;
+    }
+    ins_baro_alt = ((baro.absolute - ins_qfe) * INS_BARO_SENS_NUM)/INS_BARO_SENS_DEN;
+    float alt_float = POS_FLOAT_OF_BFP(ins_baro_alt);
+    if (ins_vf_realign) {
+      ins_vf_realign = FALSE;
+      ins_qfe = baro.absolute;
+#ifdef USE_SONAR
+      ins_sonar_offset = sonar_meas;
+#endif
+      vff_realign(0.);
+      ins_ltp_accel.z = ACCEL_BFP_OF_REAL(vff_zdotdot);
+      ins_ltp_speed.z = SPEED_BFP_OF_REAL(vff_zdot);
+      ins_ltp_pos.z = POS_BFP_OF_REAL(vff_z);
+      ins_enu_pos.z = -ins_ltp_pos.z;
+      ins_enu_speed.z = -ins_ltp_speed.z;
+      ins_enu_accel.z = -ins_ltp_accel.z;
+    }
+    vff_update(alt_float);
+  }
+#endif
+}
+#endif /* INS_SONAR_HACK */
 
+#ifndef INS_SONAR_HACK
+void ins_update_sonar() { }
+#else
 void ins_update_sonar() {
 #ifdef USE_VFF
   if (baro.status == BS_RUNNING) {
@@ -206,7 +239,7 @@ void ins_update_sonar() {
   }
 #endif
 }
-
+#endif  /* INS_SONAR_HACK */
 
 void ins_update_gps(void) {
 #ifdef USE_GPS

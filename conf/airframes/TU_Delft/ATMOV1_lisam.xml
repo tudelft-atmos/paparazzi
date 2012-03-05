@@ -31,7 +31,7 @@
   <section name="AUTOPILOT">
     <define name="MODE_MANUAL" value="AP_MODE_TOYTRONICS_HOVER_FORWARD"/>
     <define name="MODE_AUTO1"  value="AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_RC_CLIMB"/>
-    <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_QUADSHOT_NAV"/>
+    <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_ATMOV_HOVER_Z_HOLD"/>
 
     <define name="AUTOPILOT_KILL_WITHOUT_AHRS"  value="TRUE"/>
     <define name="AUTOPILOT_INSTANT_START_WITH_SAFETIES"  value="TRUE"/> 
@@ -203,15 +203,15 @@
    <define name="REF_MAX_ZDD"  value=" 0.5*9.81"/>
    <define name="REF_MIN_ZD"   value="-1.5"/>
    <define name="REF_MAX_ZD"   value=" 1.5"/>
-   <define name="HOVER_KP"    value="-550"/>
-   <define name="HOVER_KD"    value="-480"/>
-   <define name="HOVER_KI"    value="-30"/>
+   <define name="HOVER_KP"    value="-800"/>
+   <define name="HOVER_KD"    value="-600"/>
+   <define name="HOVER_KI"    value="-50"/>
    <!-- 1.5m/s for full stick : BOOZ_SPEED_I_OF_F(1.5) / (MAX_PPRZ/2) -->
    <define name="RC_CLIMB_COEF" value ="163"/>
    <!-- BOOZ_SPEED_I_OF_F(1.5) * 20% -->
    <define name="RC_CLIMB_DEAD_BAND" value ="160000"/>
    <!--<define name="INV_M" value ="0.21"/>-->
-   <define name="INV_M" value ="0.2"/>
+   <define name="INV_M" value ="0.28"/>
   </section>
 
   <section name="AHRS" prefix="AHRS_">
@@ -245,14 +245,14 @@
  <!--<include href="conf/airframes/esden/camera_mount.xml"/>-->
 
  <modules main_freq="512">
-   <load name="battery_buzzer.xml"/>
+   <!-- <load name="battery_buzzer.xml"/> -->
    <!-- <load name="quadshot_nav_mode_change.xml"/> -->
    <load name="adc_generic.xml">
       <configure name="ADC_CHANNEL_GENERIC1" value="1"/>
       <configure name="ADC_CHANNEL_GENERIC2" value="0"/>
    </load>
    <!--<load name="opticflow_ADNS3080.xml"/>-->
-   <load name="sonar_maxbotix_MB12XX.xml"/>
+   <!--<load name="sonar_maxbotix_MB12XX.xml"/>-->
  </modules>
 
   <firmware name="rotorcraft">

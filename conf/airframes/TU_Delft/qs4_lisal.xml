@@ -203,6 +203,7 @@
   </section>
 
   <section name="INS" prefix="INS_">
+    <define name="SONAR_HACK" value="TRUE"/>
     <define name="BARO_SENS" value="16" integer="16"/>
   </section>
 
