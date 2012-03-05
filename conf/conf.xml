@@ -241,7 +241,7 @@
   />
   <aircraft
    name="NoArmsQuad"
-   ac_id="28"
+   ac_id="45"
    airframe="airframes/TUDelft/NoArmsLisaLQuadMKKB2_v1_1_Booz002_GoPro.xml"
    radio="radios/R6107SP_7ch.xml"
    telemetry="telemetry/telemetry_booz2.xml"
