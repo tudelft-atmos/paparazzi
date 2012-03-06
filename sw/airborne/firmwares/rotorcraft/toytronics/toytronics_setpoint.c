@@ -17,7 +17,7 @@ xyz_t setpoint_incremental_bounds_deg = { SETPOINT_MODE_2_BOUND_QUAT_DEG_X,
                                           SETPOINT_MODE_2_BOUND_QUAT_DEG_Y,
                                           SETPOINT_MODE_2_BOUND_QUAT_DEG_Z};
 
-xyz_t setpoint_aerobatic_decay_time = {0.3, 0.3, 0.3};
+xyz_t setpoint_aerobatic_decay_time = {0.2, 0.3, 0.2};
 
 double setpoint_absolute_heading_bound_deg = SETPOINT_BOUND_ERROR_HEADING_DEG;
 double hover_pitch_trim_deg = SETPOINT_HOVER_PITCH_TRIM_DEG;
@@ -424,9 +424,9 @@ toytronics_set_sp_hover_forward_from_rc()
   // bound heading error
   double heading_error = setpoint.setpoint_heading - setpoint.estimated_heading;
   wrap_to_pi(&heading_error);
-  BOUND(heading_error, -setpoint_absolute_heading_bound_deg*M_PI/180.0, setpoint_absolute_heading_bound_deg*M_PI/180.0);
+  BOUND(heading_error, -1.0, 1.0);
   //********heading error decay*****************
-  heading_error = 0.975*heading_error;
+  heading_error = 0.999*heading_error; // - 0.2*M_PI/180;
   //********************************************
   setpoint.setpoint_heading = setpoint.estimated_heading + heading_error;
   wrap_to_pi(&setpoint.setpoint_heading);
