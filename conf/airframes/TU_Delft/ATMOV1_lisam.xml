@@ -31,7 +31,7 @@
   <section name="AUTOPILOT">
     <define name="MODE_MANUAL" value="AP_MODE_TOYTRONICS_HOVER_FORWARD"/>
     <define name="MODE_AUTO1"  value="AP_MODE_TUDELFT_QUADSHOT_HOVER_FORWARD_RC_CLIMB"/>
-    <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_ATMOV_HOVER_Z_HOLD"/>
+    <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_ATMOV_HOVER_FORWARD_Z_HOLD"/>
 
     <define name="AUTOPILOT_KILL_WITHOUT_AHRS"  value="TRUE"/>
     <define name="AUTOPILOT_INSTANT_START_WITH_SAFETIES"  value="TRUE"/> 
