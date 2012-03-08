@@ -52,7 +52,7 @@
    BATT PC4/ADC14
 */
 #define BOARD_ADC_CHANNEL_1 ADC_Channel_13
-#define BOARD_ADC_CHANNEL_2 ADC_Channel_0
+#define BOARD_ADC_CHANNEL_2 ADC_Channel_10
 // FIXME - removed for now and used for battery monitoring
 //#define BOARD_ADC_CHANNEL_3 ADC_Channel_10
 #define BOARD_ADC_CHANNEL_3 ADC_Channel_14
