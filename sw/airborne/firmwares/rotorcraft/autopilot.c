@@ -185,6 +185,7 @@ void autopilot_set_mode(uint8_t new_autopilot_mode) {
       guidance_h_mode_changed(GUIDANCE_H_MODE_TOYTRONICS_AEROBATIC);
       break;
     case AP_MODE_TUDELFT_ATMOV_HOVER_Z_HOLD:
+    case AP_MODE_TUDELFT_ATMOV_HOVER_GPS_DIRECT:
       guidance_h_mode_changed(GUIDANCE_H_MODE_TUDELFT_ATMOV_HOVER);
       break;
     default:
@@ -209,6 +210,7 @@ void autopilot_set_mode(uint8_t new_autopilot_mode) {
     case AP_MODE_TOYTRONICS_HOVER_FORWARD:
     case AP_MODE_TOYTRONICS_FORWARD:
     case AP_MODE_TOYTRONICS_AEROBATIC:
+    case AP_MODE_TUDELFT_ATMOV_HOVER_GPS_DIRECT:
       guidance_v_mode_changed(GUIDANCE_V_MODE_RC_DIRECT);
       break;
     case AP_MODE_RATE_RC_CLIMB:
