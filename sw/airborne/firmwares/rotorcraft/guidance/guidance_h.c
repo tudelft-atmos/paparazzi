@@ -208,6 +208,9 @@ void guidance_h_read_rc(bool_t  in_flight) {
   case GUIDANCE_H_MODE_TOYTRONICS_AEROBATIC:
     toytronics_set_sp_incremental_from_rc();
     break;
+  case GUIDANCE_H_MODE_TUDELFT_ATMOV_HOVER:
+    STABILIZATION_ATTITUDE_READ_RC(guidance_h_rc_sp, in_flight);
+    break;
 #endif
 
   case GUIDANCE_H_MODE_NAV:
@@ -254,6 +257,10 @@ void guidance_h_run(bool_t  in_flight) {
   case GUIDANCE_H_MODE_TOYTRONICS_AEROBATIC:
     stabilization_attitude_run(in_flight);
     break;
+  case GUIDANCE_H_MODE_TUDELFT_ATMOV_HOVER:
+    guidance_h_hover_run();
+    stabilization_attitude_run(in_flight);
+        break;
 #endif
 
   case GUIDANCE_H_MODE_NAV:
