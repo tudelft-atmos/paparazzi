@@ -158,6 +158,7 @@ void guidance_h_mode_changed(uint8_t new_mode) {
     break;
   case GUIDANCE_H_MODE_TUDELFT_ATMOV_HOVER:
     toytronics_mode_enter(GUIDANCE_H_MODE_TOYTRONICS_HOVER_FORWARD);
+    stabilization_attitude_enter();
     guidance_h_hover_enter();
     break;
 #endif
