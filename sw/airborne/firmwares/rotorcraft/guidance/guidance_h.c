@@ -209,7 +209,7 @@ void guidance_h_read_rc(bool_t  in_flight) {
     toytronics_set_sp_incremental_from_rc();
     break;
   case GUIDANCE_H_MODE_TUDELFT_ATMOV_HOVER:
-    STABILIZATION_ATTITUDE_READ_RC(guidance_h_rc_sp, in_flight);
+    toytronics_set_sp_hover_forward_from_rc();
     break;
 #endif
 
