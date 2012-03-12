@@ -249,8 +249,8 @@
    <!-- <load name="battery_buzzer.xml"/> -->
    <!-- <load name="quadshot_nav_mode_change.xml"/> -->
    <load name="adc_generic.xml">
-      <configure name="ADC_CHANNEL_GENERIC1" value="1"/>
-      <configure name="ADC_CHANNEL_GENERIC2" value="0"/>
+      <configure name="ADC_CHANNEL_GENERIC1" value="4"/>
+      <configure name="ADC_CHANNEL_GENERIC2" value="6"/>
    </load>
    <!--<load name="opticflow_ADNS3080.xml"/>-->
    <!--<load name="sonar_maxbotix_MB12XX.xml"/>-->

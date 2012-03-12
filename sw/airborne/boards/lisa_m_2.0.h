@@ -57,7 +57,7 @@
 //#define BOARD_ADC_CHANNEL_3 ADC_Channel_10
 #define BOARD_ADC_CHANNEL_3 ADC_Channel_14
 #define BOARD_ADC_CHANNEL_4 ADC_Channel_15
-
+#define BOARD_ADC_CHANNEL_6 ADC_Channel_12
 #define BOARD_HAS_BARO
 
 #define USE_OPENCM3
