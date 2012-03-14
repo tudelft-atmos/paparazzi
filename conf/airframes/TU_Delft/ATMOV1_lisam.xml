@@ -30,7 +30,7 @@
 
   <section name="AUTOPILOT">
     <define name="MODE_MANUAL" value="AP_MODE_TOYTRONICS_HOVER_FORWARD"/>
-    <define name="MODE_AUTO1"  value="AP_MODE_TUDELFT_ATMOV_HOVER_FORWARD_Z_HOLD"/>
+    <define name="MODE_AUTO1"  value="AP_MODE_TOYTRONICS_HOVER_FORWARD"/>
     <define name="MODE_AUTO2"  value="AP_MODE_TUDELFT_ATMOV_HOVER_GPS_DIRECT"/>
     
 
@@ -127,7 +127,7 @@
  <section name="BAT">
    <define name="MILLIAMP_PER_PERCENT" value="0.86"/>
    <define name="CATASTROPHIC_BAT_LEVEL" value="9.3" unit="V"/>
-   <define name="MIN_BAT_LEVEL" value="10.2" units="V"/>
+   <define name="MIN_BAT_LEVEL" value="11.3" units="V"/>
    <define name="BATTERY_SENS"   value="0.48" integer="16"/>
  </section>
 
@@ -230,8 +230,8 @@
   </section>
 
  <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-   <define name="PGAIN" value="-100"/>
-   <define name="DGAIN" value="-100"/>
+   <define name="PGAIN" value="-0"/>
+   <define name="DGAIN" value="-0"/>
    <define name="IGAIN" value="-0"/>
  </section>
 

@@ -355,7 +355,8 @@ __attribute__ ((always_inline)) static inline void  guidance_h_hover_run(void) {
 #endif /* STABILISATION_ATTITUDE_TYPE_FLOAT */
 
   EULERS_COPY(stab_att_sp_euler, guidance_h_command_body);
-  INT32_QUAT_OF_EULERS(stab_att_sp_quat,stab_att_sp_euler);
+  stab_att_sp_euler.theta += ANGLE_BFP_OF_REAL(M_PI_2);
+  //INT32_QUAT_OF_EULERS(stab_att_sp_quat,stab_att_sp_euler);
 }
 
 // 20 degres -> 367002 (0.35 << 20)
