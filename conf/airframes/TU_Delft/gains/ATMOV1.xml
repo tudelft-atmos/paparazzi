@@ -2,7 +2,7 @@
 <airframe>
   <section name="TOYTRONICS_STAB_GAINS" prefix="TOYTRONICS_STAB_GAINS_">
     <!-- hover gains -->
-    <define name="HOVER_X_P"      value="-665"/>
+    <define name="HOVER_X_P"      value="-645"/>
     <define name="HOVER_X_I"      value="-20"/>
     <define name="HOVER_X_D"      value="-678"/>
     <define name="HOVER_X_DD"     value="480"/>
@@ -18,20 +18,20 @@
     <define name="HOVER_Z_DD"     value="100"/>
 
     <!-- forward gains -->
-    <define name="FORWARD_X_P"      value="-456"/>
-    <define name="FORWARD_X_I"      value="-10"/>
-    <define name="FORWARD_X_D"      value="-153"/>
-    <define name="FORWARD_X_DD"     value="0"/>
+    <define name="FORWARD_X_P"      value="-625"/>
+    <define name="FORWARD_X_I"      value="-20"/>
+    <define name="FORWARD_X_D"      value="-648"/>
+    <define name="FORWARD_X_DD"     value="480"/>
 
-    <define name="FORWARD_Y_P"      value="-242"/>
-    <define name="FORWARD_Y_I"      value="-0"/>
-    <define name="FORWARD_Y_D"      value="-104"/>
-    <define name="FORWARD_Y_DD"     value="0"/>
+    <define name="FORWARD_Y_P"      value="-1040"/>
+    <define name="FORWARD_Y_I"      value="-20"/>
+    <define name="FORWARD_Y_D"      value="-1090"/>
+    <define name="FORWARD_Y_DD"     value="180"/>
 
-    <define name="FORWARD_Z_P"      value="-315"/>
-    <define name="FORWARD_Z_I"      value="-0"/>
-    <define name="FORWARD_Z_D"      value="-254"/>
-    <define name="FORWARD_Z_DD"     value="0"/>
+    <define name="FORWARD_Z_P"      value="-5360"/>
+    <define name="FORWARD_Z_I"      value="-40"/>
+    <define name="FORWARD_Z_D"      value="-4760"/>
+    <define name="FORWARD_Z_DD"     value="100"/>
 
     <!-- aerobatic gains -->
 
