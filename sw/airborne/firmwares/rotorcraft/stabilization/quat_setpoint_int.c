@@ -19,7 +19,9 @@
 #include "mcu_periph/uart.h"
 #include "subsystems/datalink/downlink.h"
 
+#ifndef QUAT_SETPOINT_HOVER_PITCH
 #define QUAT_SETPOINT_HOVER_PITCH RadOfDeg(90)
+#endif
 
 // reset to "hover" setpoint
 static void reset_sp_quat(int32_t _psi, int32_t _theta, struct Int32Quat *initial)
