@@ -1,5 +1,15 @@
 <conf>
   <aircraft
+   name="ATMOV1"
+   ac_id="2"
+   airframe="airframes/TUDelft/ATMOV1_lisam.xml"
+   radio="radios/R6107SP_7ch_xyz.xml"
+   telemetry="telemetry/dummy.xml"
+   flight_plan="flight_plans/dummy.xml"
+   settings=" settings/settings_booz2.xml"
+   gui_color="blue"
+  />
+  <aircraft
    name="AntennaTrackers"
    ac_id="10"
    airframe="airframes/TUDelft/antenna_tracker.xml"

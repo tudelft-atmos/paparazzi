@@ -42,6 +42,9 @@ bool_t   kill_throttle;
 bool_t   autopilot_rc;
 
 bool_t   autopilot_power_switch;
+bool_t   autopilot_first_boot;
+bool_t   autopilot_mode1_kill;
+bool_t   autopilot_rc_unkilled_startup;
 
 bool_t   autopilot_detect_ground;
 bool_t   autopilot_detect_ground_once;
@@ -74,6 +77,8 @@ void autopilot_init(void) {
   autopilot_flight_time = 0;
   autopilot_rc = TRUE;
   autopilot_power_switch = FALSE;
+  autopilot_rc_unkilled_startup = FALSE;
+  autopilot_first_boot = TRUE;
 #ifdef POWER_SWITCH_LED
   LED_ON(POWER_SWITCH_LED); // POWER OFF
 #endif
@@ -350,7 +355,7 @@ static inline void autopilot_check_motors_on( void ) {
       break;
   };
 }
-
+#endif
 
 void autopilot_on_rc_frame(void) {
 
