@@ -13,7 +13,7 @@
     <servo name="WR"            no="3" min="1050" neutral="1050" max="2300"/>	<!-- Wingtip prop right --> 
     <servo name="AILEVON_LEFT"  no="4" min="1000" neutral="1500" max="2000"/>
     <servo name="AILEVON_RIGHT" no="6" min="1000" neutral="1500" max="2000"/>
-    <servo name="RUDDER"  	    no="7" min="2000" neutral="1500" max="1000"/>
+    <servo name="RUDDER"  	no="7" min="2000" neutral="1500" max="1000"/>
   </servos>
 
   <commands>
@@ -23,6 +23,7 @@
     <axis name="THRUST"   failsafe_value="0"/>
     <axis name="RC_MODE"  failsafe_value="0"/>
     <axis name="RC_ROLL"  failsafe_value="0"/>
+    <axis name="RC_YAW"  failsafe_value="0"/>
     <axis name="RC_PITCH" failsafe_value="0"/>
     <axis name="RC_THRUST" failsafe_value="0"/>
   </commands>
@@ -38,6 +39,7 @@
 
   <rc_commands>
     <set command="RC_MODE"  value="@MODE < -1500 ? MODE_MANUAL : (@MODE > 1500 ? MODE_AUTO2 : MODE_AUTO1) "/>
+    <set command="RC_YAW"  value="@YAW"/>
     <set command="RC_ROLL"  value="@ROLL"/>
     <set command="RC_PITCH" value="@PITCH"/>
     <set command="RC_THRUST" value="@THROTTLE"/>
@@ -45,9 +47,9 @@
 
 
   <command_laws>
-    <set servo="AILEVON_LEFT"   value="-@ROLL * (9600 + @RC_THRUST)/9600" />
-    <set servo="AILEVON_RIGHT"  value="-@ROLL * (9600 + @RC_THRUST)/9600" />
-    <set servo="RUDDER"         value="@YAW"/>
+    <set servo="AILEVON_LEFT"   value="@RC_YAW/9600" />
+    <set servo="AILEVON_RIGHT"  value="@RC_YAW/9600" />
+    <set servo="RUDDER"         value="-@ROLL"/>
   </command_laws>
 
   <section name="ROTORCRAFT" prefix="ROTORCRAFT_">
@@ -66,16 +68,16 @@
     <!-- Plus configuration, similar to the convention shown in http://paparazzi.enac.fr/wiki/Rotorcraft_Configuration -->
     <!-- Direction of rotation is opposite to that of the convention for engines HB and WL -->
     <define name="PITCH_COEF"  	value="{   256, -256,    0,    0  }"/>
-    <define name="YAW_COEF"   	value="{     0,    0,  256, -256  }"/>
-    <define name="ROLL_COEF"    value="{   -20,   20,  -20,   20  }"/>
-    <define name="THRUST_COEF" 	value="{   240,  240,  256,  256  }"/>
+    <define name="ROLL_COEF"   	value="{     0,    0,  256, -256  }"/>
+    <define name="YAW_COEF"    value="{   -20,   20,  -20,   20  }"/>
+    <define name="THRUST_COEF" 	value="{   250,  250,  256,  256  }"/>
   </section>
 
   <include href="conf/airframes/TUDelft/calib/imu_lisam_033_atmov1.xml"/>
 
   <section name="IMU" prefix="IMU_">
     <define name="BODY_TO_IMU_PHI"   value="RadOfDeg(   0. )"/>
-    <define name="BODY_TO_IMU_THETA" value="RadOfDeg( 180. )"/>  <!-- +5 deg more away from you -->
+    <define name="BODY_TO_IMU_THETA" value="RadOfDeg( 84. )"/>  <!-- +5 deg more away from you -->
     <define name="BODY_TO_IMU_PSI"   value="RadOfDeg( 180. )"/> <!-- +5 deg more to the right in hover --> 
   </section>
 
@@ -167,7 +169,6 @@
 
   <section name="AHRS" prefix="AHRS_">
     <define name="PROPAGATE_FREQUENCY" value="512"/>
-    <define name="MAG_UPDATE_YAW_ONLY" value="1"/>
     <!-- magnetic field for Santa cruz from http://www.ngdc.noaa.gov/geomagmodels/IGRFWMM.jsp -->
     <!--<define name="H_X" value=" 0.47577"/>
     <define name="H_Y" value=" 0.11811"/>
@@ -189,17 +190,19 @@
    <!-- <load name="battery_buzzer.xml"/> -->
    <!-- <load name="quadshot_nav_mode_change.xml"/> -->
    <load name="adc_generic.xml">
-      <configure name="ADC_CHANNEL_GENERIC1" value="BOARD_ADC_CHANNEL_3"/>
-      <configure name="ADC_CHANNEL_GENERIC2" value="BOARD_ADC_CHANNEL_4"/>
+      <configure name="ADC_CHANNEL_GENERIC1" value="3"/>
+      <configure name="ADC_CHANNEL_GENERIC2" value="4"/>
    </load>
    <!--<load name="opticflow_ADNS3080.xml"/>-->
    <!--<load name="sonar_maxbotix_MB12XX.xml"/>-->
  </modules>
 
   <firmware name="rotorcraft">
+    <define name="USE_SERVOS_7AND8" value="TRUE"/>
     <target name="ap" board="lisa_m_2.0">
       <subsystem name="radio_control" type="ppm"/>
       <subsystem name="actuators"     type="pwm_supervision">
+       <configure name="USE_SERVOS_7AND8"    value="TRUE"/>
       </subsystem>
       <subsystem name="telemetry"     type="xbee_api">
         <configure name="MODEM_BAUD"    value="B57600"/>
@@ -211,14 +214,14 @@
       <define name="RADIO_KILL_SWITCH" value="RADIO_FLAPS"/>
     </target>
 
-    <subsystem name="imu"          	type="aspirin_v1.5"/>
-    <subsystem name="gps"           type="ublox">
+    <subsystem name="imu"          type="aspirin_v1.5"/>
+    <subsystem name="gps"          type="ublox">
       <configure name="GPS_PORT"                value="UART3"/>
       <configure name="GPS_BAUD"                value="B38400"/>
     </subsystem>
 
     <define name="FILTER_IC_ACCEL"  value="1"/>
     <subsystem name="ahrs"          type="int_cmpl_quat"/>
-    <subsystem name="stabilization" type="int_quat_transition"/>
+    <subsystem name="stabilization" type="int_quat"/>
   </firmware>
 </airframe>
