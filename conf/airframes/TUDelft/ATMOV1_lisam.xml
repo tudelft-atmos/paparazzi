@@ -47,8 +47,8 @@
 
 
   <command_laws>
-    <set servo="AILEVON_LEFT"   value="@RC_YAW/9600" />
-    <set servo="AILEVON_RIGHT"  value="@RC_YAW/9600" />
+    <set servo="AILEVON_LEFT"   value="@YAW/2" />
+    <set servo="AILEVON_RIGHT"  value="@YAW/2" />
     <set servo="RUDDER"         value="-@ROLL"/>
   </command_laws>
 
