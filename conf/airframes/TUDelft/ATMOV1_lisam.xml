@@ -31,7 +31,7 @@
   <section name="AUTOPILOT">
     <define name="MODE_MANUAL" value="AP_MODE_ATTITUDE_DIRECT"/>
     <define name="MODE_AUTO1"  value="AP_MODE_ATTITUDE_DIRECT"/>
-    <define name="MODE_AUTO2"  value="AP_MODE_ATTITUDE_DIRECT"/>
+    <define name="MODE_AUTO2"  value="AP_MODE_HOVER_DIRECT"/>
     
     <define name="AUTOPILOT_KILL_WITHOUT_AHRS"  value="TRUE"/>
     <define name="AUTOPILOT_INSTANT_START_WITH_SAFETIES"  value="TRUE"/> 
@@ -125,22 +125,22 @@
     <define name="REF_MAX_PDOT" 	value="RadOfDeg(1800.)"/>
 
     <!-- feedback -->
-    <define name="PSI_PGAIN"  		value="645"/>
-    <define name="PSI_DGAIN"  		value="678"/>
-    <define name="PSI_IGAIN"  		value="20"/>
+    <define name="PSI_PGAIN"  		value="1876"/>
+    <define name="PSI_DGAIN"  		value="2149"/>
+    <define name="PSI_IGAIN"  		value="27"/>
 
-    <define name="THETA_PGAIN"  	value="1040"/>
-    <define name="THETA_DGAIN"  	value="1090"/>
+    <define name="THETA_PGAIN"  	value="1239"/>
+    <define name="THETA_DGAIN"  	value="1179"/>
     <define name="THETA_IGAIN"  	value="20"/>
 
-    <define name="PHI_PGAIN"  		value="5360"/>
-    <define name="PHI_DGAIN"  		value="4760"/>
-    <define name="PHI_IGAIN"  		value="40"/>
+    <define name="PHI_PGAIN"  		value="4139"/>
+    <define name="PHI_DGAIN"  		value="3951"/>
+    <define name="PHI_IGAIN"  		value="20"/>
 
     <!-- feedforward -->
-    <define name="PHI_DDGAIN"   	value="480"/>
-    <define name="THETA_DDGAIN" 	value="180"/>
-    <define name="PSI_DDGAIN"   	value="100"/>
+    <define name="PHI_DDGAIN"   	value="216"/>
+    <define name="THETA_DDGAIN" 	value="225"/>
+    <define name="PSI_DDGAIN"   	value="142"/>
   </section>
 
   <section name="INS" prefix="INS_">
@@ -182,9 +182,9 @@
   </section>
 
  <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-   <define name="PGAIN" 		value="-100"/>
-   <define name="DGAIN" 		value="-100"/>
-   <define name="IGAIN" 		value="-0"/>
+   <define name="PGAIN" 		value="2"/>
+   <define name="DGAIN" 		value="0"/>
+   <define name="IGAIN" 		value="0"/>
  </section>
 
  <modules main_freq="512">
