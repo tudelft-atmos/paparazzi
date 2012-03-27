@@ -157,7 +157,7 @@ void supervision_run(bool_t motors_on, bool_t override_on, int32_t in_cmd[] ) {
          roll_coef[i]   * in_cmd[COMMAND_ROLL]   +
          pitch_coef[i]  * in_cmd[COMMAND_PITCH]  +
          yaw_coef[i]    * in_cmd[COMMAND_YAW]    +
-         supervision.trim[i] + SUPERVISION_MIN_MOTOR) * SUPERVISION_CMD_SCALE;
+         supervision.trim[i] + SUPERVISION_MIN_MOTOR) * 0.2;
       if (supervision.commands[i] < min_cmd)
         min_cmd = supervision.commands[i];
       if (supervision.commands[i] > max_cmd)
