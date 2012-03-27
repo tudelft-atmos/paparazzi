@@ -48,6 +48,7 @@ static inline void stabilization_attitude_read_rc_setpoint_eulers(struct Int32Eu
   sp->phi = ((int32_t) radio_control.values[RADIO_ROLL]  * SP_MAX_PHI / MAX_PPRZ);
   sp->theta = ((int32_t) radio_control.values[RADIO_PITCH] * SP_MAX_THETA / MAX_PPRZ);
 
+  //WHAAA, SOME ERROR HERE, in_flight is false during flight
   if (in_flight) {
     if (YAW_DEADBAND_EXCEEDED()) {
       sp->psi += ((int32_t) radio_control.values[RADIO_YAW] * SP_MAX_R / MAX_PPRZ / RC_UPDATE_FREQ);

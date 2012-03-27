@@ -29,7 +29,7 @@
   </commands>
 
   <section name="AUTOPILOT">
-    <define name="MODE_MANUAL" value="AP_MODE_ATTITUDE_DIRECT"/>
+    <define name="MODE_MANUAL" value="AP_MODE_RC_DIRECT"/>
     <define name="MODE_AUTO1"  value="AP_MODE_ATTITUDE_DIRECT"/>
     <define name="MODE_AUTO2"  value="AP_MODE_HOVER_DIRECT"/>
     
@@ -59,8 +59,8 @@
   <section name="SUPERVISION" prefix="SUPERVISION_">
     <define name="MIN_MOTOR" 	value="1050"/>
     <define name="MAX_MOTOR" 	value="2300"/>
-    <define name="TRIM_A" 		value="500"/>
-    <define name="TRIM_E" 		value="-1000"/>
+    <define name="TRIM_A" 		value="0"/>
+    <define name="TRIM_E" 		value="0"/>
     <define name="TRIM_R" 		value="0"/>
     <define name="NB_MOTOR" 	value="4"/>
     <define name="SCALE" 		value="256"/>
@@ -70,7 +70,7 @@
     <!-- Direction of rotation is opposite to that of the convention for engines HB and WL -->
     <define name="PITCH_COEF"  	value="{   256, -256,    0,    0  }"/>
     <define name="ROLL_COEF"   	value="{     0,    0,  256, -256  }"/>
-    <define name="YAW_COEF"    value="{   -20,   20,  -20,   20  }"/>
+    <define name="YAW_COEF"    value="{   -0,   0,  -0,   0  }"/>
     <define name="THRUST_COEF" 	value="{   250,  250,  256,  256  }"/>
   </section>
 
@@ -101,12 +101,12 @@
   <section name="STABILIZATION_ATTITUDE" prefix="STABILIZATION_ATTITUDE_">
     <!-- setpoints -->
     <define name="SP_MAX_PHI"     	value="RadOfDeg(45.)"/>
-    <define name="SP_MAX_THETA"   	value="RadOfDeg(45.)"/>
+    <define name="SP_MAX_THETA"   	value="RadOfDeg(100.)"/> <!-- for plane mode -->
     <define name="SP_MAX_PSI"     	value="RadOfDeg(45.)"/>
     <define name="SP_MAX_R"       	value="RadOfDeg(90.)"/>
     <define name="SP_MAX_P"       	value="RadOfDeg(90.)"/>
-    <define name="DEADBAND_R"     	value="250"/>
-    <define name="DEADBAND_A"     	value="250"/>
+    <define name="DEADBAND_R"     	value="20"/>
+    <define name="DEADBAND_A"     	value="20"/>
 
     <!-- reference -->
     <define name="REF_OMEGA_R"  	value="RadOfDeg(600)"/>
@@ -200,6 +200,7 @@
 
   <firmware name="rotorcraft">
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
+<!--    <define name="QUAT_SETPOINT_HOVER_PITCH" value="0"/>-->
     <target name="ap" board="lisa_m_2.0">
       <subsystem name="radio_control" type="ppm"/>
       <subsystem name="actuators"     type="pwm_supervision">

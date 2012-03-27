@@ -63,10 +63,10 @@ int32_t stabilization_att_fb_cmd[COMMANDS_NB];
 int32_t stabilization_att_ff_cmd[COMMANDS_NB];
 
 #define IERROR_SCALE 1024
-#define GAIN_PRESCALER_FF 1
-#define GAIN_PRESCALER_P 1
-#define GAIN_PRESCALER_D 1
-#define GAIN_PRESCALER_I 1
+#define GAIN_PRESCALER_FF 48
+#define GAIN_PRESCALER_P 48
+#define GAIN_PRESCALER_D 48
+#define GAIN_PRESCALER_I 48
 
 void stabilization_attitude_init(void) {
 
