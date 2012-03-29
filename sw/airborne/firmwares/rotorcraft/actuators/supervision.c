@@ -64,8 +64,7 @@
  * [SUPERVISION_MIN_MOTOR,SUPERVISION_MAX_MOTOR]
  * or sets it to SUPERVISION_STOP_MOTOR
  */
-#define SUPERVISION_CMD_SCALE_NUM (SUPERVISION_MAX_MOTOR - SUPERVISION_MIN_MOTOR)
-#define SUPERVISION_CMD_SCALE_DEN (MAX_PPRZ * SUPERVISION_SCALE)
+#define SUPERVISION_CMD_SCALE (SUPERVISION_MAX_MOTOR - SUPERVISION_MIN_MOTOR) / (MAX_PPRZ * SUPERVISION_SCALE)
 
 static const int32_t roll_coef[SUPERVISION_NB_MOTOR]   = SUPERVISION_ROLL_COEF;
 static const int32_t pitch_coef[SUPERVISION_NB_MOTOR]  = SUPERVISION_PITCH_COEF;
@@ -159,7 +158,7 @@ void supervision_run(bool_t motors_on, bool_t override_on, int32_t in_cmd[] ) {
          roll_coef[i]   * in_cmd[COMMAND_ROLL]   +
          pitch_coef[i]  * in_cmd[COMMAND_PITCH]  +
          yaw_coef[i]    * in_cmd[COMMAND_YAW]    +
-         supervision.trim[i]) * SUPERVISION_CMD_SCALE_NUM / SUPERVISION_CMD_SCALE_DEN;
+         supervision.trim[i]) * SUPERVISION_CMD_SCALE;
       if (supervision.commands[i] < min_cmd)
         min_cmd = supervision.commands[i];
       if (supervision.commands[i] > max_cmd)

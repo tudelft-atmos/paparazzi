@@ -27,9 +27,9 @@
     <define name="ACCEL_XZ_SENS" value="0.0" integer="16"/>
     <define name="ACCEL_YZ_SENS" value="0.0" integer="16"/>
 
-    <define name="MAG_X_NEUTRAL" value="69"/>
-    <define name="MAG_Y_NEUTRAL" value="68"/>
-    <define name="MAG_Z_NEUTRAL" value="-228"/>
+    <define name="MAG_X_NEUTRAL" value="-55"/>
+    <define name="MAG_Y_NEUTRAL" value="-56"/>
+    <define name="MAG_Z_NEUTRAL" value="-2"/>
     <define name="MAG_X_SENS" value="4.10513850603" integer="16"/>
     <define name="MAG_Y_SENS" value="4.85423271885" integer="16"/>
     <define name="MAG_Z_SENS" value="4.50518931605" integer="16"/>

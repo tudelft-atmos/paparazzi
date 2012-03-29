@@ -53,7 +53,7 @@ uint16_t autopilot_flight_time;
 
 #define AUTOPILOT_MOTOR_ON_TIME     40
 #define AUTOPILOT_IN_FLIGHT_TIME    40
-#define AUTOPILOT_THROTTLE_TRESHOLD (MAX_PPRZ / 20)
+#define AUTOPILOT_THROTTLE_TRESHOLD (MAX_PPRZ / 40)
 #define AUTOPILOT_YAW_TRESHOLD      (MAX_PPRZ * 19 / 20)
 #define AUTOPILOT_STICK_CENTER_TRESHOLD      (MAX_PPRZ * 1 / 20)
 // Motors ON check state machine
