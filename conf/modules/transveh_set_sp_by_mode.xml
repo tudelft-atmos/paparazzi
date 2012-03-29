@@ -1,0 +1,12 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+<module name="transveh_set_sp_by_mode" dir="transitioning_vehicles">
+  <header>
+    <file name="setSpByMode.h"/>
+  </header>
+  <init fun="transveh_set_sp_by_mode_init()"/>
+  <periodic fun="transveh_set_sp_by_mode_periodic()" freq="4"/>
+  <makefile target="ap">
+    <file name="setSpByMode.c"/>
+  </makefile>
+</module>
+

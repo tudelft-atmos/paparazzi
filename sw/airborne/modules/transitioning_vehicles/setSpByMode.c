@@ -24,7 +24,7 @@ void transveh_set_sp_by_mode_init(void) {
 }
 
 void transveh_set_sp_by_mode_periodic(void) {
-  transitionBfpPerTick = BfpOfReal(TRANSITION_DEG_PER_TICK);
+  transitionBfpPerTick = ANGLE_BFP_OF_REAL(TRANSITION_DEG_PER_TICK);
   if (previous_mode != autopilot_mode) {
 	  oldSetpoints = stab_att_sp_euler;
 	  nextSetpoints = modeSetpoint[autopilot_mode];
