@@ -29,7 +29,7 @@
   </commands>
 
   <section name="AUTOPILOT">
-    <define name="MODE_MANUAL" value="AP_MODE_RC_DIRECT"/>
+    <define name="MODE_MANUAL" value="AP_MODE_ATTITUDE_DIRECT"/>
     <define name="MODE_AUTO1"  value="AP_MODE_ATTITUDE_DIRECT"/>
     <define name="MODE_AUTO2"  value="AP_MODE_HOVER_DIRECT"/>
     
@@ -47,8 +47,8 @@
 
 
   <command_laws>
-    <set servo="AILEVON_LEFT"   value="@YAW/2" />
-    <set servo="AILEVON_RIGHT"  value="@YAW/2" />
+    <set servo="AILEVON_LEFT"   value="@YAW" />
+    <set servo="AILEVON_RIGHT"  value="@YAW" />
     <set servo="RUDDER"         value="-@ROLL"/>
   </command_laws>
 
@@ -125,22 +125,22 @@
     <define name="REF_MAX_PDOT" 	value="RadOfDeg(1800.)"/>
 
     <!-- feedback -->
-    <define name="PSI_PGAIN"  		value="1876"/>
-    <define name="PSI_DGAIN"  		value="2149"/>
-    <define name="PSI_IGAIN"  		value="27"/>
+    <define name="PHI_PGAIN"  		value="2317"/>
+    <define name="PHI_DGAIN"  		value="1158"/>
+    <define name="PHI_IGAIN"  		value="5"/>
 
-    <define name="THETA_PGAIN"  	value="1239"/>
-    <define name="THETA_DGAIN"  	value="1179"/>
-    <define name="THETA_IGAIN"  	value="20"/>
+    <define name="THETA_PGAIN"  	value="405"/>
+    <define name="THETA_DGAIN"  	value="370"/>
+    <define name="THETA_IGAIN"  	value="3"/>
 
-    <define name="PHI_PGAIN"  		value="4139"/>
-    <define name="PHI_DGAIN"  		value="3951"/>
-    <define name="PHI_IGAIN"  		value="20"/>
+    <define name="PSI_PGAIN"  		value="2936"/>
+    <define name="PSI_DGAIN"  		value="2020"/>
+    <define name="PSI_IGAIN"  		value="10"/>
 
     <!-- feedforward -->
-    <define name="PHI_DDGAIN"   	value="216"/>
-    <define name="THETA_DDGAIN" 	value="225"/>
-    <define name="PSI_DDGAIN"   	value="142"/>
+    <define name="PHI_DDGAIN"   	value="100"/>
+    <define name="THETA_DDGAIN" 	value="80"/>
+    <define name="PSI_DDGAIN"   	value="105"/>
   </section>
 
   <section name="INS" prefix="INS_">
