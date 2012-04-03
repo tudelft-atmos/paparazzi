@@ -36,9 +36,15 @@
 #define IMU_ACC_DRDY_GPIO             GPIOB
 #define IMU_ACC_DRDY_GPIO_PORTSOURCE  GPIO_PortSourceGPIOB
 
-
+#ifndef ADC_CHANNEL_VSUPPLY
 #define ADC_CHANNEL_VSUPPLY 2
-#define DefaultVoltageOfAdc(adc) (0.00485*adc)
+#endif
+
+#ifndef VSUPPLY_SCALING
+#define VSUPPLY_SCALING 0.00485
+#endif
+
+#define DefaultVoltageOfAdc(adc) (VSUPPLY_SCALING*adc)
 
 /* Onboard ADCs */
 /*
