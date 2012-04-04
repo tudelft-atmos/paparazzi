@@ -37,6 +37,7 @@ struct Supervision {
   bool_t override_enabled[SUPERVISION_NB_MOTOR];
   int32_t override_value[SUPERVISION_NB_MOTOR];
   uint32_t nb_failure;
+  bool_t override_by_module;
 };
 
 extern struct Supervision supervision;

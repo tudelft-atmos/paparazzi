@@ -10,8 +10,8 @@
     <servo name="HT"            no="1" min="1100" neutral="1100" max="2100"/>	<!-- Hover prop top -->
     <servo name="WL"            no="2" min="1100" neutral="1100" max="2100"/>	<!-- Wingtip prop left -->
     <servo name="WR"            no="3" min="1100" neutral="1100" max="2100"/>	<!-- Wingtip prop right --> 
-    <servo name="AILEVON_LEFT"  no="4" min="1000" neutral="1500" max="2000"/>
-    <servo name="AILEVON_RIGHT" no="6" min="1000" neutral="1500" max="2000"/>
+    <servo name="AILEVON_LEFT"  no="4" min="2000" neutral="1500" max="1000"/>
+    <servo name="AILEVON_RIGHT" no="6" min="2000" neutral="1500" max="1000"/>
 <!--    <servo name="RUDDER"  	no="7" min="2000" neutral="1500" max="1000"/>-->  <!-- disable rudder for now -->
   </servos>
 
@@ -50,7 +50,7 @@
   <command_laws>
     <set servo="AILEVON_LEFT"   value="@YAW" />
     <set servo="AILEVON_RIGHT"  value="@YAW" />
-    <set servo="RUDDER"         value="-@ROLL*0"/>  <!-- disable rudder for now -->
+    <!--<set servo="RUDDER"         value="-@ROLL*0"/> disable rudder for now -->
   </command_laws>
 
   <section name="ROTORCRAFT" prefix="ROTORCRAFT_">
@@ -130,21 +130,21 @@
     <define name="REF_MAX_PDOT" 	value="RadOfDeg(1800.)"/>
 
     <!-- feedback -->
-    <define name="PHI_PGAIN"  		value="2317"/>
-    <define name="PHI_DGAIN"  		value="1158"/>
+    <define name="PHI_PGAIN"  		value="2485"/>
+    <define name="PHI_DGAIN"  		value="1236"/>
     <define name="PHI_IGAIN"  		value="5"/>
 
-    <define name="THETA_PGAIN"  	value="405"/>
-    <define name="THETA_DGAIN"  	value="370"/>
-    <define name="THETA_IGAIN"  	value="3"/>
+    <define name="THETA_PGAIN"  	value="161"/>
+    <define name="THETA_DGAIN"  	value="279"/>
+    <define name="THETA_IGAIN"  	value="5"/>
 
     <define name="PSI_PGAIN"  		value="2936"/>
     <define name="PSI_DGAIN"  		value="2020"/>
-    <define name="PSI_IGAIN"  		value="10"/>
+    <define name="PSI_IGAIN"  		value="8"/>
 
     <!-- feedforward -->
     <define name="PHI_DDGAIN"   	value="100"/>
-    <define name="THETA_DDGAIN" 	value="100"/>
+    <define name="THETA_DDGAIN" 	value="200"/>
     <define name="PSI_DDGAIN"   	value="100"/>
   </section>
 
@@ -210,7 +210,7 @@
 
   <firmware name="rotorcraft">
     <!-- no V_IN on molex connector anymore -->
-    <define name="ADC_CHANNEL_VSUPPLY" value="1"/><!--
+    <define name="ADC_CHANNEL_VSUPPLY" value="2"/><!--
     <define name="VSUPPLY_SCALING" value="0.03"/>-->
 
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
