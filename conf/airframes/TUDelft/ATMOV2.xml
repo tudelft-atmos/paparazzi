@@ -119,9 +119,9 @@
     <define name="REF_MAX_R"    	value="RadOfDeg(400.)"/>
     <define name="REF_MAX_RDOT" 	value="RadOfDeg(8000.)"/>
 
-    <define name="REF_OMEGA_Q"  	value="RadOfDeg(800)"/>
+    <define name="REF_OMEGA_Q"  	value="RadOfDeg(1200)"/>
     <define name="REF_ZETA_Q"   	value="0.90"/>
-    <define name="REF_MAX_Q"    	value="RadOfDeg(500.)"/>
+    <define name="REF_MAX_Q"    	value="RadOfDeg(800.)"/>
     <define name="REF_MAX_QDOT" 	value="RadOfDeg(8000.)"/>
 
     <define name="REF_OMEGA_P"  	value="RadOfDeg(600)"/>
@@ -134,13 +134,13 @@
     <define name="PHI_DGAIN"  		value="1236"/>
     <define name="PHI_IGAIN"  		value="5"/>
 
-    <define name="THETA_PGAIN"  	value="161"/>
-    <define name="THETA_DGAIN"  	value="279"/>
+    <define name="THETA_PGAIN"  	value="243"/>
+    <define name="THETA_DGAIN"  	value="218"/>
     <define name="THETA_IGAIN"  	value="5"/>
 
-    <define name="PSI_PGAIN"  		value="2936"/>
-    <define name="PSI_DGAIN"  		value="2020"/>
-    <define name="PSI_IGAIN"  		value="8"/>
+    <define name="PSI_PGAIN"  		value="3225"/>
+    <define name="PSI_DGAIN"  		value="2124"/>
+    <define name="PSI_IGAIN"  		value="6"/>
 
     <!-- feedforward -->
     <define name="PHI_DDGAIN"   	value="100"/>
@@ -191,6 +191,7 @@
    <define name="PGAIN" 		value="17"/>
    <define name="DGAIN" 		value="31"/>
    <define name="IGAIN" 		value="3"/>
+   <define name="MAX_BANK"      value="RadOfDeg(30)"/>
  </section>
 
  <modules main_freq="512">
@@ -210,9 +211,9 @@
 
   <firmware name="rotorcraft">
     <!-- no V_IN on molex connector anymore -->
-    <define name="ADC_CHANNEL_VSUPPLY" value="2"/><!--
+    <define name="ADC_CHANNEL_VSUPPLY" value="4"/><!--
     <define name="VSUPPLY_SCALING" value="0.03"/>-->
-
+    <!--<define name="GUIDANCE_H_USE_REF" value="TRUE"/>-->
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
     <target name="ap" board="lisa_m_2.0">
       <subsystem name="radio_control" type="ppm"/>
