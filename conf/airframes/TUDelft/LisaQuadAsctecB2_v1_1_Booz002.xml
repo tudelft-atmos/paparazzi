@@ -85,9 +85,9 @@
     <define name="MAG_Y_SENS" value="4.54132316969" integer="16"/>
     <define name="MAG_Z_SENS" value="2.69730737452" integer="16"/>
 
-    <define name="MAG_X_NEUTRAL" value="-59.5"/><!-- -59.5 -->
+    <define name="MAG_X_NEUTRAL" value="-59.5"/>
     <define name="MAG_Y_NEUTRAL" value="21"/>
-    <define name="MAG_Z_NEUTRAL" value="-36.5"/><!-- -36.5 -->
+    <define name="MAG_Z_NEUTRAL" value="-36.5"/>
 
     <define name="BODY_TO_IMU_PHI" value="RadOfDeg(  2.50 )"/>
     <define name="BODY_TO_IMU_THETA" value="RadOfDeg(  -2.50 )"/>
@@ -97,8 +97,8 @@
 
  <section name="AUTOPILOT">
    <define name="MODE_MANUAL" value="AP_MODE_ATTITUDE_DIRECT"/>
-   <define name="MODE_AUTO1" value="AP_MODE_ATTITUDE_RC_CLIMB"/>
-   <define name="MODE_AUTO2" value="AP_MODE_ATTITUDE_Z_HOLD"/>
+   <define name="MODE_AUTO1" value="AP_MODE_HOVER_DIRECT"/>
+   <define name="MODE_AUTO2" value="AP_MODE_HOVER_Z_HOLD"/>
 <!--    <define name="AUTOPILOT_KILL_WITHOUT_AHRS"  value="TRUE"/>
     <define name="AUTOPILOT_INSTANT_START_WITH_SAFETIES"  value="TRUE"/> -->
  </section>
@@ -219,16 +219,15 @@ AP_MODE_NAV
    <define name="MAX_SUM_ERR" value="2000000"/>
 
 
-   <define name="HOVER_KP" value="125"/>
-   <define name="HOVER_KD" value="73"/>
-   <define name="HOVER_KI" value="0"/>
+   <define name="HOVER_KP" value="600"/>
+   <define name="HOVER_KD" value="350"/>
+   <define name="HOVER_KI" value=" 10"/>
 <!--
    <define name="HOVER_KP"     value="150"/>
    <define name="HOVER_KD"     value="80"/>
    <define name="HOVER_KI"     value="0"/>
 -->
    <!-- 1.5m/s for full stick : BOOZ_SPEED_I_OF_F(1.5) / (MAX_PPRZ/2) -->
-
    <define name="RC_CLIMB_COEF" value="163"/>
    <!-- BOOZ_SPEED_I_OF_F(1.5) * 20% -->
    <define name="RC_CLIMB_DEAD_BAND" value="160000"/>
@@ -237,10 +236,10 @@ AP_MODE_NAV
 
 
  <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-   <define name="PGAIN" value="17"/>
-   <define name="DGAIN" value="31"/>
-   <define name="IGAIN" value="3"/>
-   <define name="AGAIN" value="0"/>
+   <define name="PGAIN" value="11"/>
+   <define name="DGAIN" value="12"/>
+   <define name="IGAIN" value="1"/>
+   <define name="NGAIN" value="0"/>
  </section>
 
  <section name="MISC">
@@ -271,12 +270,9 @@ AP_MODE_NAV
      <define name="FAILSAFE_GROUND_DETECT"/>
      <define name="USE_GPS_ACC4R"/>
      <target name="ap" board="lisa_l_1.1">
-     <define name="ACTUATORS_START_DELAY" value="1"/>
       <subsystem name="radio_control" type="ppm"/>
       <subsystem name="actuators" type="asctec_v2"/>
 <!--      <define name="RADIO_KILL_SWITCH" value="RADIO_FLAPS"/>-->
-        <define name="ACTUATORS_START_DELAY" value="1"/>
-        <configure name="ACTUATORS_START_DELAY" value="1"/>
     </target>
     <target name="sim" board="pc">
       <subsystem name="fdm" type="nps"/>
@@ -288,7 +284,7 @@ AP_MODE_NAV
       <configure name="GPS_PORT" value="UART3"/>
     </subsystem>
     <!--<subsystem name="ahrs" type="int_cmpl_euler"/>
-    <subsystem name="stabilization" type="euler  int_quat"/>-->
+    <subsystem name="stabilization" type="euler"/>-->
     <subsystem name="ahrs"          type="int_cmpl_quat"/>
     <subsystem name="stabilization" type="int_quat"/>
     <!--<subsystem name="ahrs"          type="ic"/>

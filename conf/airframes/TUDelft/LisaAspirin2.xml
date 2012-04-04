@@ -106,7 +106,7 @@
   </section>
 
   <section name="CATAPULT" prefix="NAV_CATAPULT_" >
-    <define name="MOTOR_DELAY" value="23" />
+    <define name="MOTOR_DELAY" value="45" />
     <define name="HEADING_DELAY" value="160" />
     <define name="ACCELERATION_THRESHOLD" value="1.75" />
     <define name="INITIAL_PITCH" value="0.3" />
@@ -182,7 +182,7 @@
   </section>
 
   <section name="DIGITAL_CAMERA" prefix="DC_">
-    <define name="AUTOSHOOT_QUARTERSEC_PERIOD" value="12" unit="quarter_second"/>
+    <define name="AUTOSHOOT_QUARTERSEC_PERIOD" value="6" unit="quarter_second"/>
     <define name="AUTOSHOOT_METER_GRID" value="50" unit="meter"/>
   </section>
 
@@ -209,25 +209,21 @@
     <load name="gps_ubx_ucenter.xml"/>
     <load name="nav_catapult.xml" />
     <load name="photogrammetry_calculator.xml" />
-
+<!--
     <load name="light.xml">
-      <define name="LIGHT_LED_STROBE" value="5"/>
-      <define name="LIGHT_LED_NAV" value="1"/>
+      <define name="LIGHT_LED_STROBE" value="2"/>
+      <define name="LIGHT_LED_NAV" value="3"/>
       <define name="STROBE_LIGHT_MODE_DEFAULT" value="6"/>
       <define name="NAV_LIGHT_MODE_DEFAULT" value="4"/>
     </load>
 
-    <load name="adc_generic.xml">
-      <configure name="ADC_CHANNEL_GENERIC1" value="3" />
-    </load>
-
-<!--       <load name="digital_cam_i2c.xml"/>  -->
+        <load name="digital_cam_i2c.xml"/>  -->
 
  <!--    <load name="ins_ppzuavimu.xml" /> -->
 
 <!--  -->
     <load name="digital_cam.xml">
-      <define name="DC_SHUTTER_LED" value="4"/>
+      <define name="DC_SHUTTER_LED" value="3"/>
     </load>
 
   </modules>
@@ -242,8 +238,8 @@
       <configure name="AHRS_CORRECT_FREQUENCY" value="100"/>
        <define name="AHRS_TRIGGERED_ATTITUDE_LOOP"/>
 
-      <configure name="AHRS_ALIGNER_LED" value="3"/>
-      <configure name="CPU_LED" value="3"/>
+      <configure name="AHRS_ALIGNER_LED" value="1"/>
+      <configure name="CPU_LED" value="1"/>
     </target>
     <target name="sim" board="pc"/>
 
