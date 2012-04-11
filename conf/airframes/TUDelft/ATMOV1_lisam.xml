@@ -34,7 +34,7 @@
     <define name="MODE_AUTO2"  value="AP_MODE_HOVER_DIRECT"/>
     
     <define name="AUTOPILOT_KILL_WITHOUT_AHRS"  value="TRUE"/>
-    <define name="AUTOPILOT_INSTANT_START_WITH_SAFETIES"  value="TRUE"/> 
+    <define name="AUTOPILOT_ARMING_KILL_SWITCH"/>
   </section>
 
   <rc_commands>
