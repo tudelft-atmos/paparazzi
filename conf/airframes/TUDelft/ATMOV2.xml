@@ -130,17 +130,17 @@
     <define name="REF_MAX_PDOT" 	value="RadOfDeg(1800.)"/>
 
     <!-- feedback -->
-    <define name="PHI_PGAIN"  		value="2485"/>
-    <define name="PHI_DGAIN"  		value="1236"/>
+    <define name="PHI_PGAIN"  		value="2352"/>
+    <define name="PHI_DGAIN"  		value="1038"/>
     <define name="PHI_IGAIN"  		value="5"/>
 
-    <define name="THETA_PGAIN"  	value="243"/>
+    <define name="THETA_PGAIN"  	value="165"/>
     <define name="THETA_DGAIN"  	value="218"/>
     <define name="THETA_IGAIN"  	value="5"/>
 
-    <define name="PSI_PGAIN"  		value="3225"/>
-    <define name="PSI_DGAIN"  		value="2124"/>
-    <define name="PSI_IGAIN"  		value="6"/>
+    <define name="PSI_PGAIN"  		value="3099"/>
+    <define name="PSI_DGAIN"  		value="2020"/>
+    <define name="PSI_IGAIN"  		value="8"/>
 
     <!-- feedforward -->
     <define name="PHI_DDGAIN"   	value="100"/>
@@ -176,6 +176,7 @@
     <define name="PROPAGATE_FREQUENCY" 		value="512"/>
     <define name="CORRECT_FREQUENCY" 	value="512"/>
     <define name="AHRS_TRIGGERED_ATTITUDE_LOOP" value="TRUE"/>
+    <define name="GRAVITY_UPDATE_COORDINATED_TURN" value="TRUE"/>
     <!-- magnetic field for Santa cruz from http://www.ngdc.noaa.gov/geomagmodels/IGRFWMM.jsp -->
     <!--<define name="H_X" value=" 0.47577"/>
     <define name="H_Y" value=" 0.11811"/>
@@ -194,15 +195,15 @@
    <define name="MAX_BANK"      value="RadOfDeg(30)"/>
  </section>
 
- <modules main_freq="512">
+ <modules main_freq="2000">
     <!-- transitioning -->
     <!-- <load name="quadshot_nav_mode_change.xml"/> -->
 
     <!-- current logging -->
-    <!-- <load name="adc_generic.xml">
+    <load name="adc_generic.xml">
            <configure name="ADC_CHANNEL_GENERIC1" value="1"/>
-           <configure name="ADC_CHANNEL_GENERIC2" value="4"/>
-         </load>-->
+           <configure name="ADC_CHANNEL_GENERIC2" value="2"/>
+    </load>
    
    <!-- ATMOV sensors -->
    <!--<load name="opticflow_ADNS3080.xml"/>-->
@@ -210,9 +211,9 @@
  </modules>
 
   <firmware name="rotorcraft">
-    <!-- no V_IN on molex connector anymore -->
-    <define name="ADC_CHANNEL_VSUPPLY" value="4"/><!--
-    <define name="VSUPPLY_SCALING" value="0.03"/>-->
+    <!-- no V_IN on molex connector anymore  -->
+    <define name="ADC_CHANNEL_VSUPPLY" value="2"/>
+    <define name="VSUPPLY_SCALING" value="0.01264"/>
     <!--<define name="GUIDANCE_H_USE_REF" value="TRUE"/>-->
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
     <target name="ap" board="lisa_m_2.0">

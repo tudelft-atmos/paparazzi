@@ -6,7 +6,7 @@
 #
 
 BOARD=lisa_m
-BOARD_VERSION=1.0
+BOARD_VERSION=2.0
 BOARD_CFG=\"boards/$(BOARD)_$(BOARD_VERSION).h\"
 
 ARCH=stm32

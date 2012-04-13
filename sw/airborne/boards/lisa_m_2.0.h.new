@@ -1,5 +1,5 @@
-#ifndef CONFIG_LISA_M_1_0_H
-#define CONFIG_LISA_M_1_0_H
+#ifndef CONFIG_LISA_M_2_0_H
+#define CONFIG_LISA_M_2_0_H
 
 #define BOARD_LISA_M
 
@@ -13,45 +13,39 @@
 #define LED_1_AFIO_REMAP GPIO_PinRemapConfig(GPIO_Remap_SWJ_NoJTRST, ENABLE)
 
 #define LED_2_BANK
-#define LED_2_GPIO GPIOC
-#define LED_2_GPIO_CLK RCC_APB2Periph_GPIOC
-#define LED_2_GPIO_PIN GPIO_Pin_5
+#define LED_2_GPIO GPIOA
+#define LED_2_GPIO_CLK RCC_APB2Periph_GPIOA
+#define LED_2_GPIO_PIN GPIO_Pin_8
 #define LED_2_AFIO_REMAP ((void)0)
 
-#define LED_3_BANK
+/*#define LED_3_BANK
 #define LED_3_GPIO GPIOC
 #define LED_3_GPIO_CLK RCC_APB2Periph_GPIOC
-#define LED_3_GPIO_PIN GPIO_Pin_2
-#define LED_3_AFIO_REMAP ((void)0)
+#define LED_3_GPIO_PIN GPIO_Pin_3
+#define LED_3_AFIO_REMAP ((void)0)*/
 
-#define LED_4_BANK
-#define LED_4_GPIO GPIOC
-#define LED_4_GPIO_CLK RCC_APB2Periph_GPIOC
-#define LED_4_GPIO_PIN GPIO_Pin_10
-#define LED_4_AFIO_REMAP ((void)0)
+#define LED_9_BANK
+#define LED_9_GPIO GPIOC
+#define LED_9_GPIO_CLK RCC_APB2Periph_GPIOC
+#define LED_9_GPIO_PIN GPIO_Pin_15
+#define LED_9_AFIO_REMAP ((void)0)
 
-#define LED_5_BANK
-#define LED_5_GPIO GPIOC
-#define LED_5_GPIO_CLK RCC_APB2Periph_GPIOC
-#define LED_5_GPIO_PIN GPIO_Pin_12
-#define LED_5_AFIO_REMAP ((void)0)
 
 /* configuration for aspirin - and more generaly IMUs */
 #define IMU_ACC_DRDY_RCC_GPIO         RCC_APB2Periph_GPIOB
 #define IMU_ACC_DRDY_GPIO             GPIOB
 #define IMU_ACC_DRDY_GPIO_PORTSOURCE  GPIO_PortSourceGPIOB
 
-/* allow to define ADC_CHANNEL_VSUPPLY in the airframe file*/
 #ifndef ADC_CHANNEL_VSUPPLY
 #define ADC_CHANNEL_VSUPPLY 2
 #endif
 
 #ifndef VSUPPLY_SCALING
-#define VSUPPLY_SCALING 0.00485
+//#define VSUPPLY_SCALING 0.00485
+#define VSUPPLY_SCALING 0.012207
 #endif
 
 #define DefaultVoltageOfAdc(adc) (VSUPPLY_SCALING*adc)
-
 
 /* Onboard ADCs */
 /*
@@ -67,18 +61,17 @@
 #define BOARD_ADC_CHANNEL_1 ADC_Channel_13
 #define BOARD_ADC_CHANNEL_2 ADC_Channel_0
 // FIXME - removed for now and used for battery monitoring
-#define BOARD_ADC_CHANNEL_3 ADC_Channel_10
-//#define BOARD_ADC_CHANNEL_3 ADC_Channel_14
-#define BOARD_ADC_CHANNEL_4 ADC_Channel_11
+//#define BOARD_ADC_CHANNEL_3 ADC_Channel_10
+#define BOARD_ADC_CHANNEL_3 ADC_Channel_14
+#define BOARD_ADC_CHANNEL_4 ADC_Channel_15
+#define BOARD_ADC_CHANNEL_6 ADC_Channel_12
+#define BOARD_HAS_BARO
 
-#define BOARD_HAS_BARO 1
+#define USE_OPENCM3
 
-#define USE_OPENCM3 1
-
-// not needed with USE_OPENCM3:
-//#define HSE_TYPE_EXT_CLK
-//#define STM32_RCC_MODE RCC_HSE_ON
-//#define STM32_PLL_MULT RCC_PLLMul_6
+#define HSE_TYPE_EXT_CLK
+#define STM32_RCC_MODE RCC_HSE_ON
+#define STM32_PLL_MULT RCC_PLLMul_6
 
 #define PWM_5AND6_TIMER TIM5
 #define PWM_5AND6_RCC RCC_APB1Periph_TIM5
