@@ -33,6 +33,24 @@
 
 #if USE_VFF
 #include "subsystems/ins/vf_float.h"
+/** parameters for the 2nd order low-pass filter
+ * calculated in MATLAB using
+ *   [num,den] = butter(2,(cutoff_freq/(sample_freq/2)))
+ */
+// values for cutoff_freq = 4Hz and sample_freq = 10Hz
+#define INS_LLA_OFFSET_BUTTER_NUM_1 +0.638945525159022
+#define INS_LLA_OFFSET_BUTTER_NUM_2 +1.277891050318045
+#define INS_LLA_OFFSET_BUTTER_NUM_3 +0.638945525159022
+//BUTTER_DEN_1 is always one
+#define INS_LLA_OFFSET_BUTTER_DEN_2 +1.142980502539901
+#define INS_LLA_OFFSET_BUTTER_DEN_3 +0.412801598096189
+
+int32_t ins_baro_offset_LLA_val_prev = 0;
+int32_t ins_baro_offset_LLA_val_prev_prev = 0;
+int32_t ins_baro_offset_LLA_filter_val = 0;
+int32_t ins_baro_offset_LLA_filter_val_prev = 0;
+int32_t ins_baro_offset_LLA_filter_val_prev_prev = 0;
+int32_t ins_baro_offset_LLA_val=0;
 #endif
 
 #if USE_HFF
@@ -152,7 +170,7 @@ void ins_propagate() {
     vff_propagate(z_accel_meas_float);
     ins_ltp_accel.z = ACCEL_BFP_OF_REAL(vff_zdotdot);
     ins_ltp_speed.z = SPEED_BFP_OF_REAL(vff_zdot);
-    ins_ltp_pos.z   = POS_BFP_OF_REAL(vff_z);
+    ins_ltp_pos.z   = POS_BFP_OF_REAL(vff_z+((float)gps.lla_pos.alt/1000.0f));
   }
   else { // feed accel from the sensors
     // subtract -9.81m/s2 (acceleration measured due to gravity, but vehivle not accelerating in ltp)
@@ -193,7 +211,7 @@ void ins_update_baro() {
       vff_realign(0.);
       ins_ltp_accel.z = ACCEL_BFP_OF_REAL(vff_zdotdot);
       ins_ltp_speed.z = SPEED_BFP_OF_REAL(vff_zdot);
-      ins_ltp_pos.z   = POS_BFP_OF_REAL(vff_z);
+      ins_ltp_pos.z   = POS_BFP_OF_REAL(vff_z+((float)gps.lla_pos.alt/1000.0f));
       ins_enu_pos.z = -ins_ltp_pos.z;
       ins_enu_speed.z = -ins_ltp_speed.z;
       ins_enu_accel.z = -ins_ltp_accel.z;
@@ -210,7 +228,7 @@ void ins_update_gps(void) {
     if (!ins_ltp_initialised) {
       ltp_def_from_ecef_i(&ins_ltp_def, &gps.ecef_pos);
       ins_ltp_def.lla.alt = gps.lla_pos.alt;
-      ins_ltp_def.hmsl = gps.hmsl;
+      ins_ltp_def.hmsl = gps.hmsl; //in mm
       ins_ltp_initialised = TRUE;
     }
     ned_of_ecef_point_i(&ins_gps_pos_cm_ned, &ins_ltp_def, &gps.ecef_pos);
@@ -260,6 +278,23 @@ void ins_update_gps(void) {
     INT32_VECT3_ENU_OF_NED(ins_enu_speed, ins_ltp_speed);
     INT32_VECT3_ENU_OF_NED(ins_enu_accel, ins_ltp_accel);
   }
+
+#if USE_VFF
+  //1 / ((2^8) / 1 000) = 3.90625
+  ins_baro_offset_LLA_val = baro.absolute - ((float)gps.lla_pos.alt*3.90625);
+  ins_baro_offset_LLA_filter_val =
+      INS_LLA_OFFSET_BUTTER_NUM_1*ins_baro_offset_LLA_val
+    + INS_LLA_OFFSET_BUTTER_NUM_2*ins_baro_offset_LLA_val_prev
+    + INS_LLA_OFFSET_BUTTER_NUM_3*ins_baro_offset_LLA_val_prev_prev
+    - INS_LLA_OFFSET_BUTTER_DEN_2*ins_baro_offset_LLA_filter_val_prev
+    - INS_LLA_OFFSET_BUTTER_DEN_3*ins_baro_offset_LLA_filter_val_prev_prev;
+
+  ins_baro_offset_LLA_val_prev_prev = ins_baro_offset_LLA_val_prev;
+  ins_baro_offset_LLA_val_prev = ins_baro_offset_LLA_filter_val;
+  ins_baro_offset_LLA_filter_val_prev_prev = ins_baro_offset_LLA_filter_val_prev;
+  ins_baro_offset_LLA_filter_val_prev = ins_baro_offset_LLA_filter_val;
+
+#endif /* USE_VFF */
 #endif /* USE_GPS */
 }
 

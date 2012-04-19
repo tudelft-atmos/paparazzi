@@ -1342,6 +1342,8 @@
       <field name="Pzz"            type="float"/>
       <field name="Pzdzd"          type="float"/>
       <field name="Pbb"            type="float"/>
+      <field name="BaroOffsetLLA" type="int32" alt_unit="m"    alt_unit_coef="0.0039063"/>
+
   </message>
 
   <message name="BOOZ2_TUNE_FF" id="163">

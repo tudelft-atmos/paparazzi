@@ -485,7 +485,8 @@
                 &vff_bias,		\
                 & vff_P[0][0],		\
                 & vff_P[1][1],		\
-                & vff_P[2][2]);		\
+                & vff_P[2][2],          \
+		& ins_baro_offset_LLA_val);		\
   }
 #else
 #define PERIODIC_SEND_VFF(_trans, _dev) {}

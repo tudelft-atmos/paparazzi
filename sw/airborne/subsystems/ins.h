@@ -37,6 +37,13 @@ extern struct NedCoor_i ins_gps_speed_cm_s_ned;
 extern int32_t ins_baro_alt;
 extern int32_t ins_qfe;
 extern bool_t  ins_baro_initialised;
+extern int32_t ins_baro_offset_HMSL_val;
+extern int32_t ins_baro_offset_HMSL_val_prev;
+extern int32_t ins_baro_offset_HMSL_val_prev_prev;
+extern int32_t ins_baro_offset_HMSL_filter_val;
+extern int32_t ins_baro_offset_HMSL_filter_val_prev;
+extern int32_t ins_baro_offset_HMSL_filter_val_prev_prev;
+
 #if USE_SONAR
 extern bool_t  ins_update_on_agl; /* use sonar to update agl if available */
 extern int32_t ins_sonar_offset;

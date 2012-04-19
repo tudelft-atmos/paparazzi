@@ -15,7 +15,7 @@
       <define name="ACTUATORS_START_DELAY" value="3"/>
       <define name="USE_INS_NAV_INIT"/>
       <configure name="AHRS_ALIGNER_LED" value="3"/>
-      <define name="USE_KILL_SWITCH_FOR_MOTOR_ARMING"/>
+      <define name="AUTOPILOT_ARMING_KILL_SWITCH"/>
     </target>
     <target name="sim" board="pc">
       <subsystem name="fdm"           type="nps"/>
@@ -59,9 +59,6 @@
 
   <modules main_freq="512">
     <load name="sys_mon.xml"/>
-    <load name="bat_checker.xml">
-      <define name="BAT_CHECKER_LED" value="4"/>
-    </load>
   </modules>
 
   <commands>
@@ -231,9 +228,6 @@
 
   <section name="BAT">
     <define name="CATASTROPHIC_BAT_LEVEL" value="9.3" unit="V"/>
-    <define name="CRITIC_BAT_LEVEL" value="9.6" unit="V"/>
-    <define name="LOW_BAT_LEVEL" value="9.7" unit="V"/>
-    <define name="MAX_BAT_LEVEL" value="12.4" unit="V"/>
   </section>
 
 </airframe>

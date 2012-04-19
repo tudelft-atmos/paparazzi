@@ -38,6 +38,7 @@ enum BaroStatus {
 };
 
 /* pressure in which units ? */
+/* meters */
 struct Baro {
   int32_t absolute;
   int32_t differential;
