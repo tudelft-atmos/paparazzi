@@ -29,7 +29,7 @@
 
   <section name="AUTOPILOT">
     <define name="MODE_MANUAL" value="AP_MODE_ATTITUDE_DIRECT"/>
-    <define name="MODE_AUTO1"  value="AP_MODE_ATTITUDE_DIRECT"/>
+    <define name="MODE_AUTO1"  value="AP_MODE_HOVER_DIRECT"/>
     <define name="MODE_AUTO2"  value="AP_MODE_HOVER_DIRECT"/>
     
     <define name="AUTOPILOT_KILL_WITHOUT_AHRS"  value="TRUE"/>
@@ -134,8 +134,8 @@
     <define name="PHI_DGAIN"  		value="1236"/>
     <define name="PHI_IGAIN"  		value="5"/>
 
-    <define name="THETA_PGAIN"  	value="243"/>
-    <define name="THETA_DGAIN"  	value="218"/>
+    <define name="THETA_PGAIN"  	value="308"/>
+    <define name="THETA_DGAIN"  	value="208"/>
     <define name="THETA_IGAIN"  	value="5"/>
 
     <define name="PSI_PGAIN"  		value="3225"/>
@@ -210,6 +210,7 @@
  </modules>
 
   <firmware name="rotorcraft">
+    <define name="USE_KILL_SWITCH_FOR_MOTOR_ARMING" value="TRUE"/>
     <!-- no V_IN on molex connector anymore -->
     <define name="ADC_CHANNEL_VSUPPLY" value="ADC_3"/>
     <define name="VSUPPLY_SCALING" value="0.01269f"/>
