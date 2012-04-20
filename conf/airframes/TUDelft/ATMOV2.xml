@@ -188,10 +188,10 @@
   </section>
 
  <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-   <define name="PGAIN" 		value="17"/>
-   <define name="DGAIN" 		value="31"/>
-   <define name="IGAIN" 		value="3"/>
-   <define name="MAX_BANK"      value="RadOfDeg(30)"/>
+   <define name="PGAIN" 		value="-50"/>
+   <define name="DGAIN" 		value="0"/>
+   <define name="IGAIN" 		value="0"/>
+   <define name="MAX_BANK"      value="RadOfDeg(45.)"/>
  </section>
 
  <modules main_freq="512">
