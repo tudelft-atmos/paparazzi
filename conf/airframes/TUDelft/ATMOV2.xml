@@ -211,8 +211,8 @@
 
   <firmware name="rotorcraft">
     <!-- no V_IN on molex connector anymore -->
-    <define name="ADC_CHANNEL_VSUPPLY" value="4"/><!--
-    <define name="VSUPPLY_SCALING" value="0.03"/>-->
+    <define name="ADC_CHANNEL_VSUPPLY" value="ADC_3"/>
+    <define name="VSUPPLY_SCALING" value="0.01269f"/>
     <!--<define name="GUIDANCE_H_USE_REF" value="TRUE"/>-->
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
     <target name="ap" board="lisa_m_2.0">
@@ -239,4 +239,8 @@
     <subsystem name="ahrs"          type="int_cmpl_quat"/>
     <subsystem name="stabilization" type="int_quat"/>
   </firmware>
+  <makefile>
+    FLASH_MODE=JTAG
+    NO_LUFTBOOT=1
+  </makefile>
 </airframe>
