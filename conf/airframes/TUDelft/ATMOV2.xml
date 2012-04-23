@@ -13,6 +13,7 @@
     <servo name="AILEVON_LEFT"  no="4" min="2000" neutral="1500" max="1000"/>
     <servo name="AILEVON_RIGHT" no="6" min="2000" neutral="1500" max="1000"/>
 <!--    <servo name="RUDDER"  	no="7" min="2000" neutral="1500" max="1000"/>-->  <!-- disable rudder for now -->
+    <servo name="ALWAYSDOWN"  	no="8" min="1000" neutral="1500" max="2000"/>
   </servos>
 
   <commands>
@@ -50,6 +51,7 @@
   <command_laws>
     <set servo="AILEVON_LEFT"   value="@YAW" />
     <set servo="AILEVON_RIGHT"  value="@YAW" />
+    <set servo="ALWAYSDOWN"     value="ahrs.ltp_to_body_euler.theta/ANGLE_BFP_OF_REAL(M_PI)*9600" />
     <!--<set servo="RUDDER"         value="-@ROLL*0"/> disable rudder for now -->
   </command_laws>
 
@@ -207,6 +209,7 @@
    <!-- ATMOV sensors -->
    <!--<load name="opticflow_ADNS3080.xml"/>-->
    <!--<load name="sonar_maxbotix_MB12XX.xml"/>-->
+
  </modules>
 
   <firmware name="rotorcraft">

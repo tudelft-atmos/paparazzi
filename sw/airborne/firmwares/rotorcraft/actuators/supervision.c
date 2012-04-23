@@ -166,7 +166,7 @@ void supervision_run(bool_t motors_on, bool_t override_on, int32_t in_cmd[] ) {
     if (max_cmd > SUPERVISION_MAX_MOTOR)
       offset_commands(-(max_cmd - SUPERVISION_MAX_MOTOR));
 
-    /* For testing motor failure */
+    /* For testing motor failure or override by module*/
     if (motors_on && (override_on || supervision.override_by_module)) {
       for (i = 0; i < SUPERVISION_NB_MOTOR; i++) {
         if (supervision.override_enabled[i])
