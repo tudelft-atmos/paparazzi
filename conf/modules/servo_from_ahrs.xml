@@ -1,0 +1,21 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="servo_from_ahrs">
+  <header>
+    <file name="servo_from_ahrs.h"/>
+  </header>
+  <init fun="servo_from_ahrs_init()"/>
+  <periodic fun="servo_from_ahrs_periodic()" freq="10."/>
+  <makefile target="ap|sim|jsbsim">
+
+<!-- these parameters should be set for that module in the airframe file:
+  <load name="servo_from_ahrs.xml">
+    <define name="SERVO_FROM_AHRS_VALUE" value="ahrs.ltp_to_body_euler.theta/ANGLE_BFP_OF_REAL(M_PI)*9600"/>
+    <define name="SERVO_FROM_AHRS_SERVO"     value="SERVO_NAME"/>
+  </load>
+-->
+
+    <file name="servo_from_ahrs.c"/>
+  </makefile>
+</module>
+
