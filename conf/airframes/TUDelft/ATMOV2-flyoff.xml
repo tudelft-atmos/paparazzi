@@ -190,9 +190,9 @@
   </section>
 
  <section name="GUIDANCE_H" prefix="GUIDANCE_H_">
-   <define name="PGAIN" 		value="-14"/>
-   <define name="DGAIN" 		value="-8"/>
-   <define name="IGAIN" 		value="0"/>
+   <define name="PGAIN" 		value="17"/>
+   <define name="DGAIN" 		value="31"/>
+   <define name="IGAIN" 		value="3"/>
    <define name="MAX_BANK"      value="RadOfDeg(30)"/>
  </section>
 
@@ -242,6 +242,9 @@
     <define name="VSUPPLY_SCALING" value="0.01269f"/>
     <!--<define name="GUIDANCE_H_USE_REF" value="TRUE"/>-->
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
+    <define name="USE_SETPOINTS_WITH_TRANSITIONS" value="TRUE"/>
+    <define name="QUAT_SETPOINT_HOVER_PITCH"  value="0"/>
+    <define name="USE_REF"  value="TRUE"/>
     <target name="ap" board="lisa_m_2.0">
       <subsystem name="radio_control" type="ppm"/>
       <subsystem name="actuators"     type="pwm_supervision">

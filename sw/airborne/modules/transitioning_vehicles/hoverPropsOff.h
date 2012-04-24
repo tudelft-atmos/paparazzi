@@ -7,6 +7,9 @@
 extern void transveh_hover_props_off_init(void);
 extern void transveh_hover_props_off_periodic(void);
 
-bool_t killHoverProps;
+extern void HoverPropsOn(void);
+extern void HoverPropsOff(void);
+
+extern bool_t killHoverProps;
 
 #endif  /* TRANSVEH_HOVER_PROPS_OFF */

@@ -46,4 +46,6 @@ extern void supervision_init(void);
 extern void supervision_run(bool_t motors_on, bool_t override_on, int32_t in_cmd[]);
 extern void supervision_run_spinup(uint32_t counter, uint32_t max_counter);
 
+extern int32_t thrust_coef[SUPERVISION_NB_MOTOR];
+
 #endif /* SUPERVISION_H */

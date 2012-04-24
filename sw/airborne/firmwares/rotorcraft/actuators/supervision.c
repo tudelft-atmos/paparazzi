@@ -61,7 +61,10 @@
 static const int32_t roll_coef[SUPERVISION_NB_MOTOR]   = SUPERVISION_ROLL_COEF;
 static const int32_t pitch_coef[SUPERVISION_NB_MOTOR]  = SUPERVISION_PITCH_COEF;
 static const int32_t yaw_coef[SUPERVISION_NB_MOTOR]    = SUPERVISION_YAW_COEF;
-static const int32_t thrust_coef[SUPERVISION_NB_MOTOR] = SUPERVISION_THRUST_COEF;
+//static const int32_t thrust_coef[SUPERVISION_NB_MOTOR] = SUPERVISION_THRUST_COEF;
+int32_t thrust_coef[SUPERVISION_NB_MOTOR] = SUPERVISION_THRUST_COEF;
+
+
 
 struct Supervision supervision;
 
@@ -173,8 +176,10 @@ void supervision_run(bool_t motors_on, bool_t override_on, int32_t in_cmd[] ) {
           supervision.commands[i] = supervision.override_value[i];
       }
     }
-    bound_commands();
-    bound_commands_step();
+    if (!supervision.override_by_module) {
+      bound_commands();
+      bound_commands_step();
+    }
   }
   else {
     for (i=0; i<SUPERVISION_NB_MOTOR; i++) {
