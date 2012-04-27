@@ -200,10 +200,10 @@
     <!-- transitioning -->
     <!-- <load name="quadshot_nav_mode_change.xml"/> -->
 
-    <!-- current logging 
+    <!-- current logging -->
     <load name="adc_generic.xml">
      <configure name="ADC_CHANNEL_GENERIC1" value="ADC_1"/>
-    </load>-->
+    </load>
    
    <!-- ATMOV sensors -->
    <!--<load name="opticflow_ADNS3080.xml"/>-->
@@ -264,8 +264,8 @@
 
   <firmware name="rotorcraft">
     <define name="USE_KILL_SWITCH_FOR_MOTOR_ARMING" value="TRUE"/>
-   <define name="ADC_CHANNEL_CURRENT" value="ADC_1"/>
-   <define name="MilliAmpereOfAdc(adc)" value="((adc)*0.021826172)"/>
+<!--   <define name="ADC_CHANNEL_CURRENT" value="ADC_1"/>
+   <define name="MilliAmpereOfAdc(adc)" value="((adc)*0.021826172)"/>-->
     <!-- no V_IN on molex connector anymore -->
    <define name="ADC_CHANNEL_VSUPPLY" value="ADC_3"/>
     <define name="VSUPPLY_SCALING" value="0.003491211f"/>

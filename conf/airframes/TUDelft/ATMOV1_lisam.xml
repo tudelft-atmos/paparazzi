@@ -34,7 +34,7 @@
     <define name="MODE_AUTO2"  value="AP_MODE_HOVER_DIRECT"/>
     
     <define name="AUTOPILOT_KILL_WITHOUT_AHRS"  value="TRUE"/>
-    <define name="AUTOPILOT_ARMING_KILL_SWITCH"/>
+    <define name="AUTOPILOT_ARMING_KILL_SWITCH" value="TRUE"/>
   </section>
 
   <rc_commands>
@@ -201,6 +201,7 @@
  </modules>
 
   <firmware name="rotorcraft">
+    <define name="AUTOPILOT_ARMING_KILL_SWITCH" value="TRUE"/>
   <!--<define name="GUIDANCE_H_USE_REF" value="TRUE"/>-->
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
 <!--    <define name="QUAT_SETPOINT_HOVER_PITCH" value="0"/>-->
