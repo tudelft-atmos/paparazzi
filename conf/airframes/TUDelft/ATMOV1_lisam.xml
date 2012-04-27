@@ -228,4 +228,8 @@
     <subsystem name="ahrs"          type="int_cmpl_quat"/>
     <subsystem name="stabilization" type="int_quat"/>
   </firmware>
+  <makefile>
+    FLASH_MODE=JTAG
+    NO_LUFTBOOT=1
+  </makefile>
 </airframe>

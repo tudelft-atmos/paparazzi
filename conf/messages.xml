@@ -1800,7 +1800,12 @@
      <field name="value" type="uint16" />
    </message>
 
- <!--233 is free -->
+   <message name="SEND_POWER_INFO" id="233">
+     <field name="Voltage" type="float" />
+     <field name="Current" type="float" />
+   </message>
+
+
 
   <message name="OPTICFLOW" id="234">
     <field name="flow" type="uint16"></field>

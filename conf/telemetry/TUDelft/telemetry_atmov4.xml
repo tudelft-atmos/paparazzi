@@ -13,8 +13,8 @@
       <message name="INS_REF"     		period="5"/>
       <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
       <message name="WP_MOVED"          	period="1.5"/>
-      <message name="GPS_INT"         		period=".8"/>
-      <message name="INS"          		period=".8"/>
+      <message name="GPS_INT"         		period="1"/>
+      <message name="INS"          		period="1"/>
       <!--<message name="TOYTRONICS_SETPOINT" period=".25"/>
       <message name="TOYTRONICS_COMMANDS" period=".25"/>
       <message name="ROTORCRAFT_AHRS_QUAT"   period=".25"/>	-->
@@ -28,12 +28,13 @@
       <message name="FILTER_ALIGNER"         period=".5"/>
       <message name="FILTER"                 period=".5"/>-->
 
-      <message name="HOVER_LOOP"        	period="0.5"/>
+      <message name="HOVER_LOOP"        	period="1.1"/>
       <!--<message name="STAB_ATTITUDE"     period=".4"/>-->
-      <message name="HFF_DBG"           	period="1"/>
+      <message name="HFF_DBG"           	period="1.4"/>
       <!--<message name="STAB_ATTITUDE_REF" period=".4"/>-->
-      <message name="HFF_GPS"           	period=".8"/>
-      <message name="ROTORCRAFT_TUNE_HOVER"        	period=".8"/>
+      <message name="HFF_GPS"           	period="1.3"/>
+<!--      <message name="SEND_POWER_INFO"           	period="2"/>-->
+      <message name="ROTORCRAFT_TUNE_HOVER"        	period="1.2"/>
     </mode>
 
 <!--   <mode name="hispeed_quat_att">

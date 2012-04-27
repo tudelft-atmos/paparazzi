@@ -76,7 +76,7 @@
     <define name="PITCH_COEF"  	value="{   256, -256,    0,    0  }"/>
     <define name="ROLL_COEF"   	value="{     0,    0,  256, -256  }"/>
     <define name="YAW_COEF"     value="{    -0,    0,   -0,    0  }"/>
-    <define name="THRUST_COEF" 	value="{   250,  250,  256,  256  }"/>
+    <define name="THRUST_COEF" 	value="{   256,  256,  230,  230  }"/>
   </section>
 
   <!-- include magneto neutrals -->
@@ -132,16 +132,16 @@
     <define name="REF_MAX_PDOT" 	value="RadOfDeg(1800.)"/>
 
     <!-- feedback -->
-    <define name="PHI_PGAIN"  		value="2485"/>
-    <define name="PHI_DGAIN"  		value="1236"/>
+    <define name="PHI_PGAIN"  		value="1744"/>
+    <define name="PHI_DGAIN"  		value="1185"/>
     <define name="PHI_IGAIN"  		value="5"/>
 
     <define name="THETA_PGAIN"  	value="308"/>
-    <define name="THETA_DGAIN"  	value="208"/>
+    <define name="THETA_DGAIN"  	value="214"/>
     <define name="THETA_IGAIN"  	value="5"/>
 
-    <define name="PSI_PGAIN"  		value="3225"/>
-    <define name="PSI_DGAIN"  		value="2124"/>
+    <define name="PSI_PGAIN"  		value="2800"/>
+    <define name="PSI_DGAIN"  		value="1950"/>
     <define name="PSI_IGAIN"  		value="6"/>
 
     <!-- feedforward -->
@@ -200,10 +200,10 @@
     <!-- transitioning -->
     <!-- <load name="quadshot_nav_mode_change.xml"/> -->
 
-    <!-- current logging -->
+    <!-- current logging 
     <load name="adc_generic.xml">
      <configure name="ADC_CHANNEL_GENERIC1" value="ADC_1"/>
-    </load>
+    </load>-->
    
    <!-- ATMOV sensors -->
    <!--<load name="opticflow_ADNS3080.xml"/>-->
@@ -222,7 +222,7 @@
 	<define name="SETPOINT_AUTO2_THETA" value="0"/>
 	<define name="SETPOINT_AUTO2_PSI" value="0"/>
    </load>-->
-
+<!--
    
    <load name="TUDelft/hover_props_off.xml">
 	<define name="TRANSVEH_HOVER_PROPS_OFF_NB1" value="TRUE"/>
@@ -255,7 +255,7 @@
 	<define name="STABILIZATION_ATTITUDE_B_PSI_DGAIN"  		value="2124"/>
 	<define name="STABILIZATION_ATTITUDE_B_PSI_IGAIN"  		value="6"/>
    </load>
-
+-->
 
   <!-- <load name="TUDelft/transition.xml">
 	<define name="TRANSVEH_PREP_THRUST_COEF_SCALING" value="{   0.6f, 0.6f,    1.4f,    1.4f  }"/>
@@ -264,9 +264,11 @@
 
   <firmware name="rotorcraft">
     <define name="USE_KILL_SWITCH_FOR_MOTOR_ARMING" value="TRUE"/>
+   <define name="ADC_CHANNEL_CURRENT" value="ADC_1"/>
+   <define name="MilliAmpereOfAdc(adc)" value="((adc)*0.021826172)"/>
     <!-- no V_IN on molex connector anymore -->
-    <define name="ADC_CHANNEL_VSUPPLY" value="ADC_3"/>
-    <define name="VSUPPLY_SCALING" value="0.01269f"/>
+   <define name="ADC_CHANNEL_VSUPPLY" value="ADC_3"/>
+    <define name="VSUPPLY_SCALING" value="0.003491211f"/>
     <!--<define name="GUIDANCE_H_USE_REF" value="TRUE"/>-->
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
     <target name="ap" board="lisa_m_2.0">

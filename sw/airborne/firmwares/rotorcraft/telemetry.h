@@ -767,6 +767,12 @@
 #define PERIODIC_SEND_CAM_TRACK(_trans, _dev) {}
 #endif
 
+#ifdef ADC_CHANNEL_CURRENT
+//#define PERIODIC_SEND_POWER_INFO(_trans, _dev) DOWNLINK_SEND_POWER_INFO(_trans, _dev,\
+//    &electrical.vsupply, \
+//    &electrical.current)
+#endif
+
 #include "generated/settings.h"
 #define PERIODIC_SEND_DL_VALUE(_trans, _dev) PeriodicSendDlValue(_trans, _dev)
 
