@@ -6,7 +6,7 @@
 #include "subsystems/datalink/datalink.h"
 </header>
   <waypoints>
-    <waypoint name="HOME" lat="31.988423" lon="-81.848358"/>
+    <waypoint name="HOME" lat="52.002034" lon="4.373196"/>
     <waypoint name="CLIMB" lat="31.988423" lon="-81.848358"/>
     <waypoint alt="80.0" name="STDBY" lat="31.988485" lon="-81.848421"/>
     <waypoint alt="80.0" lat="32.007343" lon="-81.839498" name="NWP1"/>

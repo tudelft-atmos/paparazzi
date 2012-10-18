@@ -1,6 +1,6 @@
 <control_panel name="paparazzi control panel">
   <section name="variables">
-    <variable name="default_gcs" value="./TUDelft/gcsMavlab.xml"/>
+    <variable name="default_gcs" value="horizontal.xml"/>
     <variable name="downlink_serial_port" value="/dev/ttyUSB0"/>
     <variable name="fbw_serial_port" value="/dev/ttyS1"/>
     <variable name="ap_serial_port" value="/dev/ttyS0"/>
@@ -25,7 +25,7 @@
       <arg flag="-p" constant="5000"/>
     </program>
     <program name="IvySerialBridge" command="sw/ground_segment/tmtc/ivy_serial_bridge"/>
-    <program name="GCS" command="sw/ground_segment/cockpit/gcs">
+    <program name="GCS" command="sw/ground_segment/cockpit/gcs -layout ./ATMOS/atmosdemo.xml -mplayer 'tv:// -tv driver=v4l2:width=320:height=240:norm=PAL:input=1:device=/dev/video0:noaudio'">
       <arg flag="-b" variable="ivy_bus"/>
       <arg flag="-layout" constant="./TUDelft/papgetsBart.xml"/>
       <arg flag="-speech" constant=""/>
@@ -111,7 +111,7 @@
       </program>
       <program name="GCS">
         <arg flag="-speech"/>
-        <arg flag="-layout" constant="./TUDelft/gcsHeering.xml"/>
+
       </program>
       <program name="Server"/>
       <program name="Messages"/>
@@ -129,7 +129,7 @@
       <program name="Server"/>
       <program name="GCS">
         <arg flag="-speech" constant=""/>
-        <arg flag="-layout" constant="./TUDelft/gcsHeering.xml"/>
+
       </program>
       <program name="Messages"/>
     </session>
