@@ -30,6 +30,16 @@
    gui_color="#00B509"
   />
   <aircraft
+   name="ATMOV5"
+   ac_id="185"
+   airframe="airframes/ATMOS/ATMOV5.xml"
+   radio="radios/R6107SP_7ch_xyz.xml"
+   telemetry="telemetry/ATMOS/testing.xml"
+   flight_plan="flight_plans/dummy.xml"
+   settings=" settings/ATMOS/base.xml settings/ATMOS/multiGain.xml settings/ATMOS/transition.xml"
+   gui_color="blue"
+  />
+  <aircraft
    name="SIM"
    ac_id="2"
    airframe="airframes/microjet_example.xml"
