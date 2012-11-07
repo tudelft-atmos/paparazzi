@@ -208,11 +208,17 @@ void force_allocation_laws_run(void)
   INT32_QUAT_OF_EULERS(command_att, command_euler);
 
   struct Int32Quat   lift_to_body_quat_tmp;
+
+  int32_t cos_half_orientation_rotation, sin_half_orientation_rotation;
+
+  PPRZ_ITRIG_COS(cos_half_orientation_rotation,orientation_rotation/2);
+  PPRZ_ITRIG_SIN(sin_half_orientation_rotation,orientation_rotation/2);
+
   // Post Multiply with the pitch trim...
   QUAT_ASSIGN(lift_to_body_quat_tmp,
-      QUAT1_BFP_OF_REAL(1),
+      QUAT1_BFP_OF_REAL(cos_half_orientation_rotation),
       QUAT1_BFP_OF_REAL(0),
-      QUAT1_BFP_OF_REAL(orientation_rotation) / 2,
+      QUAT1_BFP_OF_REAL(sin_half_orientation_rotation),
       QUAT1_BFP_OF_REAL(0) );
   stateSetLiftToBodyQuat_i(&lift_to_body_quat_tmp);
 
