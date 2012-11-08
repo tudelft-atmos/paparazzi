@@ -1,0 +1,15 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+<module name="spiLink" dir="logger">
+  <header>
+    <file name="spiLink.h"/>
+  </header>
+  <init fun="logger_spiLink_init()"/>
+  <!-- <periodic fun="logger_spiLink_periodic()" freq="10." autorun="TRUE"/>-->
+  <periodic fun="logger_spiLink_periodic()"/>
+  <makefile>
+    <file name="spiLink.c"/>
+    <define name="USE_DMA1_C3_IRQ"/>
+  </makefile>
+</module>
+
+
