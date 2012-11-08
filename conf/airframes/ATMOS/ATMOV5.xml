@@ -86,7 +86,8 @@
   <section name="IMU" prefix="IMU_">
     <!-- IMU is placed with it's length perpendicular to the wing -->
     <define name="BODY_TO_IMU_PHI"   value="RadOfDeg(   0. )"/>
-    <define name="BODY_TO_IMU_THETA" value="RadOfDeg(  81. )"/>
+<!--    <define name="BODY_TO_IMU_THETA" value="RadOfDeg(  71. )"/>-->
+<define name="BODY_TO_IMU_THETA" value="RadOfDeg(  87. )"/>
     <define name="BODY_TO_IMU_PSI"   value="RadOfDeg( 180. )"/>
   </section>
 
@@ -109,7 +110,7 @@
   <section name="STABILIZATION_ATTITUDE" prefix="STABILIZATION_ATTITUDE_">
     <!-- setpoints -->
     <define name="SP_MAX_PHI"     	value="RadOfDeg(45.)"/>
-    <define name="SP_MAX_THETA"   	value="RadOfDeg(120.)"/> <!-- for plane mode -->
+    <define name="SP_MAX_THETA"   	value="RadOfDeg(45.)"/> <!-- for plane mode -->
     <define name="SP_MAX_PSI"     	value="RadOfDeg(60.)"/>
     <define name="SP_MAX_R"       	value="RadOfDeg(90.)"/>
     <define name="SP_MAX_P"       	value="RadOfDeg(90.)"/>
@@ -117,15 +118,15 @@
     <define name="DEADBAND_A"     	value="200"/>
 
     <!-- reference -->
-    <define name="REF_OMEGA_R"  	value="RadOfDeg(600)"/>
+    <define name="REF_OMEGA_R"  	value="RadOfDeg(500)"/>
     <define name="REF_ZETA_R"   	value="0.90"/>
     <define name="REF_MAX_R"    	value="RadOfDeg(400.)"/>
     <define name="REF_MAX_RDOT" 	value="RadOfDeg(8000.)"/>
 
-    <define name="REF_OMEGA_Q"  	value="RadOfDeg(1200)"/>
+    <define name="REF_OMEGA_Q"  	value="RadOfDeg(900)"/>
     <define name="REF_ZETA_Q"   	value="0.90"/>
-    <define name="REF_MAX_Q"    	value="RadOfDeg(800.)"/>
-    <define name="REF_MAX_QDOT" 	value="RadOfDeg(8000.)"/>
+    <define name="REF_MAX_Q"    	value="RadOfDeg(700.)"/>
+    <define name="REF_MAX_QDOT" 	value="RadOfDeg(6000.)"/>
 
     <define name="REF_OMEGA_P"  	value="RadOfDeg(600)"/>
     <define name="REF_ZETA_P"   	value="0.85"/>
@@ -246,15 +247,15 @@
 	<define name="STABILIZATION_ATTITUDE_A_PHI_IGAIN"  		value="5"/>
 	<define name="STABILIZATION_ATTITUDE_A_PHI_ACTGAIN"  		value="0"/>
 
-	<define name="STABILIZATION_ATTITUDE_A_THETA_PGAIN"  		value="521"/>
-	<define name="STABILIZATION_ATTITUDE_A_THETA_DGAIN" 	 	value="420"/>
+	<define name="STABILIZATION_ATTITUDE_A_THETA_PGAIN"  		value="450"/>
+	<define name="STABILIZATION_ATTITUDE_A_THETA_DGAIN" 	 	value="210"/>
 	<define name="STABILIZATION_ATTITUDE_A_THETA_DDGAIN" 	 	value="200"/>
 	<define name="STABILIZATION_ATTITUDE_A_THETA_IGAIN" 	 	value="20"/>
 	<define name="STABILIZATION_ATTITUDE_A_THETA_ACTGAIN"  		value="0"/>
 
-	<define name="STABILIZATION_ATTITUDE_A_PSI_PGAIN"  		value="1300"/>
+	<define name="STABILIZATION_ATTITUDE_A_PSI_PGAIN"  		value="1130"/>
 	<define name="STABILIZATION_ATTITUDE_A_PSI_DGAIN"  		value="400"/>
-	<define name="STABILIZATION_ATTITUDE_A_PSI_IGAIN"  		value="6"/>
+	<define name="STABILIZATION_ATTITUDE_A_PSI_IGAIN"  		value="3"/>
 	<define name="STABILIZATION_ATTITUDE_A_PSI_DDGAIN"  		value="100"/>
 	<define name="STABILIZATION_ATTITUDE_A_PSI_ACTGAIN"  		value="1024"/>
 
@@ -320,6 +321,9 @@
     <!--<define name="GUIDANCE_H_USE_REF" value="TRUE"/>-->
     <define name="USE_SERVOS_7AND8" value="TRUE"/>
     <target name="ap" board="lisa_m_2.0">
+      <configure name="BMP_PORT" value="/dev/ttyACM0"/>
+      <configure name="BMP_METHOD" value="JTAG"/>
+
       <subsystem name="radio_control" type="ppm"/>
       <subsystem name="actuators"     type="pwm_supervision">
        <configure name="USE_SERVOS_7AND8"    value="TRUE"/>
@@ -348,4 +352,7 @@
     <subsystem name="ahrs"          type="int_cmpl_quat"/>
     <subsystem name="stabilization" type="int_quat"/>
   </firmware>
+  <makefile>
+    FLASH_MODE=JTAG
+  </makefile>
 </airframe>
