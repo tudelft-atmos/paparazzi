@@ -6,6 +6,8 @@
 
   <firmware name="rotorcraft">
     <target name="ap" board="lisa_m_2.0">
+      <configure name="BMP_PORT" value="/dev/ttyACM0"/>
+      <configure name="FLASH_MODE" value="JTAG"/>
       <subsystem name="actuators"     type="pwm_supervision">
         <configure name="USE_SERVOS_7AND8"    value="TRUE"/>
          <define name="SERVO_HZ" value="400"/>
@@ -274,5 +276,4 @@
    <define name="NB" value="4"/>
    <define name="ADDR" value="{ 0x52, 0x54, 0x56, 0x58 }"/>
  </section>
-
 </airframe>
