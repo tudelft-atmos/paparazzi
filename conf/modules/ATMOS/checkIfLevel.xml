@@ -1,0 +1,12 @@
+<!DOCTYPE module SYSTEM "../module.dtd">
+<module name="checkIfLevel" dir="ATMOS">
+  <header>
+    <file name="checkIfLevel.h"/>
+  </header>
+  <init fun="atmov_checkIfLevel_init()"/>
+  <periodic fun="atmov_checkIfLevel_periodic()" freq="20"/>
+  <makefile target="ap">
+    <file name="checkIfLevel.c"/>
+  </makefile>
+</module>
+
