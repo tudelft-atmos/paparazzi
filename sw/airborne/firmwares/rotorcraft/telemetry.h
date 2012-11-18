@@ -53,6 +53,8 @@
 // I2C Error counters
 #include "mcu_periph/i2c.h"
 
+#include "firmwares/rotorcraft/force_allocation_laws.h"
+
 #define PERIODIC_SEND_ALIVE(_trans, _dev) DOWNLINK_SEND_ALIVE(_trans, _dev, 16, MD5SUM)
 
 #if USE_GPS
@@ -869,13 +871,12 @@
 #define PERIODIC_SEND_CAM_TRACK(_trans, _dev) {}
 #endif
 
-#define PERIODIC_SEND_RESLIFT_QUAT_INT(_trans, _dev) {   \
-    DOWNLINK_SEND_RESLIFT_QUAT_INT(_trans, _dev,         \
-                  &(stateGetNedToResLiftQuat_i()->qi),   \
-                  &(stateGetNedToResLiftQuat_i()->qx),   \
-                  &(stateGetNedToResLiftQuat_i()->qy),   \
-                  &(stateGetNedToResLiftQuat_i()->qz));  \
-  }
+#define PERIODIC_SEND_FORCE_ALLOCATION(_trans, _dev) DOWNLINK_SEND_FORCE_ALLOCATION(_trans, _dev, \
+	&(stateGetLiftToBodyQuat_i()->qi), \
+	&(stateGetLiftToBodyQuat_i()->qx), \
+	&(stateGetLiftToBodyQuat_i()->qy), \
+	&(stateGetLiftToBodyQuat_i()->qz), \
+	&transition_percentage) 
 
 
 #include "generated/settings.h"

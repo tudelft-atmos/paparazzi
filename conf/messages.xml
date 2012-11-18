@@ -555,7 +555,6 @@
     <field name="lift_qy" type="int32"/>
     <field name="lift_qz" type="int32"/>
     <field name="transition_pct" type="uint8"/>
-    <field name="orientation_rotation" type="float"/>
   </message> 
  
  <!-- 72 is free -->

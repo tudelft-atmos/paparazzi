@@ -46,6 +46,7 @@ class TelemetryValue:
 class Visualization:
   def __init__(self, parent):
     self.quats = []
+    self.arrowQuats = []
     self.graph_values = []
     self.throttle = 0.0
     self.mode = 0.0
@@ -56,6 +57,8 @@ class Visualization:
 
     for message_name, index, name, bfp in VEHICLE_QUATS:
       self.quats.append(TelemetryQuat(message_name, index, name, bfp))
+    for message_name, index, name, bfp in ARROW_QUATS:
+      self.arrowQuats.append(TelemetryQuat(message_name, index, name, bfp))
     for message_name, index, name, offset, scale, max in BAR_VALUES:
       self.graph_values.append(TelemetryValue(message_name, index, name, offset, scale, max))
 
@@ -68,6 +71,15 @@ class Visualization:
         telemetry_quat.qx = float(data[telemetry_quat.index + 1])
         telemetry_quat.qy = float(data[telemetry_quat.index + 2])
         telemetry_quat.qz = float(data[telemetry_quat.index + 3])
+
+    for telemetry_arrow_quat in self.arrowQuats:
+      if (telemetry_quat.message_name == data[1]):
+        self.display_dirty = True
+        telemetry_arrow_quat.qi = float(data[telemetry_arrow_quat.index + 0])
+        telemetry_arrow_quat.qx = float(data[telemetry_arrow_quat.index + 1])
+        telemetry_arrow_quat.qy = float(data[telemetry_arrow_quat.index + 2])
+        telemetry_arrow_quat.qz = float(data[telemetry_arrow_quat.index + 3])
+
 
     for graph_value in self.graph_values:
       if (graph_value.message_name == data[1]):
@@ -187,6 +199,23 @@ class Visualization:
 
     glCallList(self.display_list)
 
+
+  def DrawArrow(self, name):
+    arrowSize = 0.1
+    arrowLength = 4
+    glColor3f(0.4, 0.4, 0.9)
+    glPushMatrix()
+    glTranslate(0, 0, arrowLength)
+    self.DrawBox(arrowSize, arrowSize, arrowLength)
+#    glTranslate(0, 2)
+#    glColor3f(0.0, 0.0, 0.0)
+#    glTranslate(-wingspan, -0.2, thickness + 0.01)
+#    glScale(0.004, 0.004, 0.004)
+    for c in name:
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, ord(c))
+    glPopMatrix()
+
+
   def DrawBar(self, name, value):
     bar_height = 0.12
     bar_length = 3
@@ -232,12 +261,26 @@ class Visualization:
         glRotate(self.rotate_theta, 1, 0, 0)
 
         self.DrawVehicle(telemetry_quat.name)
+	
+	#for telemetry_arrow_quat in self.arrowQuats:
+          #scaled_quat_arrow = [telemetry_arrow_quat.qi * telemetry_arrow_quat.scale, 
+          #                     telemetry_arrow_quat.qx * telemetry_arrow_quat.scale, 
+          #                     telemetry_arrow_quat.qy * telemetry_arrow_quat.scale, 
+          #                     telemetry_arrow_quat.qz * telemetry_arrow_quat.scale]
+          #glRotate(360 * math.acos(scaled_quat_arrow[0] ) / math.pi, scaled_quat_arrow[2], -scaled_quat_arrow[3], -scaled_quat_arrow[1])
+	  #theta_lift = math.asin(2*(scaled_quat_arrow[0]*scaled_quat_arrow[2]+scaled_quat_arrow[3]*scaled_quat_arrow[1]))*180/math.pi
+          #print theta_lift
+          #glPopMatrix()
+          #self.DrawArrow("lift")
+          #glRotate(theta_lift,1,0,0)
+          #glPushMatrix()
       except Exception:
         raise Exception
       finally:
         glPopMatrix()
         glTranslate(0,  2 * height / (len(self.quats)), 0)
     glPopMatrix()
+
 
 class Visualizer:
   def __init__(self, rotate_theta):
@@ -326,9 +369,10 @@ def init():
             0.0, 1.0, 0.0)
 
 def run():
-  global VEHICLE_QUATS, BAR_VALUES
+  global VEHICLE_QUATS, ARROW_QUATS, BAR_VALUES
   VEHICLE_QUATS = [ ["AHRS_REF_QUAT", 6, "Estimate", True], ["AHRS_REF_QUAT", 2, "Reference", True]]
-  BAR_VALUES = [ ["ROTORCRAFT_RADIO_CONTROL", 5, "Throttle (%%) %i", 0, 100, 100] ]
+  ARROW_QUATS = [["FORCE_ALLOCATION", 2, "Reference", True]]
+  BAR_VALUES = [ ["ROTORCRAFT_RADIO_CONTROL", 5, "Throttle (%%) %i", 0, 100, 100], ["FORCE_ALLOCATION", 6, "Transition (%%) %d", 0, 1, 100],["FORCE_ALLOCATION", 7, "Orientation rotation (rad) %f", math.pi, -math.pi, math.pi/2] ]
   window_title = "Attitude_Viz"
   rotate_theta = -90
   try:
