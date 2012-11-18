@@ -211,19 +211,20 @@ void force_allocation_laws_run(void)
 
   int32_t cos_half_orientation_rotation, sin_half_orientation_rotation;
 
-  PPRZ_ITRIG_COS(cos_half_orientation_rotation,orientation_rotation/2);
-  PPRZ_ITRIG_SIN(sin_half_orientation_rotation,orientation_rotation/2);
+  PPRZ_ITRIG_COS(cos_half_orientation_rotation,ANGLE_BFP_OF_REAL((float)orientation_rotation/2));
+  PPRZ_ITRIG_SIN(sin_half_orientation_rotation,ANGLE_BFP_OF_REAL((float)orientation_rotation/2));
 
   // Post Multiply with the pitch trim...
   QUAT_ASSIGN(lift_to_body_quat_tmp,
-      QUAT1_BFP_OF_REAL(cos_half_orientation_rotation),
-      QUAT1_BFP_OF_REAL(0),
-      QUAT1_BFP_OF_REAL(sin_half_orientation_rotation),
-      QUAT1_BFP_OF_REAL(0) );
+              cos_half_orientation_rotation,
+              0,
+              sin_half_orientation_rotation,
+              0);
+
   stateSetLiftToBodyQuat_i(&lift_to_body_quat_tmp);
 
   //get the result back, as it is short_wrapped and normalized etc.
-  struct Int32Quat lift_to_body_quat_as_stored =  stateGetLiftToBodyQuat_i();
+  struct Int32Quat lift_to_body_quat_as_stored =  *stateGetLiftToBodyQuat_i();
   INT32_QUAT_COMP(stab_att_sp_quat, command_att, lift_to_body_quat_as_stored);
 }
 
