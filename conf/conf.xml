@@ -44,7 +44,7 @@
    ac_id="200"
    airframe="airframes/examples/atmov_example.xml"
    radio="radios/R6107SP_7ch_xyz.xml"
-   telemetry="telemetry/default_rotorcraft.xml"
+   telemetry="telemetry/transitioning_rotorcraft.xml"
    flight_plan="flight_plans/dummy.xml"
    settings=" settings/rotorcraft_basic.xml settings/force_allocation_laws.xml"
    gui_color="blue"
