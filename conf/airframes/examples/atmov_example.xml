@@ -8,6 +8,7 @@
     <target name="ap" board="lisa_m_2.0">
       <configure name="BMP_PORT" value="/dev/ttyACM0"/>
       <configure name="FLASH_MODE" value="JTAG"/>
+      <configure name="NO_LUFTBOOT" value="1"/>
     </target>
     <target name="nps" board="pc">
       <subsystem name="fdm"           type="jsbsim"/>
