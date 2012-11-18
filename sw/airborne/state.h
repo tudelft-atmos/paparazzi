@@ -1134,8 +1134,8 @@ static inline struct FloatEulers* stateGetNedToResLiftEulers_f(void) {
 }
 
 /// Get resultant lift to vehicle body quaternion (int).
-static inline struct Int32Quat stateGetLiftToBodyQuat_i(void) {
-  return state.res_lift_to_body_quat_i;
+static inline struct Int32Quat* stateGetLiftToBodyQuat_i(void) {
+  return &state.res_lift_to_body_quat_i;
 }
 /** @}*/
 
