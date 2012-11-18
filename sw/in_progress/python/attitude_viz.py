@@ -73,13 +73,12 @@ class Visualization:
         telemetry_quat.qz = float(data[telemetry_quat.index + 3])
 
     for telemetry_arrow_quat in self.arrowQuats:
-      if (telemetry_quat.message_name == data[1]):
+      if (telemetry_arrow_quat.message_name == data[1]):
         self.display_dirty = True
         telemetry_arrow_quat.qi = float(data[telemetry_arrow_quat.index + 0])
         telemetry_arrow_quat.qx = float(data[telemetry_arrow_quat.index + 1])
         telemetry_arrow_quat.qy = float(data[telemetry_arrow_quat.index + 2])
         telemetry_arrow_quat.qz = float(data[telemetry_arrow_quat.index + 3])
-
 
     for graph_value in self.graph_values:
       if (graph_value.message_name == data[1]):
@@ -262,17 +261,22 @@ class Visualization:
 
         self.DrawVehicle(telemetry_quat.name)
 	
-	#for telemetry_arrow_quat in self.arrowQuats:
-          #scaled_quat_arrow = [telemetry_arrow_quat.qi * telemetry_arrow_quat.scale, 
-          #                     telemetry_arrow_quat.qx * telemetry_arrow_quat.scale, 
-          #                     telemetry_arrow_quat.qy * telemetry_arrow_quat.scale, 
-          #                     telemetry_arrow_quat.qz * telemetry_arrow_quat.scale]
+	for telemetry_arrow_quat in self.arrowQuats:
+          scaled_quat_arrow = [telemetry_arrow_quat.qi * telemetry_arrow_quat.scale, 
+                               telemetry_arrow_quat.qx * telemetry_arrow_quat.scale, 
+                               telemetry_arrow_quat.qy * telemetry_arrow_quat.scale, 
+                               telemetry_arrow_quat.qz * telemetry_arrow_quat.scale]
           #glRotate(360 * math.acos(scaled_quat_arrow[0] ) / math.pi, scaled_quat_arrow[2], -scaled_quat_arrow[3], -scaled_quat_arrow[1])
-	  #theta_lift = math.asin(2*(scaled_quat_arrow[0]*scaled_quat_arrow[2]+scaled_quat_arrow[3]*scaled_quat_arrow[1]))*180/math.pi
-          #print theta_lift
+	  theta_lift_deg = math.asin(2*(scaled_quat_arrow[0]*scaled_quat_arrow[2]+scaled_quat_arrow[3]*scaled_quat_arrow[1]))*180/math.pi
+          
+          print theta_lift_deg
           #glPopMatrix()
-          #self.DrawArrow("lift")
+          glRotate(theta_lift_deg,1,0,0)
+          self.DrawArrow("lift")
+          #glRotate(1.5,0,1,0)
           #glRotate(theta_lift,1,0,0)
+          #glRotate(theta_lift,1,0,0)
+	  #glRotate(10,1,0,0)
           #glPushMatrix()
       except Exception:
         raise Exception
@@ -371,8 +375,8 @@ def init():
 def run():
   global VEHICLE_QUATS, ARROW_QUATS, BAR_VALUES
   VEHICLE_QUATS = [ ["AHRS_REF_QUAT", 6, "Estimate", True], ["AHRS_REF_QUAT", 2, "Reference", True]]
-  ARROW_QUATS = [["FORCE_ALLOCATION", 2, "Reference", True]]
-  BAR_VALUES = [ ["ROTORCRAFT_RADIO_CONTROL", 5, "Throttle (%%) %i", 0, 100, 100], ["FORCE_ALLOCATION", 6, "Transition (%%) %d", 0, 1, 100],["FORCE_ALLOCATION", 7, "Orientation rotation (rad) %f", math.pi, -math.pi, math.pi/2] ]
+  ARROW_QUATS = [["FORCE_ALLOCATION", 2, "Lift", True]]
+  BAR_VALUES = [ ["ROTORCRAFT_RADIO_CONTROL", 5, "Throttle (%%) %i", 0, 100, 100], ["FORCE_ALLOCATION", 6, "Transition (%%) %d", 0, 1, 100] ]
   window_title = "Attitude_Viz"
   rotate_theta = -90
   try:
