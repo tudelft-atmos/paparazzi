@@ -217,6 +217,8 @@
     <!-- transitioning -->
     <!-- <load name="quadshot_nav_mode_change.xml"/> -->
 
+    <load name="ATMOS/checkIfLevel.xml"/>
+
     <!-- current logging -->
     <load name="adc_generic.xml">
      <configure name="ADC_CHANNEL_GENERIC1" value="ADC_1"/>
@@ -323,6 +325,7 @@
     <target name="ap" board="lisa_m_2.0">
       <configure name="BMP_PORT" value="/dev/ttyACM0"/>
       <configure name="BMP_METHOD" value="JTAG"/>
+<!--      <configure name="NO_LUFTBOOT" value="1"/>-->
 
       <subsystem name="radio_control" type="ppm"/>
       <subsystem name="actuators"     type="pwm_supervision">
